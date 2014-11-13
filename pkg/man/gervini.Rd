@@ -9,13 +9,13 @@ Robust estimation of the correlation matrix
 Calculates the correlation matrix robustly, possibly with a fully efficient reweighting step, see \enc{Dürre}{Duerre} et al. (2014) for details.
 }
 \usage{
-gervini(data, boundq = 0.975, startestimator = c("wMCD", "rMCD", "S"))
+gervini(data, boundq = 0.975, startestimator = "wMCD")
 }
 
 \arguments{
 	\item{data}{Matrix with the observations in rows.}
 	\item{boundq}{Quantile-bound for comparism of theoretical and empirical distribution function.}
-	\item{startestimator}{Start estimator to be used: Minimum covariance determinant (\code{rMCD} for raw version, \code{wMCD} for a reweighting step) or \code{S}-estimator.}
+	\item{startestimator}{Start estimator to be used: Minimum covariance determinant (\code{"rMCD"} for raw version, default \code{"wMCD"} for a reweighting step) or \code{"S"}-estimator.}
 }
 
 \value{

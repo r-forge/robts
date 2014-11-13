@@ -8,7 +8,7 @@
 ######################
 
 
-gervini <- function(data,boundq=0.975,startestimator=c("wMCD", "rMCD", "S")) {
+gervini <- function(data,boundq=0.975,startestimator="wMCD") {
 
 # dimensions
 
