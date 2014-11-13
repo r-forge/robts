@@ -10,13 +10,14 @@ Calculates the autocorrelation function of a time series using the GK method: es
 }
 
 \usage{
-acfGK(timeseries, maxlag, method = c("Qn", "MAD", "Tau"))
+acfGK(timeseries, maxlag, method = "Qn", ...)
 }
 
 \arguments{
 	\item{timeseries}{Vector of observations sorted as time series, without \code{NA}s.}
 	\item{maxlag}{Maximum lag of interest.}
-	\item{method}{Variance estimator to be used, see \enc{Dürre}{Duerre} et al. (2014) for details.}
+	\item{method}{Variance estimator to be used: \code{"Qn"}, \code{"MAD"}, or \code{"Tau"}, see \enc{Dürre}{Duerre} et al. (2014) for details.}
+	\item{...}{Internal parameters for Tau estimation.}
 }
 
 \value{
@@ -37,5 +38,5 @@ Other functions for calculating the autocorrelation function are \code{\link{acf
 \examples{
 set.seed(1066)
 ts <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfGK(timeseries = ts, maxlag = 40)
+acfGK(timeseries = ts, maxlag = 20)
 }

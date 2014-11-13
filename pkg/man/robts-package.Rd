@@ -1,7 +1,6 @@
 \encoding{utf8}
 \name{robts-package}
 \alias{robts-package}
-\alias{robts}
 \docType{package}
 \title{
 Robust time series analysis
