@@ -1,0 +1,11 @@
+export("acfGK")
+export("acfmedian")
+export("acfyohai")
+export("Autokor")
+export("gervini")
+export("multi")
+export("RAacf")
+export("rankacf")
+export("trimmedcor")
+
+import(ICSNP, SpatialNP, robustbase, rrcov)

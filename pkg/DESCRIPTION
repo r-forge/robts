@@ -1,0 +1,10 @@
+Package: robts
+Type: Package
+Title: Robust time series analysis
+Version: 0.1
+Date: 2014-11-11
+Author: Alexander Duerre, Tobias Liboschik, Roland Fried, and Jonathan Rathjens
+Maintainer: Jonathan Rathjens <jonathan.rathjens@tu-dortmund.de>
+Depends: robustbase, rrcov, SpatialNP, ICSNP
+Description: Collection of R functions for robust time series analysis. This includes various approaches for robust estimation of (partial) autocorrelation, robust filtering and robust fitting of AR(p) processes.
+License: GPL-2 | GPL-3
