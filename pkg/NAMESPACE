@@ -8,6 +8,8 @@ export("RAacf")
 export("rankacf")
 export("trimmedcor")
 
+export("DurbinLev")
 export("solveYule")
+
 
 import(ICSNP, SpatialNP, robustbase, rrcov)
