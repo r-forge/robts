@@ -9,6 +9,7 @@ export("rankacf")
 export("trimmedcor")
 
 export("DurbinLev")
+export("lmrobAR")
 export("solveYule")
 
 
