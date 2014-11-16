@@ -9,7 +9,7 @@
 
 DurbinLev <- function(ts, acf, robvar = TRUE) {
 	stopifnot(is.numeric(acf), is.numeric(ts), is.logical(robvar))
-	if (robvar) s <- mad(ts) else s <- sd(ts)
+	if (robvar) s <- scaleTau2(ts) else s <- sd(ts)
 	# autocovariance function from 0:
 	gammas <- s^2 * c(1, acf)
 	n <- length(gammas) - 1

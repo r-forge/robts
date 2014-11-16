@@ -10,7 +10,7 @@ solveYule <- function(ts, acf, p, robvar = TRUE) {
 	p <- as.integer(p)
 	stopifnot(is.numeric(acf), is.numeric(ts), p >= 1, is.logical(robvar))
 	if (length(acf) < p) stop("lags up to order of AR model required")
-	if (robvar) s <- mad(ts) else s <- sd(ts)
+	if (robvar) s <- scaleTau2(ts) else s <- sd(ts)
 	# autocovariance function:
 	acovf <- s^2 * acf[1:p]
 	CC <- diag(x = s^2, nrow = p)

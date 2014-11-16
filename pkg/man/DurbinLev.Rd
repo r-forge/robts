@@ -15,7 +15,7 @@ DurbinLev(ts, acf, robvar = TRUE)
 \arguments{
 	\item{ts}{Vector of observations sorted as time series, without \code{NA}s.}
 	\item{acf}{Autocorrelation function calculated from \code{ts}.}
-	\item{robvar}{Logical, whether the variance of \code{ts} is estimated robustly. If \code{TRUE}, \code{mad} is used, else \code{sd}.}
+	\item{robvar}{Logical, whether the variance of \code{ts} is estimated robustly. If \code{TRUE}, \code{\link{scaleTau2}} is used, else \code{sd}.}
 }
 
 \value{
