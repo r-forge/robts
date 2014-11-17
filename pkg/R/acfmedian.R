@@ -35,7 +35,7 @@ for (i in 1:maxlag) {
 
 # transformation for unbiasedness
 
-load("chack2")				# loading the simulated expection values for the mediancorrelation
+AA <- get(load(system.file("extdata", "chack2", package = "robts")))				# loading the simulated expection values for the mediancorrelation
 b <- seq(from=-1,to=1,by=0.01)		# lattice where the mediancorrelation was simulated
 acfvalues2 <- numeric(maxlag)
 for (i in 1:maxlag) {

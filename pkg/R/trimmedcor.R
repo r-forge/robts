@@ -69,7 +69,7 @@ gamma0 <- sum((timeseries-Xquer)^2*L)/sum(L)	# time series trimmed variance
 
 acfvalues <- gamma/gamma0
 
-load("trimsimv")				# loading the simulated expection values for the mediancorrelation
+AA <- get(load(system.file("extdata", "trimsimv", package = "robts")))				# loading the simulated expection values for the mediancorrelation
 b <- seq(from=-1,to=1,by=0.01)		# lattice where the mediancorrelation was simulated
 acfvalues2 <- numeric(maxlag)
 for (i in 1:maxlag) {

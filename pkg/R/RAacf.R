@@ -66,7 +66,7 @@ if (!any(Psi==c("Huber","Tukey")))
 
 acfvalues <- acf(timeseries,demean=FALSE,plot=FALSE,lag.max=maxlag)$acf[-1]
 if (Psi=="Huber") {
-	load("rahusimv")				# loading the simulated expection values for the mediancorrelation
+	AA <- get(load(system.file("extdata", "rahusimv", package = "robts")))		# loading the simulated expection values for the mediancorrelation
 	b <- seq(from=-1,to=1,by=0.01)		# lattice where the mediancorrelation was simulated
 	acfvalues2 <- numeric(maxlag)
 	for (i in 1:maxlag) {
@@ -74,7 +74,7 @@ if (Psi=="Huber") {
 	}
 	}
 if (Psi=="Tukey") {
-	load("ratusimv")				# loading the simulated expection values for the mediancorrelation
+	AA <- get(load(system.file("extdata", "ratusimv", package = "robts")))				# loading the simulated expection values for the mediancorrelation
 	b <- seq(from=-1,to=1,by=0.01)		# lattice where the mediancorrelation was simulated
 	acfvalues2 <- numeric(maxlag)
 	for (i in 1:maxlag) {
