@@ -10,6 +10,7 @@ export("gervini")
 
 export("DurbinLev")
 export("lmrobAR")
+export("lmrobARopt")
 export("robAIC")
 export("solveYule")
 export("ts.robfilter")

@@ -2,11 +2,11 @@
 ## Input:
 ##		ts: time series
 ## 		p: order of the AR model
-##		
+##		arguments to be passed to lmrob
 ## Output: list of 2:
 ## 		coefficients: vector of coefficients with intercept in the last place
 ##		model: object of class lmrob
-##		arguments to be passed to lmrob
+
 
 lmrobAR <- function(ts, p, method = "MM", singular.ok = FALSE, init = NULL) {
 	p <- as.integer(p)
