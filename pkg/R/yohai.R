@@ -38,7 +38,7 @@ aicv[1] <- log(varold)+2/(n-1)
 timeseriesalt[,1] <- sega(partial[1],timeseries,psifunc=psifunc)[[2]]
 
 
-for (j in 2:p) {
+if (p > 1) for (j in 2:p) {
 	segam <- function(x) segaII(x,helppar,varold,timeseries,psifunc=psifunc)[[1]]
 	op <- try(optimize(segam,c(-1,1)),silent=TRUE)
 	if (inherits(op,"try-error")){
