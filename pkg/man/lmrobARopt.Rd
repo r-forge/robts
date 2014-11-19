@@ -10,7 +10,7 @@ Calculates the regression coefficients of an AR(p) model by robustly fitting a l
 }
 
 \details{
-The function \code{\link{lmrobAR}} is applied for every p, with Akaikes information criterion calculated each, at last returning the solution with the smallest AIC. The utmost possible p (\code{floor((length(ts) - 1) / 2)}) is not considered: The respective AIC has turned out to be implausible small in some preliminary tests. Models without convergence are not considered as well.
+The function \code{\link{lmrobAR}} is applied for every p, with Akaikes information criterion calculated each, at last returning the solution with the smallest AIC. The utmost possible p (\code{floor((length(ts) - 2) / 2)}) is not considered: The respective AIC has turned out to be implausible small in some preliminary tests. Models without convergence are not considered as well.
 
 See also Maronna et al. (2006), chapter 8.2 and 8.6.6.
 
@@ -18,11 +18,12 @@ The model fit is performed by \code{\link{lmrob}}, see Rousseeuw et al. (2014).
 }
 
 \usage{
-lmrobARopt(ts, method = "MM", singular.ok = FALSE, init = NULL)
+lmrobARopt(ts, interc = TRUE, method = "MM", singular.ok = FALSE, init = NULL)
 }
 
 \arguments{
 	\item{ts}{Vector of observations sorted as time series, without \code{NA}s. Its length should be not less than 7.}
+	\item{interc}{Logical, whether the model contains an intercept, i. e., the time series is not centered to a zero mean.}
 	\item{method}{String specifying the estimator-chain, to be passed to \code{\link{lmrob}}, see there for details.}
 	\item{singular.ok}{Logical: if \code{FALSE}, a singular fit is an error, to be passed to \code{\link{lmrob}}, see there for details.}
 	\item{init}{Initial estimate to be passed to \code{\link{lmrob}}, see there for details.}

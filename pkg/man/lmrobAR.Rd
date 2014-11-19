@@ -9,12 +9,13 @@ AR model coefficients from robustly fitted linear model
 Calculates the regression coefficients of an AR model by robustly fitting a linear model, see Maronna et al. (2006), chapter 8.2 for details. The model fit is performed by \code{\link{lmrob}}, see Rousseeuw et al. (2014).
 }
 \usage{
-lmrobAR(ts, p, method = "MM", singular.ok = FALSE, init = NULL)
+lmrobAR(ts, p, interc = TRUE, method = "MM", singular.ok = FALSE, init = NULL)
 }
 
 \arguments{
 	\item{ts}{Vector of observations sorted as time series, without \code{NA}s.}
 	\item{p}{Order of the AR model.}
+	\item{interc}{Logical, whether the model contains an intercept, i. e., the time series is not centered to a zero mean.}
 	\item{method}{String specifying the estimator-chain, to be passed to \code{\link{lmrob}}, see there for details.}
 	\item{singular.ok}{Logical: if \code{FALSE}, a singular fit is an error, to be passed to \code{\link{lmrob}}, see there for details.}
 	\item{init}{Initial estimate to be passed to \code{\link{lmrob}}, see there for details.}
