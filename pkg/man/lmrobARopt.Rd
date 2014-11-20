@@ -31,7 +31,7 @@ lmrobARopt(ts, interc = TRUE, method = "MM", singular.ok = FALSE, init = NULL)
 
 \value{
 Named list of 3:
-\item{coefficients}{Vector of length p + 1 containing the regression coefficients of the optimal AR(p) model with the intercept in the last place.}
+\item{coefficients}{Vector of length p (+ 1 if \code{interc = TRUE}) containing the regression coefficients of the optimal AR(p) model (with the intercept in the last place).}
 \item{model}{Object of class \code{lmrob}: the optimal fitted model, see \code{\link{lmrob}} for details.}
 \item{p.optimal}{The optimal p.}
 }
