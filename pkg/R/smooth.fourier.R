@@ -18,15 +18,14 @@ smooth.fourier <- function(y, smooth.type = "runmean", M = 1, taper = "cosine") 
 	if (taper == "none") tap <- rep(1, tmax)
 	yt <- y * tap
 	kmax <- floor(tmax / 2)
-	ff <- 0:kmax / tmax
-	XXre <- numeric(kmax + 1)
+	ff <- (-kmax):kmax / tmax
+	XXre <- numeric(2 * kmax + 1)
 	XXim <- XXre
-	for (k in 0:kmax) {
-		XXre[k + 1] <- sum(yt * cos(-2 * pi * ff[k + 1] * 1:tmax))
-		XXim[k + 1] <- sum(yt * sin(-2 * pi * ff[k + 1] * 1:tmax))
+	for (k in seq_along(ff)) {
+		XXre[k] <- sum(yt * cos(-2 * pi * ff[k] * 1:tmax))
+		XXim[k] <- sum(yt * sin(-2 * pi * ff[k] * 1:tmax))
 	}
-	SSraw <- (XXre^2 + XXim^2) / tmax
-	SS <- c(SSraw[(kmax + 1):2], SSraw)
+	SS <- (XXre^2 + XXim^2) / tmax
 	if (smooth.type == "runmean") {
 		SSs <- numeric(2 * kmax + 1)
 		for (i in seq_along(SSs)) {

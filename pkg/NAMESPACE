@@ -12,6 +12,7 @@ export("DurbinLev")
 export("lmrobAR")
 export("lmrobARopt")
 export("robAIC")
+export("robspec")
 export("solveYule")
 export("ts.robfilter")
 
