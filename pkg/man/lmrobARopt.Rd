@@ -18,15 +18,14 @@ The model fit is performed by \code{\link{lmrob}}, see Rousseeuw et al. (2014).
 }
 
 \usage{
-lmrobARopt(ts, interc = TRUE, method = "MM", singular.ok = FALSE, init = NULL)
+lmrobARopt(ts, interc = TRUE, singular.ok = FALSE, ...)
 }
 
 \arguments{
 	\item{ts}{Vector of observations sorted as time series, without \code{NA}s. Its length should be not less than 7.}
 	\item{interc}{Logical, whether the model contains an intercept, i. e., the time series is not centered to a zero mean.}
-	\item{method}{String specifying the estimator-chain, to be passed to \code{\link{lmrob}}, see there for details.}
 	\item{singular.ok}{Logical: if \code{FALSE}, a singular fit is an error, to be passed to \code{\link{lmrob}}, see there for details.}
-	\item{init}{Initial estimate to be passed to \code{\link{lmrob}}, see there for details.}
+	\item{...}{Further arguments to be passed to \code{\link{lmrob}}, see there for details.}
 }
 
 \value{

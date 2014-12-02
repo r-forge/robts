@@ -9,7 +9,7 @@
 ##		model: object of class lmrob
 
 
-lmrobAR <- function(ts, p, interc = TRUE, method = "MM", singular.ok = FALSE, init = NULL) {
+lmrobAR <- function(ts, p, interc = TRUE, singular.ok = FALSE, ...) {
 	p <- as.integer(p)
 	stopifnot(is.numeric(ts))
 	tmax <- length(ts)
@@ -18,7 +18,7 @@ lmrobAR <- function(ts, p, interc = TRUE, method = "MM", singular.ok = FALSE, in
 	y <- ts[(p + 1):tmax]
 	G <- matrix(data = 1, nrow = n, ncol = p + as.numeric(interc))
 	for (i in 1:p) G[, p + 1 - i] <- ts[i:(i + n - 1)]
-	lmo <- lmrob(formula = y ~ 0 + G, method = method, singular.ok = singular.ok, init = init)
+	lmo <- lmrob(formula = y ~ 0 + G, singular.ok = singular.ok, ...)
 	be <- lmo$coefficients
 	for (i in 1:p) names(be)[i] <- paste("phi", i)
 	if (interc) names(be)[p + 1] <- "interc"

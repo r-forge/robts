@@ -4,7 +4,7 @@ Title: Robust time series analysis
 Version: 0.1
 Date: 2014-11-11
 Authors@R: c(
-  person("Alexander", "Dürre", role=c("aut"), email="alexander.duerre@tu-dortmund.de"),
+  person("Alexander", "Duerre", role=c("aut"), email="alexander.duerre@tu-dortmund.de"),
   person("Roland", "Fried", role=c("aut"), email="fried@statistik.tu-dortmund.de"),
   person("Tobias", "Liboschik", role=c("aut"), email="liboschik@statistik.tu-dortmund.de"),
   person("Jonathan", "Rathjens", role=c("aut", "cre"), email="jonathan.rathjens@tu-dortmund.de"))

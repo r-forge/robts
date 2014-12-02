@@ -9,20 +9,20 @@
 ##		p.optimal
 
 
-lmrobARopt <- function(ts, interc = TRUE, method = "MM", singular.ok = FALSE, init = NULL) {
+lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, ...) {
 	tmax <- length(ts)
 	o1 <- as.numeric(interc)
-	if (tmax < 5 + o1) stop("Too less data for reasonable model comparison. Try p = 1.")
-	pmax <- floor((tmax - 1 - o1) / 2) - 1
-	aicbest <- +Inf
+	pmax <- floor((tmax - 1 - o1) / 4)
+	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
+	paicbest <- +Inf
 	popt <- 0
 	for (p in 1:pmax) {
 		fit <- suppressWarnings(lmrobAR(ts = ts, p = p, interc = interc,
-			method = method, singular.ok = singular.ok, init = init)$model)
+			singular.ok = singular.ok, ...)$model)
 		if (fit$converged) {
-			aicnew <- log(sum((fit$residuals)^2) / (tmax - p)) + 2 * p / (tmax - p)
-			if (aicnew < aicbest) {
-				aicbest <- aicnew
+			paicnew <- log(scaleTau2(fit$residuals)^2) + 2 * p / (tmax - p)
+			if (paicnew < paicbest) {
+				paicbest <- paicnew
 				fitbest <- fit
 				popt <- p
 			}
