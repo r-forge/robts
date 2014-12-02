@@ -134,7 +134,7 @@ covmatrix <- corestimator(A)
 if(length(covmatrix)==1) return(NA) # is something failed before
 cormatrix <- cov2cor(covmatrix)
 for (i in 1:maxlag) {
-acfres[i] <- mean(odiag(cormatrix,i))  # averaging the off-diagonals
+acfres[i] <- mean(offdiag(cormatrix,i))  # averaging the off-diagonals
 }
 return(acfres)
 }
