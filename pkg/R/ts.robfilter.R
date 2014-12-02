@@ -7,7 +7,7 @@
 # output: robustly filtered time series
 ##################
 
-ts.robfilter <- function(ts, p, psifunc = super) {
-	res <- yohai(timeseries = ts, p = p, psifunc = psifunc)[[3]]
+ts.robfilter <- function(ts, p, psifunc = smoothpsi) {
+	res <- ARfilter(timeseries = ts, p = p, psifunc = psifunc)[[3]]
 	return(res)
 }

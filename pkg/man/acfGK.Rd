@@ -32,7 +32,7 @@ Alexander \enc{Dürre}{Duerre}
 
 
 \seealso{
-Other functions for calculating the autocorrelation function are \code{\link{acfmedian}}, \code{\link{acfyohai}}, \code{\link{Autokor}}, \code{\link{multi}}, \code{\link{RAacf}}, \code{\link{rankacf}}, and \code{\link{trimmedcor}}.
+Other functions for calculating the autocorrelation function are 
 }
 
 \examples{

@@ -7,7 +7,7 @@
 # output: AIC
 ##################
 
-robAIC <- function(ts, p, psifunc = super) {
-	res <- yohai(timeseries = ts, p = p, psifunc = psifunc)[[5]][p]
+robAIC <- function(ts, p, psifunc = smoothpsi) {
+	res <- ARfilter(timeseries = ts, p = p, psifunc = psifunc)[[5]][p]
 	return(res)
 }

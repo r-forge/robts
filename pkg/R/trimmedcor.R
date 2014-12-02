@@ -73,7 +73,7 @@ AA <- get(load(system.file("extdata", "trimsimv", package = "robts")))				# load
 b <- seq(from=-1,to=1,by=0.01)		# lattice where the mediancorrelation was simulated
 acfvalues2 <- numeric(maxlag)
 for (i in 1:maxlag) {
-	acfvalues2[i] <- consistentmaker(acfvalues[i],AA,b)
+	acfvalues2[i] <- linearinterpol(acfvalues[i],AA,b)
 	}
 return(acfvalues2)
 }

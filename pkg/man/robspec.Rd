@@ -23,7 +23,7 @@ The smoothing function returns a vector of the length put in. Consider trimming 
 robspec(ts,
 	smooth.type = "runmean", M = 1, taper = "cosine",
 	method = "MM", singular.ok = FALSE, init = NULL, 
-	psifunc = super)
+	psifunc = smoothpsi)
 }
 
 \arguments{

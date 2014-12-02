@@ -9,7 +9,7 @@ Robust filtering of time series
 Filters a time series robustly according to an AR model. The filtered series can be applied to improve estimations. See \enc{Dürre}{Duerre} et al. (2014) and Maronna et al. (2006), chapter 8.6 for details.
 }
 \usage{
-ts.robfilter(ts, p, psifunc = super)
+ts.robfilter(ts, p, psifunc = smoothpsi)
 }
 
 \arguments{
@@ -32,7 +32,7 @@ Alexander \enc{Dürre}{Duerre}
 }
 
 \seealso{
-	\code{\link{acfyohai}} for application.
+	\code{\link{acfrobfil}} for application.
 }
 
 \examples{

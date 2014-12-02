@@ -8,7 +8,7 @@
 robspec <- function(ts,
 					smooth.type = "runmean", M = 1, taper = "cosine",
 					method = "MM", singular.ok = FALSE, init = NULL, 
-					psifunc = super) {
+					psifunc = smoothpsi) {
 	tsc <- ts - mean(ts)
 	fitopt <- lmrobARopt(ts = tsc, interc = FALSE, method = method, singular.ok = singular.ok, init = init)
 	p <- fitopt$p.optimal
