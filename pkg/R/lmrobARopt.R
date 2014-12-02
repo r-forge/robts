@@ -12,7 +12,7 @@
 lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, ...) {
 	tmax <- length(ts)
 	o1 <- as.numeric(interc)
-	pmax <- floor((tmax - 1 - o1) / 4)
+	pmax <- floor(min((tmax - 1 - o1) / 4, 10 * log(tmax, base = 10)))
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
 	paicbest <- +Inf
 	popt <- 0
