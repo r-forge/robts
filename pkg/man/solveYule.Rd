@@ -9,14 +9,12 @@ AR model coefficients by Yule-Walker equations
 Calculates the regression coefficients of an AR model by solving the Yule-Walker equations, see Maronna et al. (2006), chapter 8.2 for details.
 }
 \usage{
-solveYule(ts, acf, p, robvar = TRUE)
+solveYule(acf, p)
 }
 
 \arguments{
-	\item{ts}{Vector of observations sorted as time series, without \code{NA}s.}
 	\item{acf}{Autocorrelation function calculated from \code{ts}.}
 	\item{p}{Order of the AR model.}
-	\item{robvar}{Logical, whether the variance of \code{ts} is estimated robustly. If \code{TRUE}, \code{\link{scaleTau2}} is used, else \code{sd}.}
 }
 
 \value{
@@ -34,5 +32,5 @@ Jonathan Rathjens
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
 acor <- acfGK(timeseries = tss, maxlag = 6)
-solveYule(ts = tss, acf = acor, p = 6)
+solveYule(acf = acor, p = 6)
 }
