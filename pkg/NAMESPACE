@@ -18,5 +18,7 @@ export("robspec")
 export("solveYule")
 export("ts.robfilter")
 
+export("ARopt.acf")
+export("ARopt.filter")
 
 import(ICSNP, SpatialNP, robustbase, rrcov)
