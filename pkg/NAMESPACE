@@ -21,5 +21,6 @@ export("ts.robfilter")
 export("ARopt.acf")
 export("ARopt.filter")
 export("filter2")
+export("robspec.acf")
 
 import(ICSNP, SpatialNP, robustbase, rrcov)
