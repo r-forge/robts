@@ -10,35 +10,24 @@ Calculates an estimate of the spectral density of a time series robustly. See Ma
 }
 
 \details{
-The AR(p) model coefficients and the respective optimal p ist computed by \code{\link{lmrobARopt}}. The smoothed periodogram is calculated from the residuals of this model filtered by \code{\link{ts.robfilter}}. See the respective manual.
-
-The resulting spectrum is evaluated at \code{length(ts)} points from - 1 / 2 to + 1 / 2.
-}
-
-\note{
-The smoothing function returns a vector of the length put in. Consider trimming the ends of the final result.
+The AR(p) model coefficients and the respective optimal p ist computed by \code{\link{ARopt.acf}}. The smoothed periodogram is calculated from the filtered residuals of this model.
 }
 
 \usage{
-robspec(ts,
-	smooth.type = "runmean", M = 1, taper = "cosine",
-	method = "MM", singular.ok = FALSE, init = NULL, 
-	psifunc = smoothpsi)
+robspec(tss, psifunc = smoothpsi, acf.fun = "acfmedian", spans = 8)
 }
 
 \arguments{
-	\item{ts}{Vector of observations sorted as time series, without \code{NA}s. Its length should be not less than 7.}
-	\item{smooth.type}{Smoothing function: default \code{"runmean"} for running mean, \code{"none"} for no smoothing.}
-	\item{M}{Half window width for smoothing.}
-	\item{taper}{Data taper: default \code{"cosine"}, or \code{"none"}.}
-	\item{method}{String specifying the estimator-chain, to be passed to \code{\link{lmrob}}, see there for details.}
-	\item{singular.ok}{Logical: if \code{FALSE}, a singular fit is an error, to be passed to \code{\link{lmrob}}, see there for details.}
-	\item{init}{Initial estimate to be passed to \code{\link{lmrob}}, see there for details.}
-	\item{psifunc}{Psi function to be passed to \code{\link{ts.robfilter}}, currently no alternative.}
+	\item{tss}{Vector of observations sorted as time series, without \code{NA}s.}
+	\item{psifunc}{Psi function for filtering of residuals, currently no alternative.}
+	\item{acf.fun}{Character value naming the function to calculate the autocorrelation function. Options are \code{"\link{acfGK}"}, \code{"\link{acfmedian}"}, \code{"\link{acfmulti}"}, \code{"\link{acfpartrank}"}, \code{"\link{acfRA}"}, \code{"\link{acfrank}"}, and \code{"\link{trimmedcor}"}.}
+	\item{spans}{Window width for smoothing kernel, has to be an even number.}	
 }
 
 \value{
-Vector of length \code{tmax = length(ts)} (+ 1 if \code{tmax} is even) containing the estimated spectral density evaluated at \code{tmax} (+ 1) points from - 1 / 2 to + 1 / 2.
+	An object of class \code{"spec"}, see \code{\link{spectrum}}, a named list with the essential components:
+	\item{freq}{Vector of frequencies at which the spectral desity is evaluated: \code{floor(tmax / 2) + 1} points from 0 to 1 / 2 with \code{tmax = length(tss) - p}.}
+	\item{spec}{Numeric vector containing the robust spectral density of the time series evaluated at \code{freq}.}
 }
 
 \references{

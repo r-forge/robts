@@ -5,26 +5,41 @@
 ## 		Arguments of lmrobARopt
 ## 		psifunc: Argument of ts.robfilter
 
-robspec <- function(ts,
-					smooth.type = "runmean", M = 1, taper = "cosine",
-					method = "MM", singular.ok = FALSE, init = NULL, 
-					psifunc = smoothpsi) {
-	tsc <- ts - mean(ts)
-	fitopt <- lmrobARopt(ts = tsc, interc = FALSE, method = method, singular.ok = singular.ok, init = init)
-	p <- fitopt$p.optimal
-	resfilt <- ts.robfilter(ts = fitopt$model$residuals, p = p, psifunc = psifunc)
-	ph <- fitopt$coefficients
-	per <- smooth.fourier(y = resfilt, smooth.type = smooth.type, M = M, taper = taper)
-	tmax <- length(resfilt)
+robspec <- function(tss, psifunc = smoothpsi, acf.fun = "acfmedian", spans = 8) {
+	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0, spans %% 2 == 0)
+	tmax <- length(tss)
+	ph <- ARopt.acf(tss = tss, acf.fun = acf.fun)
+	p <- length(ph)
+	D <- matrix(nrow = tmax - p, ncol = p)
+	for (j in 1:p) D[, j] <- tss[(p + 1 - j):(tmax - j)]
+	ph <- c(median(tss) * (1 - sum(ph)), ph)
+	D <- cbind(1, D)
+	resi <- tss[(p + 1):tmax] - D %*% ph
+	resi <- psifunc(resi / Qn(resi))
+	resi <- spec.taper(resi, p = 0.1)
+	tmax <- length(resi)
+	ph <- ph[-1]
 	kmax <- floor(tmax / 2)
-	ff <- (-kmax):kmax / tmax
-	sumRe <- numeric(2 * kmax + 1)
-	sumIm <- sumRe
+	ff <- 0:kmax / tmax
+	XXre <- numeric(kmax + 1)
+	XXim <- XXre
+	sumRe <- XXre
+	sumIm <- XXre
 	for (k in seq_along(ff)) {
+		XXre[k] <- sum(resi * cos(-2 * pi * ff[k] * 1:tmax))
+		XXim[k] <- sum(resi * sin(-2 * pi * ff[k] * 1:tmax))
 		sumRe[k] <- sum(ph * cos(2 * pi * ff[k] * 1:p))
 		sumIm[k] <- sum(ph * sin(2 * pi * ff[k] * 1:p))
 	}
+	per <- (XXre^2 + XXim^2) / tmax
+	perS <- numeric(kmax + 1)
+	for (i in seq_along(perS)) {
+		mi <- max(i - spans / 2, 1)
+		ma <- min(i + spans / 2, kmax + 1)
+		ww <- c(1 / 2, rep(1, ma - mi - 1), 1 / 2)
+		perS[i] <- weighted.mean(x = per[mi:ma], w = ww)
+	}
 	Den <- (1 - sumRe)^2 + sumIm^2
-	S <- per / Den
-	return(S)
+	S <- perS / Den
+	return(list(freq = ff, spec = S, coh = NULL, phase = NULL, series = NULL, snames = NULL, method = "AR"))
 }

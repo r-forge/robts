@@ -12,6 +12,5 @@ robspec.acf <- function(acf, tmax = length(acf) + 2) {
 		s[k] <- sum(acf * cos(2 * pi * ff[k] * 1:hmax))
 	}
 	s <- 2 + 4 * s
-	names(s) <- ff
-	return(s)
+	return(list(freq = ff, spec = s, coh = NULL, phase = NULL, series = NULL, snames = NULL, method = "ACF"))
 }

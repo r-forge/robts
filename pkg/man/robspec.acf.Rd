@@ -18,7 +18,9 @@ robspec.acf(acf, tmax = length(acf) + 2)
 }
 
 \value{
-	Numeric vector containing the robust spectral density of the time series evaluated at \code{floor(tmax / 2) + 1} points from 0 to 1 / 2.
+	An object of class \code{"spec"}, see \code{\link{spectrum}}, a named list with the essential components:
+	\item{freq}{Vector of frequencies at which the spectral desity is evaluated: \code{floor(tmax / 2) + 1} points from 0 to 1 / 2.}
+	\item{spec}{Numeric vector containing the robust spectral density of the time series evaluated at \code{freq}.}
 }
 
 \author{
