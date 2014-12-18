@@ -3,10 +3,10 @@
 \alias{acfGK}
 
 \title{
-Autocorrelation function by GK method
+Robust Autocorrelation Function Estimation by GK Method
 }
 \description{
-Calculates the autocorrelation function of a time series using the GK method: estimation based on variances, see \enc{Dürre}{Duerre} et al. (2014) for details.
+Robustly estimates the autocorrelation function of a time series using the Gnanadesikan-Kettenring (GK) method: estimation based on variances, see \enc{Dürre}{Duerre} et al. (2014) for details.
 }
 
 \usage{
@@ -14,14 +14,14 @@ acfGK(timeseries, maxlag, method = "Qn", ...)
 }
 
 \arguments{
-	\item{timeseries}{Vector of observations sorted as time series, without \code{NA}s.}
-	\item{maxlag}{Maximum lag of interest.}
-	\item{method}{Variance estimator to be used: \code{"Qn"}, \code{"MAD"}, or \code{"Tau"}, see \enc{Dürre}{Duerre} et al. (2014) for details.}
-	\item{...}{Internal parameters for Tau estimation.}
+	\item{timeseries}{a univariate numeric vector or time series object. Must not contain missing values.}
+	\item{maxlag}{maximum lag at which to calculate the acf.}
+	\item{method}{character string giving the type of variance estimator to be used. Possible values are \code{"Qn"}, \code{"MAD"} or \code{"Tau"}. See \enc{Dürre}{Duerre} et al. (2014) for details.}
+	\item{...}{additional arguments passed to the function \code{\link[robustbase]{scaleTau2}} in package \code{robustbase}.}
 }
 
 \value{
-Vector of length \code{maxlag} containing the autocorrelation function.
+Vector of length \code{maxlag} containing the robustly estimated autocorrelation function.
 }
 \references{
 \enc{Dürre}{Duerre}, A., Fried, R., and Liboschik, T (2014): Robust estimation of (partial) autocorrelation, working paper.
@@ -32,7 +32,7 @@ Alexander \enc{Dürre}{Duerre}
 
 
 \seealso{
-Other functions for calculating the autocorrelation function are \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, and \code{\link{trimmedcor}}.
+Other functions for robustly estimating the autocorrelation function are \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}} and \code{\link{trimmedcor}}. Classical, nonrobust estimation is provided by the function \code{\link{acf}}.
 }
 
 \examples{
