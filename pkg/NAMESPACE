@@ -1,12 +1,3 @@
-export("acfGK")
-export("acfmedian")
-export("acfmulti")
-export("acfpartrank")
-export("acfRA")
-export("acfrank")
-export("acfrobfil")
-export("acftrim")
-
 export("acfrob")
 
 export("Corefw")
