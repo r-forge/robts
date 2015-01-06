@@ -5,10 +5,12 @@ export("acfpartrank")
 export("acfRA")
 export("acfrank")
 export("acfrobfil")
+export("acftrim")
+
+export("acfrob")
 
 export("Corefw")
 export("pacf2")
-export("trimmedcor")
 
 export("DurbinLev")
 export("lmrobAR")
