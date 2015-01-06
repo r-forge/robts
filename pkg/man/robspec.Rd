@@ -14,13 +14,13 @@ The AR(p) model coefficients and the respective optimal p ist computed by \code{
 }
 
 \usage{
-robspec(tss, psifunc = smoothpsi, acf.fun = "acfmedian", spans = 8)
+robspec(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), spans = 8)
 }
 
 \arguments{
 	\item{tss}{Vector of observations sorted as time series, without \code{NA}s.}
 	\item{psifunc}{Psi function for filtering of residuals, currently no alternative.}
-	\item{acf.fun}{Character value naming the function to calculate the autocorrelation function. Options are \code{"\link{acfGK}"}, \code{"\link{acfmedian}"}, \code{"\link{acfmulti}"}, \code{"\link{acfpartrank}"}, \code{"\link{acfRA}"}, \code{"\link{acfrank}"}, and \code{"\link{acftrim}"}.}
+	\item{acf.fun}{Character value naming the function to calculate the autocorrelation function. See \code{"\link{acfrob}"} for details. Do not use \code{"acfrobfil"}.}
 	\item{spans}{Window width for smoothing kernel, has to be an even number.}	
 }
 

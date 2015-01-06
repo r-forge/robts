@@ -34,6 +34,7 @@ Alexander \enc{Dürre}{Duerre} and Jonathan Rathjens
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-phis <- solveYule(acfmedian(tss, maxlag = 3), p = 3)
+acorf <- as.numeric(acfrob(tss, lag.max = 3, plot = FALSE)$acf)
+phis <- solveYule(acorf, p = 3)
 filter2(timeseries = tss, phi = phis)
 }

@@ -16,13 +16,13 @@ See also Maronna et al. (2006), chapter 8.2 and 8.6.6.
 }
 
 \usage{
-ARopt.acf(tss, pmax = NULL, acf.fun = "acfmedian")
+ARopt.acf(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"))
 }
 
 \arguments{
 	\item{tss}{Vector of observations sorted as time series, without \code{NA}s.}
 	\item{pmax}{Maximum order of AR model to consider. If \code{NULL}, the default minimum of \eqn{(T - 1) / 4} and \eqn{10 * lg(T)} is used.}
-	\item{acf.fun}{Character value naming the function to calculate the autocorrelation function. Options are \code{"\link{acfGK}"}, \code{"\link{acfmedian}"}, \code{"\link{acfmulti}"}, \code{"\link{acfpartrank}"}, \code{"\link{acfRA}"}, \code{"\link{acfrank}"}, and \code{"\link{acftrim}"}.}
+	\item{acf.fun}{Character value naming the function to calculate the autocorrelation function. See \code{"\link{acfrob}"} for details. Do not use \code{"acfrobfil"}.}
 }
 
 \value{

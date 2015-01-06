@@ -32,6 +32,6 @@ Tobias Liboschik and Jonathan Rathjens
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acor <- acfGK(timeseries = tss, maxlag = 6)
+acor <- as.numeric(acfrob(tss, lag.max = 6, plot = FALSE)$acf)
 DurbinLev(acf = acor)
 }

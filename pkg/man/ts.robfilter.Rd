@@ -31,9 +31,6 @@ Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): Robust Statistics: Theor
 Alexander \enc{Dürre}{Duerre}
 }
 
-\seealso{
-	\code{\link{acfrobfil}} for application.
-}
 
 \examples{
 set.seed(1066)

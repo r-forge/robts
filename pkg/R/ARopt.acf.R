@@ -6,7 +6,8 @@
 ## Output: coefficients vector of optimal AR model
 
 
-ARopt.acf <- function(tss, pmax = NULL, acf.fun = "acfmedian") {
+ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")) {
+	acf.fun <- match.arg(acf.fun)
 	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")
 	if (!any(acf.fun == posfuns)) stop("No valid ACF function.")
 	tmax <- length(tss)
@@ -17,8 +18,7 @@ ARopt.acf <- function(tss, pmax = NULL, acf.fun = "acfmedian") {
 	}
 	if (is.null(pmax)) pmax <- floor(min((tmax - 1) / 4, 10 * log(tmax, base = 10)))
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
-	acf.fun <- get(acf.fun)
-	acorf <- acf.fun(timeseries = tss, maxlag = lmax)
+	acorf <- as.numeric(acfrob(tss, lag.max = lmax, fun = acf.fun, plot = FALSE)$acf)
 	fits <- DurbinLev(acf = acorf)
 	RAICs <- numeric(pmax)
 	for (p in 1:pmax) {

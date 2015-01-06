@@ -5,7 +5,8 @@
 ## 		Arguments of lmrobARopt
 ## 		psifunc: Argument of ts.robfilter
 
-robspec <- function(tss, psifunc = smoothpsi, acf.fun = "acfmedian", spans = 8) {
+robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), spans = 8) {
+	acf.fun <- match.arg(acf.fun)
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0, spans %% 2 == 0)
 	tmax <- length(tss)
 	ph <- ARopt.acf(tss = tss, acf.fun = acf.fun)
