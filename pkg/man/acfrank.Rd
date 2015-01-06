@@ -31,7 +31,7 @@ Alexander \enc{Dürre}{Duerre}
 
 
 \seealso{
-Other functions for calculating the autocorrelation function are \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrobfil}}, and \code{\link{trimmedcor}}.
+Other functions for calculating the autocorrelation function are \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrobfil}}, and \code{\link{acftrim}}.
 }
 
 \examples{

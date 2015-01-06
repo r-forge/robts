@@ -20,7 +20,7 @@ robspec(tss, psifunc = smoothpsi, acf.fun = "acfmedian", spans = 8)
 \arguments{
 	\item{tss}{Vector of observations sorted as time series, without \code{NA}s.}
 	\item{psifunc}{Psi function for filtering of residuals, currently no alternative.}
-	\item{acf.fun}{Character value naming the function to calculate the autocorrelation function. Options are \code{"\link{acfGK}"}, \code{"\link{acfmedian}"}, \code{"\link{acfmulti}"}, \code{"\link{acfpartrank}"}, \code{"\link{acfRA}"}, \code{"\link{acfrank}"}, and \code{"\link{trimmedcor}"}.}
+	\item{acf.fun}{Character value naming the function to calculate the autocorrelation function. Options are \code{"\link{acfGK}"}, \code{"\link{acfmedian}"}, \code{"\link{acfmulti}"}, \code{"\link{acfpartrank}"}, \code{"\link{acfRA}"}, \code{"\link{acfrank}"}, and \code{"\link{acftrim}"}.}
 	\item{spans}{Window width for smoothing kernel, has to be an even number.}	
 }
 

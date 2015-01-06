@@ -7,7 +7,7 @@
 
 
 ARopt.acf <- function(tss, pmax = NULL, acf.fun = "acfmedian") {
-	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "trimmedcor")
+	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")
 	if (!any(acf.fun == posfuns)) stop("No valid ACF function.")
 	tmax <- length(tss)
 	lmax <- floor(tmax / 4)

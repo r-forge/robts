@@ -32,7 +32,7 @@ Alexander \enc{Dürre}{Duerre}
 
 
 \seealso{
-Other functions for robustly estimating the autocorrelation function are \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}} and \code{\link{trimmedcor}}. Classical, nonrobust estimation is provided by the function \code{\link{acf}}.
+Other functions for robustly estimating the autocorrelation function are \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}} and \code{\link{acftrim}}. Classical, nonrobust estimation is provided by the function \code{\link{acf}}.
 }
 
 \examples{

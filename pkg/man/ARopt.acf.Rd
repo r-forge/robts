@@ -22,7 +22,7 @@ ARopt.acf(tss, pmax = NULL, acf.fun = "acfmedian")
 \arguments{
 	\item{tss}{Vector of observations sorted as time series, without \code{NA}s.}
 	\item{pmax}{Maximum order of AR model to consider. If \code{NULL}, the default minimum of \eqn{(T - 1) / 4} and \eqn{10 * lg(T)} is used.}
-	\item{acf.fun}{Character value naming the function to calculate the autocorrelation function. Options are \code{"\link{acfGK}"}, \code{"\link{acfmedian}"}, \code{"\link{acfmulti}"}, \code{"\link{acfpartrank}"}, \code{"\link{acfRA}"}, \code{"\link{acfrank}"}, and \code{"\link{trimmedcor}"}.}
+	\item{acf.fun}{Character value naming the function to calculate the autocorrelation function. Options are \code{"\link{acfGK}"}, \code{"\link{acfmedian}"}, \code{"\link{acfmulti}"}, \code{"\link{acfpartrank}"}, \code{"\link{acfRA}"}, \code{"\link{acfrank}"}, and \code{"\link{acftrim}"}.}
 }
 
 \value{
