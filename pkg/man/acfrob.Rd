@@ -17,7 +17,7 @@ acfrob(x, lag.max = NULL,
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{lag.max}{numeric value of maximum lag at which to calculate the acf.}
+	\item{lag.max}{numeric value of maximum lag at which to calculate the acf. If \code{NULL} (default), \code{10 * log(length(x), 10)}, is chosen.}
 	\item{fun}{character string naming the function used for computation, see details.}
 	\item{plot}{logical. If \code{TRUE} (the default) the acf is plotted.}
 	\item{na.action}{function to be called to handle missing values.}

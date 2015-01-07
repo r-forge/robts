@@ -1,33 +1,38 @@
 ##################
 # calculating the partial autokorrelations (by rank estimation)
 # input
-# timeseries: timeseries without NAs as vector
-# maxlag: maximal lag of interest
+# x: x without NAs as vector
+# lag.max: maximal lag of interest
 # method: which correlation estimator to use (Gaussian rank correlation, Spearman, Kendall, Quadrant-correlation are available)
 # output: partial autocorrelation function as vector
 ##################
 
 
-pacf2 <- function(timeseries, maxlag, method = "spearman") {
+pacf2 <- function(x, lag.max = NULL, method = c("spearman", "gaussian", "kendall", "quadrant", "masarotto"),
+     plot = TRUE, na.action = na.fail) {
+
+method <- match.arg(method)
 
 # protective measures
 
-if(sum(is.na(timeseries)) > 0) {
-	warning("There are NA in your timeseries you should use a procedure to replace this values first.")
+x <- na.action(x)
+
+if(sum(is.na(x)) > 0) {
+	warning("There are NA in your x you should use a procedure to replace this values first.")
 	return(NA)
 	}
-n <- length(timeseries)
+n <- length(x)
 
-if (n < 2 + maxlag) {
+if (n < 2 + lag.max) {
 	warning("You can't calculate this amount of lags. We will compute the maximal possible lag of n-2")
-	maxlag <- n - 2
+	lag.max <- n - 2
 	}
-if (n < 4 * maxlag) {
+if (n < 4 * lag.max) {
 	warning("Brockwell and Davis suggest to calculate only lags less n/4. Nevertheless we will calculate all lags you want, but you should be aware that the estimated acf for higher lags could be unreasonable.")
 	}
 
-# centering timeseries for masarotto approach
-if (method=="masarotto") timeseries <- timeseries - median(timeseries)
+# centering x for masarotto approach
+if (method=="masarotto") x <- x - median(x)
 
 # choosing the right estimator
 
@@ -58,7 +63,7 @@ if (method=="kendall")  {
 	}
 
 if (method=="quadrant") {
-	Median <- median(timeseries)	
+	Median <- median(x)	
 	correlation <- function(x,y) {
 		x <- sign(x-Median)
 		y <- sign(y-Median)
@@ -92,24 +97,24 @@ warning("This is no suitable correlation estimator. Gaussian-rank-correlation is
 
 # calculating partial autocorrelations
 
-a <- matrix(ncol=maxlag,nrow=maxlag)		# to save changing auxiliary parameters
-phi <- numeric(maxlag)				# partial autocorrelations
+a <- matrix(ncol=lag.max,nrow=lag.max)		# to save changing auxiliary parameters
+phi <- numeric(lag.max)				# partial autocorrelations
 
 # starting the recursion
 
-a[1,1] <- correlation(timeseries[-1],timeseries[-n])	
+a[1,1] <- correlation(x[-1],x[-n])	
 phi[1] <- a[1,1]
 
 # higher autocorrelations
 
-for (H in 2:maxlag) {
-	uH <- timeseries[(H+1):n]	# foreward residuals
+for (H in 2:lag.max) {
+	uH <- x[(H+1):n]	# foreward residuals
 	for (i in 1:(H-1)) {
-		uH <- uH-a[H-1,i]*timeseries[(H+1-i):(n-i)]
+		uH <- uH-a[H-1,i]*x[(H+1-i):(n-i)]
 		}
-	vH <- timeseries[1:(n-H)]	# backward residuals
+	vH <- x[1:(n-H)]	# backward residuals
 	for (i in 1:(H-1)) {
-		vH <- vH-a[H-1,i]*timeseries[(1+i):(n-H+i)]
+		vH <- vH-a[H-1,i]*x[(1+i):(n-H+i)]
 		}
 	phi[H] <- correlation(uH,vH)	# partial autocorrelation
 	a[H,H] <- phi[H]
@@ -119,5 +124,18 @@ for (H in 2:maxlag) {
 		}
 	}
 
-return(phi)
+
+	res <- list(lag = array(data = 1:lag.max, dim = c(lag.max, 1, 1)),
+				acf = array(data = phi, dim = c(lag.max, 1, 1)),
+				type = "partial",
+				n.used = n,
+				series = NULL,
+				snames = NULL
+				)
+	class(res) <- "acf"
+	if (plot) {
+		plot(res)
+		return(invisible(res))
+	} else return(res)
+
 }
