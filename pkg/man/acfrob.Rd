@@ -11,8 +11,8 @@ Robustly estimates the autocorrelation function of a time series, a wrapper func
 
 \usage{
 acfrob(x, lag.max = NULL,
-		fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acfrobfil", "acftrim"),
-		plot = TRUE, na.action = na.fail, p = NULL, robfiltype = c("emp", "pacf", "pacfMott"), ...)
+       fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acfrobfil", "acftrim"),
+       plot = TRUE, na.action = na.fail, p = NULL, robfiltype = c("emp", "pacf", "pacfMott"), ...)
 }
 
 \arguments{
@@ -33,28 +33,30 @@ Object of class \code{"acf"}, see \code{\link{acf}} for details.
 \details{
 	Possible autocorrelation functions and respective further arguments:
 	
-	\code{acfGK}:
+	\code{acfGK}: Gnanadesikan-Kettenring (GK) method. Character string argument \code{method} giving the type of variance estimator to be used. Possible values are default \code{"Qn"}, \code{"MAD"} or \code{"Tau"}. Additional arguments passed to the function \code{\link[robustbase]{scaleTau2}} in package \code{robustbase}.
 	
-	\code{acfmedian}:
+	\code{acfmedian}: based on mediancorrelation. No further arguments.
 	
-	\code{acfmulti}:
+	\code{acfmulti}: from multivariate correlation. Character string argument \code{method} giving the correlation estimator to be used: default \code{"weightedMCD"}, \code{"rawMCD"}, \code{"Stahel-Donoho"}, \code{"S"}, \code{"M"}, \code{"reweight"}, or \code{"Tyler"}. Additional arguments passed to the correlation estimator.
 	
-	\code{acfpartrank}:
+	\code{acfpartrank}: from partial autokorrelations and ranks. Character string argument \code{method} giving the correlation estimator to be used: default \code{"spearman"}, \code{"gaussian"}, \code{"kendall"}, \code{"quadrant"} or \code{"masarotto"}.
 	
-	\code{acfRA}:
+	\code{acfRA}: RA approach. Character string \code{Psi} giving Psi function to be used: default \code{"Huber"} or \code{"Tukey"}. Mean estimator function \code{meanvalue} (default \code{\link{median}}) and scale estimator function \code{scattervalue} (default \code{\link{mad}}). Additional robustness parameters for \code{Psi} functions.
 	
-	\code{acfrank}:
+	\code{acfrank}: rank estimators. Character string argument \code{method} giving the correlation estimator to be used: \code{"spearman"}, default \code{"gaussian"}, \code{"kendall"}, \code{"quadrant"} or \code{"masarotto"}.
 	
-	\code{acfrobfil}:
+	\code{acfrobfil}: using robustly filtered values. Obligatory argument: Numeric value \code{p} of order of AR fit to be used. Psi function \code{psifunc} to be used, defaults to \code{smoothpsi}. Returned acf depends on \code{acfrob}'s argument \code{robfiltype}: default \code{"emp"} for the empirical acf of the robustly filtered timeseries, \code{"pacf"} for the estimated partial autocorrelations, \code{"pacfMott"} for the estimated partial autocorrelations after Mottonen et al. (1999).
 	
-	\code{acftrim}:
+	\code{acftrim}: trimmimg. Numeric value \code{alpha} of part of largest and smallest observations to be trimmed, defaults to \code{0.1}.
 }
 
 \references{
-\enc{Dürre}{Duerre}, A., Fried, R., and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
+
+Mottonen, J., Koivunen, V. and Oja, H. (1999): Robust autocovariance estimation based on sign and rank correlation coefficients, In: Proceedings of the IEEE Signal Processing Workshop on Higher-Order Statistics, 187–190.
 }
 \author{
-Alexander \enc{Dürre}{Duerre}, Tobias Liboschik, and Jonathan Rathjens
+Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 }
 
 
