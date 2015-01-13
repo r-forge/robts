@@ -7,13 +7,13 @@ export("DurbinLev")
 export("lmrobAR")
 export("lmrobARopt")
 export("robAIC")
-export("robspec")
 export("solveYW")
 export("ts.robfilter")
 
 export("ARopt.acf")
 export("ARopt.filter")
 export("robfilterAR")
-export("robspec.acf")
+
+export("robspectrum")
 
 import(ICSNP, SpatialNP, robustbase, rrcov)
