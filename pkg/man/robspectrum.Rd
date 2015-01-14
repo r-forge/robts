@@ -14,7 +14,7 @@ robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi, spans = 8,
 }
 
 \details{
-If \code{method == "pgram"}, the AR(p) model coefficients and the respective optimal p ist computed by \code{\link{ARopt.acf}}. The smoothed periodogram is calculated from the filtered residuals of this model. See Maronna et al. (2006), chapter 8.14.
+If \code{method == "pgram"}, the AR(p) model coefficients and the respective optimal p ist computed by a subfunction of \code{\link{arrob}}. The smoothed periodogram is calculated from the filtered residuals of this model. See Maronna et al. (2006), chapter 8.14.
 
 If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
 }

@@ -1,17 +1,13 @@
 export("acfrob")
 
+export("arrob")
+
 export("Corefw")
 export("pacf2")
 
-export("DurbinLev")
-export("lmrobAR")
-export("lmrobARopt")
 export("robAIC")
-export("solveYW")
 export("ts.robfilter")
 
-export("ARopt.acf")
-export("ARopt.filter")
 export("robfilterAR")
 
 export("robspectrum")

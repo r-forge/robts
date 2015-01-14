@@ -1,4 +1,4 @@
-## lmrobARopt - optimally fitted AR model with respect to adjusted R-squared
+## lmrobARopt - optimally fitted AR model with respect to AIC
 ## Input:
 ##		ts: time series
 ##		interc: with intercept?

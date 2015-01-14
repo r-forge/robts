@@ -34,7 +34,6 @@ Alexander \enc{Dürre}{Duerre} and Jonathan Rathjens
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acorf <- as.numeric(acfrob(tss, lag.max = 3, plot = FALSE)$acf)
-phis <- solveYW(acorf, p = 3)
+phis <- arrob(tss, aic = FALSE, order.max = 3)$ar
 robfilterAR(timeseries = tss, phi = phis)
 }
