@@ -3,7 +3,6 @@ export("acfrob")
 export("arrob")
 
 export("Corefw")
-export("pacf2")
 
 export("robAIC")
 export("ts.robfilter")

@@ -3,26 +3,32 @@
 \alias{acfrob}
 
 \title{
-Robust Autocorrelation Function Estimation
+Robust (Partial) Autocorrelation Function Estimation
 }
 \description{
-Robustly estimates the autocorrelation function of a time series, a wrapper function calling an internal autocorrelation function. See \enc{Dürre}{Duerre} et al. (2014) for details.
+Robustly estimates the (partial) autocorrelation function of a time series, a wrapper function calling an internal (partial) autocorrelation function. See \enc{Dürre}{Duerre} et al. (2014) for details.
 }
 
 \usage{
 acfrob(x, lag.max = NULL,
-       fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acfrobfil", "acftrim"),
-       plot = TRUE, na.action = na.fail, p = NULL, robfiltype = c("emp", "pacf", "pacfMott"), ...)
+    type = c("correlation", "partial"),
+    fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA",
+        "acfrank", "acfrobfil", "acftrim"),
+    plot = TRUE, na.action = na.fail, p = NULL,
+    robfiltype = c("emp", "pacf", "pacfMott"),
+    partialtype = c("ranks", "durbin-levinson", "filter"), ...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
 	\item{lag.max}{numeric value of maximum lag at which to calculate the acf. If \code{NULL} (default), \code{10 * log(length(x), 10)}, is chosen.}
+	\item{type}{character string whether the partial autocorrelation is calculated.}
 	\item{fun}{character string naming the function used for computation, see details.}
 	\item{plot}{logical. If \code{TRUE} (the default) the acf is plotted.}
 	\item{na.action}{function to be called to handle missing values.}
 	\item{p}{numeric value of order of AR fit used if \code{fun == acfrobfil}.}
-	\item{robfiltype}{character string naming the type of robust filtering if \code{fun == acfrobfil}, see details.}
+	\item{robfiltype}{character string naming the type of robust filtering if \code{fun == "acfrobfil"}, see details.}
+	\item{partialtype}{character string naming the type of pacf calculation if \code{type == "partial"}, see details.}
 	\item{...}{further arguments passed to the respective internal autocorrelation function.}
 }
 
@@ -48,6 +54,14 @@ Object of class \code{"acf"}, see \code{\link{acf}} for details.
 	\code{acfrobfil}: using robustly filtered values. Obligatory argument: Numeric value \code{p} of order of AR fit to be used. Psi function \code{psifunc} to be used, defaults to \code{smoothpsi}. Returned acf depends on \code{acfrob}'s argument \code{robfiltype}: default \code{"emp"} for the empirical acf of the robustly filtered timeseries, \code{"pacf"} for the estimated partial autocorrelations, \code{"pacfMott"} for the estimated partial autocorrelations after Mottonen et al. (1999).
 	
 	\code{acftrim}: trimmimg. Numeric value \code{alpha} of part of largest and smallest observations to be trimmed, defaults to \code{0.1}.
+	
+	Types of pacf calculation, see \enc{Dürre}{Duerre} et al. (2014) for details:
+	
+	\code{ranks}: using rank estimators.
+	
+	\code{durbin-levinson}: The acf is calculated via one of the functions above. Afterwards, the Durbin-Levinson algorithm is used to obtain the pacf.
+	
+	\code{filter}: using robustly filtered values.
 }
 
 \references{
@@ -69,4 +83,5 @@ set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
 acfrob(tss, plot = FALSE)
 acfrob(tss, fun = "acfrobfil", p = 3)
+acfrob(tss, type = "partial", plot = FALSE)
 }

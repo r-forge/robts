@@ -61,5 +61,4 @@ tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
 arrob(tss)
 arrob(tss, method = "durbin-levinson")
 arrob(tss, method = "ols")
-arrob(tss, method = "filter")
 }

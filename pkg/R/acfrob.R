@@ -5,17 +5,21 @@
 ##		fun: function used for computation
 ##		p: order of AR fit used if fun == "acfrobfil"
 ##		robfiltype: type of robust filtering if fun == "acfrobfil"
-##		...: further arguments passed to the respective acf-function
+##		...: further arguments passed to the respective (p)acf-function
 ## Return value: object of class acf
 
 acfrob <- function(x, lag.max = NULL,
+					type = c("correlation", "partial"),
 					fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA",
 							"acfrank", "acfrobfil", "acftrim"),
 					plot = TRUE, na.action = na.fail, p = NULL,
-					robfiltype = c("emp", "pacf", "pacfMott"), ...) {
+					robfiltype = c("emp", "pacf", "pacfMott"),
+					partialtype = c("ranks", "durbin-levinson", "filter"), ...) {
 	
 	fun <- match.arg(fun)
 	robfiltype <- match.arg(robfiltype)
+	type <- match.arg(type)
+	partialtype <- match.arg(partialtype)
 	
 	# protective measures:
 	
@@ -41,27 +45,44 @@ acfrob <- function(x, lag.max = NULL,
 	}
 	
 	
-	if (fun == "acfrobfil") {
-		if (is.null(p)) {
-			warning("No AR order given.")
-			return(NA)
+	if (type == "correlation" | (type == "partial" & partialtype == "durbin-levinson")) {
+	
+		if (fun == "acfrobfil") {
+			if (is.null(p)) {
+				warning("No AR order given.")
+				return(NA)
+			}
+			if (!any(robfiltype == c("emp", "pacf", "pacfMott"))) {
+				warning("No valid type of robust filtering given.")
+				return(NA)
+			}
+			acorf <- acfrobfil(timeseries = x, maxlag = lag.max, p = p, ...)[[which(robfiltype == c("emp", "pacf", "pacfMott"))]]
+		} else {
+			fun <- get(fun)
+			acorf <- fun(timeseries = x, maxlag = lag.max, ...)
 		}
-		if (!any(robfiltype == c("emp", "pacf", "pacfMott"))) {
-			warning("No valid type of robust filtering given.")
-			return(NA)
+		
+		if (type == "partial") {
+			acorf <- DurbinLev(acorf)$phis[[lag.max]]
 		}
-		acfval <- acfrobfil(timeseries = x, maxlag = lag.max, p = p, ...)[[which(robfiltype == c("emp", "pacf", "pacfMott"))]]
-	} else {
-		fun <- get(fun)
-		acfval <- fun(timeseries = x, maxlag = lag.max, ...)
+		
+	}
+	
+	if (type == "partial" & partialtype != "durbin-levinson") {
+		if (partialtype == "ranks") {
+			acorf <- pacf2(x, lag.max = lag.max, ...)
+		}
+		if (partialtype == "filter") {
+			acorf <- ARfilter(x, p = lag.max, ...)[[1]]
+		}
 	}
 	
 	
 	res <- list(lag = array(data = 1:lag.max, dim = c(lag.max, 1, 1)),
-				acf = array(data = acfval, dim = c(lag.max, 1, 1)),
-				type = "correlation",
+				acf = array(data = acorf, dim = c(lag.max, 1, 1)),
+				type = type,
 				n.used = n,
-				series = NULL,
+				series = deparse(substitute(x)),
 				snames = NULL
 				)
 	class(res) <- "acf"

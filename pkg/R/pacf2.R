@@ -9,7 +9,7 @@
 
 
 pacf2 <- function(x, lag.max = NULL, method = c("spearman", "gaussian", "kendall", "quadrant", "masarotto"),
-     plot = TRUE, na.action = na.fail) {
+     na.action = na.fail) {
 
 method <- match.arg(method)
 
@@ -125,17 +125,6 @@ for (H in 2:lag.max) {
 	}
 
 
-	res <- list(lag = array(data = 1:lag.max, dim = c(lag.max, 1, 1)),
-				acf = array(data = phi, dim = c(lag.max, 1, 1)),
-				type = "partial",
-				n.used = n,
-				series = NULL,
-				snames = NULL
-				)
-	class(res) <- "acf"
-	if (plot) {
-		plot(res)
-		return(invisible(res))
-	} else return(res)
+	return(phi)
 
 }
