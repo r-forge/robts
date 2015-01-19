@@ -8,13 +8,15 @@ Robust Spectrum
 Calculates the spectrum (or the spectral density) of a time series robustly via a periodogram or via the autocorrelation function, a wrapper calling an internal function.
 }
 \usage{
-robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi, spans = 8,
-    acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), 
-    var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"), plot =TRUE, ...)
+robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi,
+    spans = 8, acf.fun = c("acfGK", "acfmedian", "acfmulti",
+    "acfpartrank", "acfRA", "acfrank", "acftrim"), 
+    var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"),
+    plot =TRUE, ...)
 }
 
 \details{
-If \code{method == "pgram"}, the AR(p) model coefficients and the respective optimal p ist computed by a subfunction of \code{\link{arrob}}. The smoothed periodogram is calculated from the filtered residuals of this model. See Maronna et al. (2006), chapter 8.14.
+If \code{method == "pgram"}, the AR(p) model coefficients and the respective optimal p ist computed by a subfunction of \code{\link{arrob}}.  The smoothed periodogram is calculated from the filtered residuals of this model.  See Maronna et al. (2006), chapter 8.14.
 
 If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
 }
@@ -22,9 +24,9 @@ If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
 \arguments{
 \item{x}{numeric vector containing the time series.}
 \item{method}{character string naming the calculation method used: \code{"pgram"} for the periodogram-based function, \code{"ar"} for calculation from the acf.}
-\item{psifunc}{psi function for filtering of residuals if \code{method == "pgram"}, currently no alternative.}
+\item{psifunc}{Psi function for filtering of residuals if \code{method == "pgram"}, currently no alternative.}
 \item{spans}{window width for smoothing kernel if \code{method == "pgram"}, has to be an even number.}
-\item{acf.fun}{character string naming the function to calculate the autocorrelation function. See \code{"\link{acfrob}"} for details. Do not use \code{"acfrobfil"}.}
+\item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{"\link{acfrob}"} for details.  Do not use \code{"acfrobfil"}.}
 \item{var1}{logical whether the variance estimator is fixed to 1, resulting in a spectral density estimation if \code{method == "ar"}.}
 \item{sdestim}{character string naming the standard deviation estimator if \code{method == "ar"} and \code{var1 == FALSE}.}
 \item{plot}{logical whether the result is plotted and retured invisible.}
@@ -35,7 +37,7 @@ If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
 An object of class \code{"spec"}, see \code{\link{spectrum}} for details.
 }
 \references{
-Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): Robust Statistics: Theory and Methods, Wiley, chapter 8.
+Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): \emph{Robust Statistics: Theory and Methods}, Wiley, chapter 8.
 }
 \author{
 Jonathan Rathjens

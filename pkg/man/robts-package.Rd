@@ -3,10 +3,10 @@
 \alias{robts-package}
 \docType{package}
 \title{
-Robust time series analysis
+Robust Time Series Analysis
 }
 \description{
-Collection of R functions for robust time series analysis. This includes various approaches for robust estimation of (partial) autocorrelation, robust filtering and robust fitting of AR(p) processes.
+Collection of R functions for robust time series analysis.  This includes various approaches for robust estimation of (partial) autocorrelation, robust filtering and robust fitting of AR(p) processes.
 }
 \details{
 \tabular{ll}{
@@ -18,12 +18,12 @@ License: \tab GPL-2 | GPL-3\cr
 }
 }
 \author{
-Alexander \enc{Dürre}{Duerre}, Tobias Liboschik, Roland Fried, and Jonathan Rathjens
+Alexander \enc{Dürre}{Duerre}, Tobias Liboschik, Roland Fried and Jonathan Rathjens
 
 Maintainer: Jonathan Rathjens <jonathan.rathjens@tu-dortmund.de>
 }
 \references{
-\enc{Dürre}{Duerre}, A., Fried, R., and Liboschik, T (2014): Robust estimation of (partial) autocorrelation, working paper.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
 
-Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): Robust Statistics: Theory and Methods, Wiley, chapter 8.
+Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): \emph{Robust Statistics: Theory and Methods}, Wiley, chapter 8.
 }

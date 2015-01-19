@@ -6,13 +6,14 @@
 Robust Autoregression Model
 }
 \description{
-	Robust fit of an autogression model to a time series. Its order is optimized with respect to the AIC or given.
+	Robust fit of an autogression model to a time series.  Its order is optimized with respect to the AIC or given.
 }
 \usage{
 arrob(x, aic = TRUE, order.max = NULL,
-	method = c("yule-walker", "durbin-levinson", "ols", "filter"),
-	na.action = na.fail, series = deparse(substitute(x)), ...,
-	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"))
+    method = c("yule-walker", "durbin-levinson", "ols", "filter"),
+    na.action = na.fail, series = deparse(substitute(x)), ...,
+    acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
+        "acfRA", "acfrank", "acftrim"))
 }
 
 \arguments{
@@ -23,17 +24,17 @@ arrob(x, aic = TRUE, order.max = NULL,
 	\item{na.action}{function to be called to handle missing values.}
 	\item{series}{the time series name.}
 	\item{...}{further arguments to be passed to internal functions called.}
-	\item{acf.fun}{character string naming the function to calculate the autocorrelation function. See \code{\link{acfrob}} for details. Do not use \code{"acfrobfil"}.}
+	\item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{\link{acfrob}} for details.  Do not use \code{"acfrobfil"}.}
 }
 
 \details{
-For default \code{method == "yule-walker"}, the autocorrelation function is calculated by \code{\link{acfrob}}. Afterwards, the regression coefficients are obtained from it by solving the Yule-Walker equations, see Maronna et al. (2006), chapter 8.2 for details.
+For default \code{method == "yule-walker"}, the autocorrelation function is calculated by \code{\link{acfrob}}.  Afterwards, the regression coefficients are obtained from it by solving the Yule-Walker equations, see Maronna et al. (2006), chapter 8.2 for details.
 
 For \code{method == "durbin-levinson"}, the Durbin-Levinson algorithm is used, see Maronna et al. (2006), chapter 8.2.
 
-For \code{method == "ols"}, the regression coefficients are computed by robustly fitting a linear model, see Maronna et al. (2006), chapter 8.2 for details. The model fit is performed by \code{\link{lmrob}}, see Rousseeuw et al. (2014).
+For \code{method == "ols"}, the regression coefficients are computed by robustly fitting a linear model, see Maronna et al. (2006), chapter 8.2 for details.  The model fit is performed by \code{\link{lmrob}}, see Rousseeuw et al. (2014).
 
-For \code{method == "filter"}, the regression coefficients are computed via robust filtering. See \enc{Dürre}{Duerre} et al. (2014) and Maronna et al. (2006), chapter 8.6 for details.
+For \code{method == "filter"}, the regression coefficients are computed via robust filtering.  See \enc{Dürre}{Duerre} et al. (2014) and Maronna et al. (2006), chapter 8.6 for details.
 
 See also Maronna et al. (2006), chapter 8.6.6 for optimization of the AR order.
 }
@@ -45,7 +46,7 @@ An object of class \code{"ar"}, see \code{\link{ar}} for details.
 
 Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): Robust Statistics: Theory and Methods, Wiley, chapter 8.
 
-Rousseeuw, P., Croux, C., Todorov, V., Ruckstuhl, A., Salibian-Barrera, M., Verbeke, T., Koller, M., and Maechler, M. (2014): robustbase: Basic Robust Statistics. R package version 0.91-1. URL \url{http://CRAN.R-project.org/package=robustbase}.
+Rousseeuw, P., Croux, C., Todorov, V., Ruckstuhl, A., Salibian-Barrera, M., Verbeke, T., Koller, M. and Maechler, M. (2014): robustbase: Basic Robust Statistics. R package version 0.91-1. URL \url{http://CRAN.R-project.org/package=robustbase}.
 }
 \author{
 Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens

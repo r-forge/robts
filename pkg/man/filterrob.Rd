@@ -6,10 +6,11 @@
 Robustly Filtered Time Series
 }
 \description{
-Filters a given time series robustly. The filtered series can be applied to improve estimations. Optionally, the coefficients of a fitted AR model can be used. See \enc{Dürre}{Duerre} et al. (2014) and Maronna et al. (2006), chapter 8.6 for details.
+Filters a given time series robustly.  The filtered series can be applied to improve estimations. Optionally, the coefficients of a fitted AR model can be used.  See \enc{Dürre}{Duerre} et al. (2014) and Maronna et al. (2006), chapter 8.6 for details.
 }
 \usage{
-filterrob(x, filter = NULL, method = c("direct", "ar"), p = 0, psifunc = smoothpsi, na.action = na.fail)
+filterrob(x, filter = NULL, method = c("direct", "ar"), p = 0,
+    psifunc = smoothpsi, na.action = na.fail)
 }
 
 \arguments{
@@ -30,7 +31,7 @@ filterrob(x, filter = NULL, method = c("direct", "ar"), p = 0, psifunc = smoothp
 \references{
 \enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
 
-Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): Robust Statistics: Theory and Methods, Wiley, chapter 8.
+Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): \emph{Robust Statistics: Theory and Methods}, Wiley, chapter 8.
 }
 \author{
 Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
