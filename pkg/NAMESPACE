@@ -5,9 +5,8 @@ export("arrob")
 export("Corefw")
 
 export("robAIC")
-export("ts.robfilter")
 
-export("robfilterAR")
+export("filterrob")
 
 export("robspectrum")
 
