@@ -224,38 +224,10 @@ return(erg)
 #######################################
 # auxiliary function: calculates consistency corrections for scale M-estimator based on bisquare weights with tuning parameter k
 # input: tuning parameter k of bisquare weights 
-# output: (simulated) consistency correction factor
+# output: consistency correction factor
 #######################################
 
-concorf <- function(x) {
-
-# consistency corrections (first column: k2, second column: consistency factor)
-
-n <- 101
-consistcor <- matrix(nrow = n, ncol = 2, dimnames = list(NULL, c("k2", "consistency factors")))
-consistcor[, 1] <- exp(0:100 / 10 - 5)
-consistcor[, 2] <- 1.54764 / consistcor[, 1]
-
-# if k2 is not in the usual interval
-
-if (x<consistcor[1,1]) {
-	warning("k2 is to small, variance estimation will not be consistent")
-	kon <- consistcor[1,2]
-	}
-if (x==consistcor[1,1]) kon <- consistcor[1,2]
-if (x==consistcor[n,1]) kon <- consistcor[n,2]
-if (x>consistcor[n,1]) {
-	warning("k2 is very large, variance estimation might not be consistent")
-	kon <- consistcor[n,2]
-	}
-
-# linear Interpolation
-if ((consistcor[1,1] < x)&( x < consistcor[n,1])) {
-	index <- max(which(x>consistcor[,1]))
-	kon <- consistcor[index,2]+(consistcor[index+1,2]-consistcor[index,2])/(consistcor[index+1,1]-consistcor[index,1])*(x-consistcor[index,1])
-	}
-return(kon)
-}
+concorf <- function(x) return(1.54764 / x)
 
  
 
