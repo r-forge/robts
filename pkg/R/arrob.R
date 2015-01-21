@@ -1,10 +1,10 @@
 arrob <- function(x, aic = TRUE, order.max = NULL,
-	method = c("yule-walker", "durbin-levinson", "ols", "filter"),
+	method = c("yule-walker", "durbin-levinson", "ols", "filter", "gm"),
 	na.action = na.fail, series = deparse(substitute(x)), ...,
 	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")) {
 	
 	method <- match.arg(method)
-	if (!any(method == c("yule-walker", "durbin-levinson", "ols", "filter"))) stop("No valid method chosen.")
+	if (!any(method == c("yule-walker", "durbin-levinson", "ols", "filter", "gm"))) stop("No valid method chosen.")
 	acf.fun = match.arg(acf.fun)
 	if (!any(acf.fun == c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"))) stop("No valid acf function chosen.")
 	
@@ -27,6 +27,12 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			acorf <- ARfilter(x, p = popt, ...)[[5]]
 			ph <- solveYW(acorf, p = popt)
 		}
+		if (method == "gm") {
+			re <- bestAR(x, maxp = order.max, ...)
+			wm <- which.min(re[[2]])[1]
+			if (wm == 1) stop("No autoregressive relation detected.")
+			ph <- re[[1]][wm + 1, ]
+		}
 	} else {
 		if (method == "yule-walker") {
 			acorf <- as.numeric(acfrob(x, fun = acf.fun, plot = FALSE, ...)$acf)
@@ -41,6 +47,9 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		if (method == "filter") {
 			acorf <- ARfilter(x, p = order.max, ...)[[5]]
 			ph <- solveYW(acorf, p = order.max)
+		}
+		if (method == "gm") {
+			ph <- bestAR(x, maxp = order.max, ...)[[1]][order.max + 1, ]
 		}
 	}
 	p <- length(ph)

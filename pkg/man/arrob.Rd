@@ -9,8 +9,8 @@ Robust Autoregression Model
 	Robust fit of an autogression model to a time series.  Its order is optimized with respect to the AIC or given.
 }
 \usage{
-arrob(x, aic = TRUE, order.max = NULL,
-    method = c("yule-walker", "durbin-levinson", "ols", "filter"),
+arrob(x, aic = TRUE, order.max = NULL, method =
+    c("yule-walker", "durbin-levinson", "ols", "filter", "gm"),
     na.action = na.fail, series = deparse(substitute(x)), ...,
     acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
         "acfRA", "acfrank", "acftrim"))
@@ -36,13 +36,15 @@ For \code{method == "ols"}, the regression coefficients are computed by robustly
 
 For \code{method == "filter"}, the regression coefficients are computed via robust filtering.  See \enc{Dürre}{Duerre} et al. (2014) and Maronna et al. (2006), chapter 8.6 for details.
 
+For \code{method == "gm"}, generalized M estimates are used for the AR fit, see Maronna et al. (2006) for details.
+
 See also Maronna et al. (2006), chapter 8.6.6 for optimization of the AR order.
 }
 \value{
 An object of class \code{"ar"}, see \code{\link{ar}} for details.
 }
 \references{
-\enc{Dürre}{Duerre}, A., Fried, R., and Liboschik, T (2014): Robust estimation of (partial) autocorrelation, working paper.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
 
 Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): Robust Statistics: Theory and Methods, Wiley, chapter 8.
 
