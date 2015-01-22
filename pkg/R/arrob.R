@@ -60,7 +60,6 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		if (method == "gm") {
 			ph <- bestAR(x, maxp = order.max, ...)[[1]][order.max + 1, 1:order.max]
 		}
-		aic <- NULL
 	}
 	p <- length(ph)
 	# residuals:
@@ -69,6 +68,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 	D <- cbind(1, D)
 	ph1 <- c(median(x) * (1 - sum(ph)), ph)
 	resid <- x[(p + 1):n] - D %*% ph1
+	if(!aic) aic <- log(Qn(resid)^2) + 2 * p / (n - p)
 	resid <- c(rep(NA, p), resid)
 	class(resid) <- class(x)
 	res <- list(
