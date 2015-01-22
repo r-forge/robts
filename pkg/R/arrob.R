@@ -31,7 +31,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			re <- bestAR(x, maxp = order.max, ...)
 			wm <- which.min(re[[2]])[1]
 			if (wm == 1) stop("No autoregressive relation detected.")
-			ph <- re[[1]][wm + 1, ]
+			ph <- re[[1]][wm + 1, 1:wm]
 		}
 	} else {
 		if (method == "yule-walker") {
@@ -49,7 +49,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			ph <- solveYW(acorf, p = order.max)
 		}
 		if (method == "gm") {
-			ph <- bestAR(x, maxp = order.max, ...)[[1]][order.max + 1, ]
+			ph <- bestAR(x, maxp = order.max, ...)[[1]][order.max + 1, 1:order.max]
 		}
 	}
 	p <- length(ph)
