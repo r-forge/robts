@@ -14,16 +14,24 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 	
 	if (aic) {
 		if (method == "yule-walker") {
-			ph <- ARopt.YW(x, pmax = order.max, acf.fun = acf.fun)
+			re <- ARopt.YW(x, pmax = order.max, acf.fun = acf.fun)
+			ph <- re$coefficients
+			aic <- re$aic
 		}
 		if (method == "durbin-levinson") {
-			ph <- ARopt.acf(tss = x, aic = TRUE, pmax = order.max, acf.fun = acf.fun)
+			re <- ARopt.acf(tss = x, aic = TRUE, pmax = order.max, acf.fun = acf.fun)
+			ph <- re$coefficients
+			aic <- re$aic
 		}
 		if (method == "ols") {
-			ph <- lmrobARopt(x, pmax = order.max, interc = FALSE, ...)$coefficients
+			re <- lmrobARopt(x, pmax = order.max, interc = FALSE, ...)
+			ph <- re$coefficients
+			aic <- re$aic
 		}
 		if (method == "filter") {
-			popt <- ARopt.filter(x, pmax = order.max, ...)
+			re <- ARopt.filter(x, pmax = order.max, ...)
+			popt <- re$order
+			aic <- re$aic
 			acorf <- ARfilter(x, p = popt, ...)[[5]]
 			ph <- solveYW(acorf, p = popt)
 		}
@@ -32,6 +40,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			wm <- which.min(re[[2]])[1]
 			if (wm == 1) stop("No autoregressive relation detected.")
 			ph <- re[[1]][wm + 1, 1:wm]
+			aic <- re[[2]][wm]
 		}
 	} else {
 		if (method == "yule-walker") {
@@ -39,7 +48,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			ph <- solveYW(acorf, p = order.max)
 		}
 		if (method == "durbin-levinson") {
-			ph <- ARopt.acf(tss = x, aic = FALSE, pmax = order.max, acf.fun = acf.fun)
+			ph <- ARopt.acf(tss = x, aic = FALSE, pmax = order.max, acf.fun = acf.fun)$coefficients
 		}
 		if (method == "ols") {
 			ph <- lmrobAR(x, p = order.max, interc = FALSE, ...)$coefficients
@@ -51,6 +60,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		if (method == "gm") {
 			ph <- bestAR(x, maxp = order.max, ...)[[1]][order.max + 1, 1:order.max]
 		}
+		aic <- NULL
 	}
 	p <- length(ph)
 	# residuals:
@@ -67,7 +77,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		var.pred = NULL,
 		x.mean = median(x),
 		x.intercept = NULL,
-		aic = NULL,
+		aic = aic,
 		n.used = n,
 		order.max = order.max,
 		partialacf = NULL,

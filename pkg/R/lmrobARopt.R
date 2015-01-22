@@ -36,5 +36,5 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL, ...)
 	be <- fitbest$coefficients
 	for (i in 1:popt) names(be)[i] <- paste("phi", i)
 	if (interc) names(be)[popt + 1] <- "interc"
-	return(list(coefficients = be, model = fitbest, p.optimal = popt))
+	return(list(coefficients = be, model = fitbest, p.optimal = popt, aic = paicbest))
 }

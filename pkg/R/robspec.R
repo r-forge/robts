@@ -9,7 +9,7 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	acf.fun <- match.arg(acf.fun)
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0, spans %% 2 == 0)
 	tmax <- length(tss)
-	ph <- ARopt.acf(tss = tss, acf.fun = acf.fun)
+	ph <- ARopt.acf(tss = tss, acf.fun = acf.fun)$coefficients
 	p <- length(ph)
 	D <- matrix(nrow = tmax - p, ncol = p)
 	for (j in 1:p) D[, j] <- tss[(p + 1 - j):(tmax - j)]

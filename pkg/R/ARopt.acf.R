@@ -32,8 +32,12 @@ ARopt.acf <- function(tss, aic = TRUE, pmax = NULL, acf.fun = c("acfGK", "acfmed
 			RAICs[p] <- log(Qn(resi)^2) + 2 * p / (tmax - p)
 		}
 		popt <- which.min(RAICs)
-	} else popt = pmax
+		aic <- RAICs[popt]
+	} else {
+		popt <- pmax
+		aic <- NULL
+	}
 	phopt <- fits$phis[[popt]]
 	for (i in 1:popt) names(phopt)[i] <- paste("phi", i)
-	return(phopt)
+	return(list(coefficients = phopt, aic = aic))
 }

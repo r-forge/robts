@@ -33,5 +33,5 @@ ARopt.YW <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmul
 			phopt <- ph
 		}
 	}
-	return(phopt)
+	return(list(coefficients = phopt, aic = RAICopt))
 }

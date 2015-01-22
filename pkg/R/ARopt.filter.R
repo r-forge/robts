@@ -23,5 +23,5 @@ ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi) {
 		if (p == 0) stop("No successful computation for any p.")
 	}
 	popt <- which.min(RAICs)
-	return(popt)
+	return(list(order = popt, aic = RAICs[popt]))
 }
