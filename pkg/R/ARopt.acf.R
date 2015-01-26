@@ -21,7 +21,11 @@ ARopt.acf <- function(tss, aic = TRUE, pmax = NULL, acf.fun = c("acfGK", "acfmed
 	acorf <- as.numeric(acfrob(tss, lag.max = lmax, fun = acf.fun, plot = FALSE)$acf)
 	fits <- DurbinLev(acf = acorf)
 	if (aic) {
-		RAICs <- numeric(pmax)
+		RAICs <- numeric(pmax + 1)
+		# null model:
+		resi <- tss - median(tss)
+		RAICs[1] <- log(Qn(resi)^2)
+		phopt <- NULL
 		for (p in 1:pmax) {
 			D <- matrix(nrow = tmax - p, ncol = p)
 			for (j in 1:p) D[, j] <- tss[(p + 1 - j):(tmax - j)]
@@ -29,15 +33,14 @@ ARopt.acf <- function(tss, aic = TRUE, pmax = NULL, acf.fun = c("acfGK", "acfmed
 			ph <- fits$phis[[p]]
 			ph <- c(median(tss) * (1 - sum(ph)), ph)
 			resi <- tss[(p + 1):tmax] - D %*% ph
-			RAICs[p] <- log(Qn(resi)^2) + 2 * p / (tmax - p)
+			RAICs[p + 1] <- log(Qn(resi)^2) + 2 * p / (tmax - p)
 		}
-		popt <- which.min(RAICs)
-		aic <- RAICs[popt]
+		popt <- which.min(RAICs)[1] - 1
+		aic <- RAICs[popt + 1]
 	} else {
 		popt <- pmax
 		aic <- NULL
 	}
-	phopt <- fits$phis[[popt]]
-	for (i in 1:popt) names(phopt)[i] <- paste("phi", i)
+	phopt <- ifelse(popt > 0, fits$phis[[popt]], NULL)
 	return(list(coefficients = phopt, aic = aic))
 }

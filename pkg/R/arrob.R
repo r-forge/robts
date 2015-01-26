@@ -38,8 +38,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		if (method == "gm") {
 			re <- bestAR(x, maxp = order.max, ...)
 			wm <- which.min(re[[2]])[1]
-			if (wm == 1) stop("No autoregressive relation detected.")
-			ph <- re[[1]][wm + 1, 1:wm]
+			if (wm == 1) ph <- NULL else ph <- re[[1]][wm + 1, 1:wm]
 			aic <- re[[2]][wm]
 		}
 	} else {
@@ -62,12 +61,17 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		}
 	}
 	p <- length(ph)
-	# residuals:
-	D <- matrix(nrow = n - p, ncol = p)
-	for (j in 1:p) D[, j] <- x[(p + 1 - j):(n - j)]
-	D <- cbind(1, D)
-	ph1 <- c(median(x) * (1 - sum(ph)), ph)
-	resid <- x[(p + 1):n] - D %*% ph1
+	if (p == 0) {
+		# null model
+		resid <- x - median(x)
+	} else {
+		# residuals:
+		D <- matrix(nrow = n - p, ncol = p)
+		for (j in 1:p) D[, j] <- x[(p + 1 - j):(n - j)]
+		D <- cbind(1, D)
+		ph1 <- c(median(x) * (1 - sum(ph)), ph)
+		resid <- x[(p + 1):n] - D %*% ph1
+	}
 	if(!aic) aic <- log(Qn(resid)^2) + 2 * p / (n - p)
 	resid <- c(rep(NA, p), resid)
 	class(resid) <- class(x)

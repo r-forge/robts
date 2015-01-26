@@ -22,6 +22,9 @@ ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi) {
 		} else p <- p - 1
 		if (p == 0) stop("No successful computation for any p.")
 	}
-	popt <- which.min(RAICs)
-	return(list(order = popt, aic = RAICs[popt]))
+	# null model:
+	resi <- tss - median(tss)
+	RAICs <- c(log(Qn(resi)^2), RAICs)
+	popt <- which.min(RAICs)[1] - 1
+	return(list(order = popt, aic = RAICs[popt + 1]))
 }

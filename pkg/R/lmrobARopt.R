@@ -18,7 +18,10 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL, ...)
 	}
 	if (is.null(pmax)) pmax <- floor(min((tmax - 1 - o1) / 4, 10 * log(tmax, base = 10)))
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
-	paicbest <- +Inf
+	# null model:
+	resi <- ts - median(ts)
+	paicbest <- log(Qn(resi)^2)
+	phopt <- NULL
 	popt <- 0
 	for (p in 1:pmax) {
 		fit <- suppressWarnings(lmrobAR(ts = ts, p = p, interc = interc,
@@ -32,9 +35,13 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL, ...)
 			}
 		}
 	}
-	if (popt == 0) stop("No convergence for any p.")
-	be <- fitbest$coefficients
-	for (i in 1:popt) names(be)[i] <- paste("phi", i)
-	if (interc) names(be)[popt + 1] <- "interc"
+	if (popt == 0) {
+		be <- NULL
+		fitbest <- NULL
+	} else {
+		be <- fitbest$coefficients
+		for (i in 1:popt) names(be)[i] <- paste("phi", i)
+		if (interc) names(be)[popt + 1] <- "interc"
+	}
 	return(list(coefficients = be, model = fitbest, p.optimal = popt, aic = paicbest))
 }
