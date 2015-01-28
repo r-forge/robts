@@ -41,6 +41,6 @@ ARopt.acf <- function(tss, aic = TRUE, pmax = NULL, acf.fun = c("acfGK", "acfmed
 		popt <- pmax
 		aic <- NULL
 	}
-	phopt <- ifelse(popt > 0, fits$phis[[popt]], NULL)
+	if (popt > 0) phopt <- fits$phis[[popt]]
 	return(list(coefficients = phopt, aic = aic))
 }

@@ -38,7 +38,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		if (method == "gm") {
 			re <- bestAR(x, maxp = order.max, ...)
 			wm <- which.min(re[[2]])[1]
-			if (wm == 1) ph <- NULL else ph <- re[[1]][wm + 1, 1:wm]
+			if (wm == 1) ph <- NULL else ph <- re[[1]][wm, 1:(wm - 1)]
 			aic <- re[[2]][wm]
 		}
 	} else {
