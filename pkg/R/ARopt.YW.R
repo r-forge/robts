@@ -28,8 +28,8 @@ ARopt.YW <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmul
 		for (j in 1:p) D[, j] <- tss[(p + 1 - j):(tmax - j)]
 		D <- cbind(1, D)
 		ph <- solveYW(acorf, p)
-		ph <- c(median(tss) * (1 - sum(ph)), ph)
-		resi <- tss[(p + 1):tmax] - D %*% ph
+		ph1 <- c(median(tss) * (1 - sum(ph)), ph)
+		resi <- tss[(p + 1):tmax] - D %*% ph1
 		RAICnew <- log(Qn(resi)^2) + 2 * p / (tmax - p)
 		if (RAICnew < RAICopt) {
 			RAICopt <- RAICnew
