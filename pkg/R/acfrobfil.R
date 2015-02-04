@@ -32,7 +32,7 @@ warning("Calculation of the acf failed.")
 
 # estimating acf using robustly filtered values
 
-robfiltered <- estimate[[6]][,p]
+robfiltered <- estimate[[5]][,p]
 acft <- try(acf(robfiltered,plot=FALSE,lag.max=maxlag)$acf[-1],silent=TRUE)
 if (inherits(acft,"try-error")){
 	warning("Calculation of the acf failed.")
@@ -45,7 +45,7 @@ if (inherits(acft,"try-error")){
 
 acfp2 <- numeric(maxlag+1)		# Oja-Type
 acfp2[1] <- 1
-acfp2[2:(p+1)] <- estimate[[4]][1:p]
+acfp2[2:(p+1)] <- estimate[[3]][1:p]
 
 acfp <- numeric(maxlag+1)		# Yule-Walke-Equiation-Type
 acfp[1] <- 1
@@ -71,10 +71,10 @@ if (maxlag > p) {
 
 result <- list(acft,acfp[-1],acfp2[-1],p)
 
-p <- which.min(estimate[[5]])
+p <- which.min(estimate[[4]])
 # estimating acf using robustly filtered values
 
-robfiltered <- estimate[[6]][,p]
+robfiltered <- estimate[[5]][,p]
 acftaic <- try(acf(robfiltered,plot=FALSE,lag.max=maxlag)$acf[-1],silent=TRUE)
 if (inherits(acftaic,"try-error")){
 	warning("Calculation of the acf failed.")
@@ -86,7 +86,7 @@ if (inherits(acftaic,"try-error")){
 
 acfp2aic <- numeric(maxlag+1)		# Oja-Type
 acfp2aic[1] <- 1
-acfp2aic[2:(p+1)] <- estimate[[4]][1:p]
+acfp2aic[2:(p+1)] <- estimate[[3]][1:p]
 
 acfpaic <- numeric(maxlag+1)		# Yule-Walke-Equiation-Type
 acfpaic[1] <- 1
