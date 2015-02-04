@@ -8,6 +8,6 @@
 ##################
 
 ts.robfilter <- function(ts, p, psifunc = smoothpsi) {
-	res <- ARfilter(timeseries = ts, p = p, psifunc = psifunc)[[3]]
+	res <- ARfilter(timeseries = ts, p = p, psifunc = psifunc)[[5]][,p]
 	return(res)
 }
