@@ -159,16 +159,16 @@ return(erg)
 #	smallest value in first element => white noise
 #####################################
 
-bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,k2=1,k3=1,aicpenalty=function(n,p) {return(2*p/n)}) {
+bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,aicpenalty=function(n,p) {return(2*p/n)}) {
 n <- length(timeseries)
-if (delta!=1/2) warning("delta of 1/2 is stronlgy recommended. Otherwise breakdownpoint decreases and variance estimation is not consistent.")
+
 # calculating consistency correction
-kon <- concorf(k2)
+kon <- concorf(delta)
 var.pred <- numeric(maxp+1)
 residuals <- matrix(ncol=p+1,nrow=n)
 
 # mean estimation
-erg <- simul(timeseries,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,k2=k2,kon=kon)
+erg <- simul(timeseries,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon=kon)
 
 x.mean <- erg$x.mean
 var.pred[1] <- erg$est.sig
@@ -184,7 +184,7 @@ timeseries <- timeseries-x.mean	# centering
 
 # AR 1 process
 weightx <- wbi(timeseries[-n]/var.pred[1],k3)	# weights for Mallows-estimation (x dimension)
-erg <- simul3(timeseries[-1],timeseries[-n],weightx=weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,k2=k2,kon)
+erg <- simul3(timeseries[-1],timeseries[-n],weightx=weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 var.pred[2] <- erg$est.sig
 phima[1,1] <- erg$beta
 residuals[2:n,2] <- erg$residuals
