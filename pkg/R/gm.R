@@ -158,6 +158,14 @@ return(erg)
 bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,aicpenalty=function(n,p) {return(2*p/n)}) {
 n <- length(timeseries)
 
+# is delta valid?
+if (delta <= 0) {delta <- 0.01
+warning("Delta <= 0 is not possible. Delta is set to 0.01.")
+}
+if (delta >= 1) {delta <- 0.5
+warning("Delta >= 1 is not possible. Delta is set to 0.5.")
+}
+
 # calculating consistency correction
 kon <- concorf(delta)
 var.pred <- numeric(maxp+1)
