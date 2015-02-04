@@ -41,7 +41,6 @@ offdiag <- function (A, at = 0) {
 # epsilon: accuracy of iterated solution
 # maxit: maximal number of iterations of iterative reweighting procedure
 # k1: tuning parameter for huber weights
-# k2: tuning parameter for bisquare weights
 # kon: consistency-correction under normal distribution, can be calculated by concorf
 # output
 # meanv: estimated mean
@@ -97,7 +96,6 @@ return(erg)
 # epsilon: accuracy of iterated solution
 # maxit: maximal number of iterations of iterative reweighting procedure
 # k1: tuning parameter for huber weights
-# k2: tuning parameter for bisquare weights
 # kon: consistency-correction under normal distribution, can be calculated by concorf
 # output
 # beta: regressio coefficient
@@ -150,8 +148,6 @@ return(erg)
 # maxit: maximal number of iterations for iterative weighting procedures of M-estimators
 # epsilon: accuracy of iterated solution of M-estimators
 # k1: tuning parameter for huber weights
-# k2: tuning parameter for bisquare weights
-# k3: tuning parameter for regression weights (x-dimension)
 # output
 # phima: matrix with fitted AR-parameters
 # 	 AR modell of order p in row p+1, AR parameter s in column s
@@ -183,7 +179,7 @@ aicv[1] <- log(var.pred[1]^2)
 timeseries <- timeseries-x.mean	# centering
 
 # AR 1 process
-weightx <- wbi(timeseries[-n]/var.pred[1],k3)	# weights for Mallows-estimation (x dimension)
+weightx <- wbi(timeseries[-n]/var.pred[1],1)	# weights for Mallows-estimation (x dimension)
 erg <- simul3(timeseries[-1],timeseries[-n],weightx=weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 var.pred[2] <- erg$est.sig
 phima[1,1] <- erg$beta
@@ -226,8 +222,8 @@ if (sum(dt<0)>0) {
 	warning("Acf is not positiv definit. Abort fitting further AR-modells.")
 	return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))	
 	}
-weightx <- wbi(sqrt(dt),k3)
-erg <- simul3(y,x,weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,k2=k2,kon)
+weightx <- wbi(sqrt(dt),1)
+erg <- simul3(y,x,weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 beta <- erg$beta
 var.pred[p+1] <- erg$est.sig
 residuals[(p+1):n,p+1] <- erg$residuals
