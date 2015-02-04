@@ -68,7 +68,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			for (j in 1:order.max) D[, j] <- x[(order.max + 1 - j):(n - j)]
 			D <- cbind(1, D)
 			ph1 <- c(x.mean * (1 - sum(ph)), ph)
-			residuals <- x[(order.max + 1):tmax] - D %*% ph1
+			residuals <- x[(order.max + 1):n] - D %*% ph1
 			var.pred <- Qn(residuals)^2
 			residuals <- c(rep(NA,order.max),residuals)
 			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
@@ -81,7 +81,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			for (j in 1:order.max) D[, j] <- x[(order.max + 1 - j):(n - j)]
 			D <- cbind(1, D)
 			ph1 <- c(x.mean * (1 - sum(ph)), ph)
-			residuals <- x[(order.max + 1):tmax] - D %*% ph1
+			residuals <- x[(order.max + 1):n] - D %*% ph1
 			var.pred <- Qn(residuals)^2
 			residuals <- c(rep(NA,order.max),residuals)
 			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)

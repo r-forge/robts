@@ -82,6 +82,5 @@ Classical, nonrobust estimation is provided by the function \code{\link{acf}}.
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
 acfrob(tss, plot = FALSE)
-acfrob(tss, fun = "acfrobfil", p = 3)
 acfrob(tss, type = "partial", plot = FALSE)
 }

@@ -10,10 +10,11 @@ Robust Autoregression Model
 }
 \usage{
 arrob(x, aic = TRUE, order.max = NULL, method =
-    c("yule-walker", "durbin-levinson", "ols", "filter", "gm"),
+    c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),
     na.action = na.fail, series = deparse(substitute(x)), ...,
     acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
-        "acfRA", "acfrank", "acftrim"))
+        "acfRA", "acfrank", "acftrim"), 
+    aicpenalty = function(n,p) {return(2*p/n)})
 }
 
 \arguments{
@@ -25,6 +26,7 @@ arrob(x, aic = TRUE, order.max = NULL, method =
 	\item{series}{the time series name.}
 	\item{...}{further arguments to be passed to internal functions called.}
 	\item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{\link{acfrob}} for details.  Do not use \code{"acfrobfil"}.}
+	\item{aicpenalty}{function defining a penalty term to be added to the AIC.}
 }
 
 \details{
@@ -63,5 +65,5 @@ set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
 arrob(tss)
 arrob(tss, method = "durbin-levinson")
-arrob(tss, method = "ols")
+arrob(tss, method = "robustregression")
 }
