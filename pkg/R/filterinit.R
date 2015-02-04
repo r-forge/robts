@@ -26,7 +26,7 @@ sigma <- scaleTau2(timeseries)^2
 sigmau <- sigma*(1-autocor1^2)
 P <- sigma			# start of recursion
 
-# calculation of robustly filteres values
+# calculation of robustly filtered values
 
 for(i in 2:(n+1)) {
 xhat[i] <- mu+autocor1*(xhat[i-1]-mu)	# one step ahead predictions

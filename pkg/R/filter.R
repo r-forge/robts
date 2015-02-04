@@ -31,7 +31,7 @@ for (i in 1:(p-1)) {
 	}
 Phi <- rbind(Phi,cbind(diag(rep(1,p-1)),0))
 
-mu <- median(timeseries)
+mu <- scaleTau2(timeseries,mu.too=TRUE)[1]
 xhat <- numeric(n+p)		# robustly predicted values		
 ug <- numeric(n)		# residuals
 

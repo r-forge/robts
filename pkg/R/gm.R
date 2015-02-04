@@ -46,15 +46,25 @@ offdiag <- function (A, at = 0) {
 # output
 # meanv: estimated mean
 # sigv: estimated standard deviation
+# residuals: x-meanv
 ########################################
 
 
-simul <- function(x,delta=1/2,maxit=10^3,epsilon=10^(-4),k1=1.37,k2=1,kon) {
+simul <- function(x,delta=1/2,maxit=10^3,epsilon=10^(-4),k1=1.37,kon=concorf(delta)) {
 n <- length(x)
+
+# is delta valid?
+if (delta <= 0) {delta <- 0.01
+warning("Delta <= 0 is not possible. Delta is set to 0.01.")
+}
+if (delta >= 1) {delta <- 0.5
+warning("Delta >= 1 is not possible. Delta is set to 0.5.")
+}
+
 
 # calculating start values
 meanv <- mean(x)
-sigv <- mad(x)
+sigv <- mad(x)*kon
 
 # simultaneous M-estimation of location and scale using an iterative reweighting procedure
 for (i in (1:maxit)) {
@@ -64,16 +74,18 @@ for (i in (1:maxit)) {
 	resi <- (x-meanv)/sigv
 	we <- whuber(resi,k1)		# Huberweights for location
 	meanvn <- sum(we*x)/sum(we)
-	resi <- resi/kon
-	we <- wbi(resi,k2)		# bisquareweights for scale
+	resi <- resi/1.54764
+	we <- wbi(resi,1)		# bisquareweights for scale
 	sigvn <- sqrt(sigv^2/n/delta*sum(resi^2*we))
 	if((abs(meanvn-meanv)<epsilon*sigv)&(abs(sigvn/sigv-1)<epsilon)) break	# stopping rule
 	sigv <- sigvn
 	meanv <- meanvn
 	if(i==maxit) warning("Iteration may not be converged")
 	}
-return(c(meanvn,sigvn))
+erg <- list(x.mean=meanvn,est.sig=sigvn/kon,residuals=resi)
+return(erg)
 }
+
 
 #######################################
 # auxiliary function: estimates simultaneous one dimensional regressioncoefficient and scale by M estimation
@@ -93,13 +105,21 @@ return(c(meanvn,sigvn))
 ########################################
 
 
-simul3 <- function(y,x,weightx,delta=1/2,maxit=10^3,epsilon=10^(-4),k1=1.37,k2=1,kon) {
+simul3 <- function(y,x,weightx,delta=1/2,maxit=10^3,epsilon=10^(-4),k1=1.37,kon=concorf(delta)) {
 n <- length(x)
+
+# is delta valid?
+if (delta <= 0) {delta <- 0.01
+warning("Delta <= 0 is not possible. Delta is set to 0.01.")
+}
+if (delta >= 1) {delta <- 0.5
+warning("Delta >= 1 is not possible. Delta is set to 0.5.")
+}
 
 # calculate start values
 erg0 <- ltsReg(y~x-1)
 beta <- erg0$coefficients
-sigv <- erg0$scale
+sigv <- erg0$scale*kon
 
 # simultaneous M-estimation of regression and scale using an iterative reweighting procedure
 for (i in (1:maxit)) {
@@ -109,8 +129,8 @@ for (i in (1:maxit)) {
 	resi <- (y-x*beta)/sigv
 	weightres <- whuber(resi,k1)	# Huberweights for Regression
 	beta <- sum(weightres*weightx*x*y)/sum(weightres*weightx*x^2)	# Mallows-Type
-	resit <- resi/kon
-	we <- wbi(resit,k2)			# bisquareweights for scale
+	resit <- resi/1.54764
+	we <- wbi(resit,1)			# bisquareweights for scale
 	sigvn <- sqrt(sigv^2/n/delta*sum(resit^2*we))
 	resi2 <- (y-x*beta)/sigvn
 if(max(abs(resi-resi2))<epsilon) break	# stopping rule
@@ -118,7 +138,8 @@ if(i==maxit) warning("Iteration may not be converged")
 sigv <- sigvn
 resi <- resi2
 }
-return(c(beta,sigvn))
+erg <- list(beta=beta,est.sig=sigvn/kon,residuals=resi2)
+return(erg)
 }
 
 ###################################
@@ -138,33 +159,40 @@ return(c(beta,sigvn))
 #	smallest value in first element => white noise
 #####################################
 
-bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,k2=1,k3=1) {
+bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,k2=1,k3=1,aicpenalty=function(n,p) {return(2*p/n)}) {
 n <- length(timeseries)
 if (delta!=1/2) warning("delta of 1/2 is stronlgy recommended. Otherwise breakdownpoint decreases and variance estimation is not consistent.")
 # calculating consistency correction
 kon <- concorf(k2)
+var.pred <- numeric(maxp+1)
+residuals <- matrix(ncol=p+1,nrow=n)
 
 # mean estimation
 erg <- simul(timeseries,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,k2=k2,kon=kon)
 
+x.mean <- erg$x.mean
+var.pred[1] <- erg$est.sig
+residuals[,1] <- erg$residuals
 phima <- matrix(NA,ncol=maxp,nrow=maxp)
 aicv <- rep(NA,maxp+1)
 phiacf <- numeric(maxp-1)
-sigv <- erg[2]
-if (sigv==0) {warning("Estimated variance is 0. Cannot fit AR-modell")
+if (var.pred[1]==0) {warning("Estimated variance is 0. Cannot fit AR-modell")
 		return(NA)
 		}
-aicv[1] <- log(sigv^2)
-timeseries <- timeseries-erg[1]	# centering
+aicv[1] <- log(var.pred[1]^2)
+timeseries <- timeseries-x.mean	# centering
 
 # AR 1 process
-weightx <- wbi(timeseries[-n]/sigv,k3)	# weights for Mallows-estimation (x dimension)
+weightx <- wbi(timeseries[-n]/var.pred[1],k3)	# weights for Mallows-estimation (x dimension)
 erg <- simul3(timeseries[-1],timeseries[-n],weightx=weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,k2=k2,kon)
-phima[1,1] <- erg[1]
-phiacf <- erg[1]
-aicv[2] <- log(erg[2]^2)+2/(n-1)
-if (sigv==0) {warning("Estimated variance is 0. Abort fitting further AR-modells.")
-		return(list(phima,aicv))
+var.pred[2] <- erg$est.sig
+phima[1,1] <- erg$beta
+residuals[2:n,2] <- erg$residuals
+
+phiacf <- erg$beta
+aicv[2] <- log(var.pred[2]^2)+aicpenalty(n-1,1)
+if (var.pred[2]==0) {warning("Estimated variance is 0. Abort fitting further AR-modells.")
+		return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))
 		}
 
 # AR processes of order > 1
@@ -188,20 +216,22 @@ xma <- matrix(ncol=p,nrow=n-p)
 for (i in 1:p) {
 xma[,i] <- timeseries[i:(n-p+i-1)]
 }
-C <- C*sigv
+C <- C*var.pred[p]
 dt <- try(mahalanobis(xma,center=FALSE,cov=C)/p,silent=TRUE) # weights of independent variables
 if (inherits(dt,"try-error")) {
 	warning("Calculation of Mahalanobisdistances failed. Maybe acf is not positiv definit. Abort fitting further AR-modells.")
-	return(list(phima,aicv))	
+	return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))	
 	}
 if (sum(dt<0)>0) {
 	warning("Acf is not positiv definit. Abort fitting further AR-modells.")
-	return(list(phima,aicv))	
+	return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))	
 	}
 weightx <- wbi(sqrt(dt),k3)
 erg <- simul3(y,x,weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,k2=k2,kon)
-beta <- erg[1]
-aicv[p+1] <- log(erg[2]^2)+2*p/(n-p)
+beta <- erg$beta
+var.pred[p+1] <- erg$est.sig
+residuals[(p+1):n,p+1] <- erg$residuals
+aicv[p+1] <- log(var.pred[p+1]^2)+aicpenalty(n-p,p)
 phima[p,p] <- beta
 # updating AR-Parameter by Durbin Levinson
 for (i in 1:(p-1)) {
@@ -214,7 +244,7 @@ phima <- rbind(rep(0,maxp),phima)
 rownames(phima) <- paste("AR(",0:maxp,")",sep="")
 colnames(phima) <- paste("phi",1:maxp,sep=" ")
 names(aicv) <- paste("AR(",0:maxp,")",sep="")
-erg <- list(phima,aicv)
+erg <- list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals)
 names(erg)
 return(erg)
 }
@@ -227,8 +257,32 @@ return(erg)
 # output: consistency correction factor
 #######################################
 
-concorf <- function(x) return(1.54764 / x)
+concorf <- function(x) {
 
+# loading consistency corrections (first column: delta, second column: consistency factor)
+corvalues <- get(load(system.file("extdata", "deltacorrection", package = "robts")))
+n <- length(corvalues[,1])
+
+# if delta is not in the usual interval
+
+if (x<corvalues[1,1]) {
+	warning("delta is to small, variance estimation will not be consistent")
+	kon <- corvalues[1,2]
+	}
+if (x==corvalues[1,1]) kon <- corvalues[1,2]
+if (x==corvalues[n,1]) kon <- corvalues[n,2]
+if (x>corvalues[n,1]) {
+	warning("delta is very large, variance estimation might not be consistent")
+	kon <- corvalues[n,2]
+	}
+
+# linear Interpolation
+if ((corvalues[1,1] < x)&( x < corvalues[n,1])) {
+	index <- max(which(x>corvalues[,1]))
+	kon <- corvalues[index,2]+(corvalues[index+1,2]-corvalues[index,2])/(corvalues[index+1,1]-corvalues[index,1])*(x-corvalues[index,1])
+	}
+return(kon)
+}
  
 
 

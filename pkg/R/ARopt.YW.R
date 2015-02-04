@@ -6,7 +6,7 @@
 ## Output: coefficients of optimal AR model
 
 
-ARopt.YW <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")) {
+ARopt.YW <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(n,p) {return(2*p/n)}) {
 	acf.fun <- match.arg(acf.fun)
 	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")
 	if (!any(acf.fun == posfuns)) stop("No valid ACF function.")
@@ -20,21 +20,28 @@ ARopt.YW <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmul
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
 	acorf <- as.numeric(acfrob(tss, lag.max = lmax, fun = acf.fun, plot = FALSE)$acf)
 	# null model:
-	resi <- tss - median(tss)
-	RAICopt <- log(Qn(resi)^2)
+	x.mean <- median(tss)
+	residuals <- tss - x.mean
+	var.pred <- Qn(residuals)^2
+	RAICopt <- log(var.pred)
+	pacfbest <- rep(0,pmax)
 	phopt <- NULL
 	for (p in 1:pmax) {
 		D <- matrix(nrow = tmax - p, ncol = p)
 		for (j in 1:p) D[, j] <- tss[(p + 1 - j):(tmax - j)]
 		D <- cbind(1, D)
 		ph <- solveYW(acorf, p)
-		ph1 <- c(median(tss) * (1 - sum(ph)), ph)
+		ph1 <- c(x.mean * (1 - sum(ph)), ph)
 		resi <- tss[(p + 1):tmax] - D %*% ph1
-		RAICnew <- log(Qn(resi)^2) + 2 * p / (tmax - p)
+		var.new <- Qn(resi)^2
+		RAICnew <- log(var.new) + aicpenalty(tmax-p,p)
 		if (RAICnew < RAICopt) {
 			RAICopt <- RAICnew
+			residuals <- resi
+			var.pred <- var.new
 			phopt <- ph
+			pacfbest <- ARMAacf(ar=phopt,lag.max=pmax,pacf=TRUE)
 		}
 	}
-	return(list(coefficients = phopt, aic = RAICopt))
+	return(list(coefficients = phopt, aic = RAICopt,residuals=residuals,x.mean=x.mean,var.pred=var.pred,partialacf=pacfbest))
 }

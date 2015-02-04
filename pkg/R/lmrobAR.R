@@ -16,10 +16,14 @@ lmrobAR <- function(ts, p, interc = TRUE, singular.ok = FALSE, ...) {
 	n <- tmax - p
 	if (n < p + as.numeric(interc) + 1) stop("Not enough data: lesser order of AR model required.")
 	y <- ts[(p + 1):tmax]
-	G <- matrix(data = 1, nrow = n, ncol = p + as.numeric(interc))
+	G <- matrix(nrow = n, ncol = p)
 	for (i in 1:p) G[, p + 1 - i] <- ts[i:(i + n - 1)]
-	lmo <- lmrob(formula = y ~ 0 + G, singular.ok = singular.ok, ...)
-	be <- lmo$coefficients
+	if (interc==TRUE) {	lmo <- lmrob(formula = y ~ G, singular.ok = singular.ok, ...)
+				be <- c(lmo$coefficients[-1],lmo$coefficients[1])
+			  }	else{	lmo <- lmrob(formula = y ~ 0 + G, singular.ok = singular.ok, ...)
+					be <- lmo$coefficients
+				    }		
+	
 	for (i in 1:p) names(be)[i] <- paste("phi", i)
 	if (interc) names(be)[p + 1] <- "interc"
 	return(list(coefficients = be, model = lmo))

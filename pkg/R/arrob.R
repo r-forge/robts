@@ -1,10 +1,10 @@
 arrob <- function(x, aic = TRUE, order.max = NULL,
-	method = c("yule-walker", "durbin-levinson", "ols", "filter", "gm"),
+	method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),
 	na.action = na.fail, series = deparse(substitute(x)), ...,
-	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")) {
+	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(n,p) {return(2*p/n)}) {
 	
 	method <- match.arg(method)
-	if (!any(method == c("yule-walker", "durbin-levinson", "ols", "filter", "gm"))) stop("No valid method chosen.")
+	if (!any(method == c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"))) stop("No valid method chosen.")
 	acf.fun = match.arg(acf.fun)
 	if (!any(acf.fun == c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"))) stop("No valid acf function chosen.")
 	
@@ -14,78 +14,120 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 	
 	if (aic) {
 		if (method == "yule-walker") {
-			re <- ARopt.YW(x, pmax = order.max, acf.fun = acf.fun)
-			ph <- re$coefficients
+			re <- ARopt.YW(x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty)
 			aic <- re$aic
+			ph <- re$coefficients
+			var.pred <- re$var.pred
+			partialacf <- re$partialacf
+			resid <- re$resid
+			x.mean <- re$x.mean
 		}
 		if (method == "durbin-levinson") {
-			re <- ARopt.acf(tss = x, aic = TRUE, pmax = order.max, acf.fun = acf.fun)
-			ph <- re$coefficients
+			re <- ARopt.acf(tss = x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty)
 			aic <- re$aic
+			ph <- re$coefficients
+			var.pred <- re$var.pred
+			partialacf <- re$partialacf
+			resid <- re$resid
+			x.mean <- re$x.mean
 		}
-		if (method == "ols") {
-			re <- lmrobARopt(x, pmax = order.max, interc = FALSE, ...)
-			ph <- re$coefficients
+		if (method == "robustregression") {
+			re <- lmrobARopt(x, pmax = order.max, interc = TRUE,aicpenalty=aicpenalty, ...)
 			aic <- re$aic
+			ph <- re$coefficients
+			var.pred <- re$var.pred
+			partialacf <- re$partialacf
+			resid <- re$resid
+			x.mean <- re$x.mean
 		}
 		if (method == "filter") {
-			re <- ARopt.filter(x, pmax = order.max, ...)
-			popt <- re$order
+			re <- ARopt.filter(x, pmax = order.max,aicpenalty=aicpenalty, ...)
 			aic <- re$aic
-			acorf <- ARfilter(x, p = popt, ...)[[5]]
-			ph <- solveYW(acorf, p = popt)
+			ph <- re$coefficients
+			var.pred <- re$var.pred
+			partialacf <- re$partialacf
+			resid <- re$resid
+			x.mean <- re$x.mean
 		}
 		if (method == "gm") {
-			re <- bestAR(x, maxp = order.max, ...)
-			wm <- which.min(re[[2]])[1]
-			if (wm == 1) ph <- NULL else ph <- re[[1]][wm, 1:(wm - 1)]
-			aic <- re[[2]][wm]
+			re <- bestAR(x, maxp = order.max,aicpenalty=aicpenalty, ...)
+			wm <- which.min(re$aic)[1]
+			if (wm == 1) ph <- NULL else ph <- re$phimatrix[wm, 1:(wm - 1)]
+			x.mean=re$x.mean
+			aic <- re$aic[wm]
+			var.pred <- re$var.pred[wm]
+			residuals <- re$residuals[,wm]
+			partialacf <- diag(re$phimatrix[-1,])
 		}
 	} else {
 		if (method == "yule-walker") {
-			acorf <- as.numeric(acfrob(x, fun = acf.fun, plot = FALSE, ...)$acf)
+			acorf <- as.numeric(acfrob(x, fun = acf.fun, lag.max=order.max,plot = FALSE, ...)$acf)
 			ph <- solveYW(acorf, p = order.max)
+			x.mean <- median(x)
+			D <- matrix(nrow = n - order.max, ncol = order.max)
+			for (j in 1:order.max) D[, j] <- x[(order.max + 1 - j):(n - j)]
+			D <- cbind(1, D)
+			ph1 <- c(x.mean * (1 - sum(ph)), ph)
+			residuals <- x[(order.max + 1):tmax] - D %*% ph1
+			var.pred <- Qn(residuals)^2
+			residuals <- c(rep(NA,order.max),residuals)
+			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
 		}
 		if (method == "durbin-levinson") {
-			ph <- ARopt.acf(tss = x, aic = FALSE, pmax = order.max, acf.fun = acf.fun)$coefficients
+			acorf <- as.numeric(acfrob(x, fun = acf.fun, lag.max=order.max,plot = FALSE, ...)$acf)
+			ph <- DurbinLev(acorf)[[1]][[order.max]]
+			x.mean <- median(x)
+			D <- matrix(nrow = n - order.max, ncol = order.max)
+			for (j in 1:order.max) D[, j] <- x[(order.max + 1 - j):(n - j)]
+			D <- cbind(1, D)
+			ph1 <- c(x.mean * (1 - sum(ph)), ph)
+			residuals <- x[(order.max + 1):tmax] - D %*% ph1
+			var.pred <- Qn(residuals)^2
+			residuals <- c(rep(NA,order.max),residuals)
+			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
 		}
-		if (method == "ols") {
-			ph <- lmrobAR(x, p = order.max, interc = FALSE, ...)$coefficients
+		if (method == "robustregression") {
+			re <- lmrobAR(x, p = order.max, interc = TRUE, ...)
+			x.mean <- re$coefficients[order.max+1]
+			ph <- re$coefficients[1:order.max]
+			var.pred <- re$model$scale
+			residuals <- c(rep(NA,p),re$model$residuals)
+			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
 		}
 		if (method == "filter") {
-			acorf <- ARfilter(x, p = order.max, ...)[[5]]
-			ph <- solveYW(acorf, p = order.max)
+			re <- ARfilter(x, p = order.max, ...)
+			ph <- re[[6]][order.max,]
+			x.mean <- scaleTau2(x,mu.too=TRUE)[1]
+			var.pred <- re[[2]][order.max]
+			partialcf <- re[[1]]
+			xcen <- re[[5]][,order.max]-x.mean
+			xcenma <- matrix(ncol=order.max,nrow=n-order.max)
+			for (i in 1:order.max) {xcenma[,i] <- xcen[(order.max-i+1):(n-i)]}
+			residuals <- c(rep(NA,order.max),x[(order.max+1):n]-x.mean-xcenma%*%ph)
 		}
 		if (method == "gm") {
-			ph <- bestAR(x, maxp = order.max, ...)[[1]][order.max + 1, 1:order.max]
+			re <- bestAR(x, maxp = order.max, ...)
+			ph <- re$phimatrix[order.max+1, 1:order.max]
+			x.mean=re$x.mean
+			var.pred <- re$var.pred[order.max+1]
+			residuals <- re$residuals[,order.max+1]
+			partialacf <- diag(re$phimatrix[-1,])
 		}
 	}
 	p <- length(ph)
-	if (p == 0) {
-		# null model
-		resid <- x - median(x)
-	} else {
-		# residuals:
-		D <- matrix(nrow = n - p, ncol = p)
-		for (j in 1:p) D[, j] <- x[(p + 1 - j):(n - j)]
-		D <- cbind(1, D)
-		ph1 <- c(median(x) * (1 - sum(ph)), ph)
-		resid <- x[(p + 1):n] - D %*% ph1
-	}
-	if(!aic) aic <- log(Qn(resid)^2) + 2 * p / (n - p)
-	resid <- c(rep(NA, p), resid)
+	if(!aic) aic <- log(var.pred) + aicpenalty(n-order.max,order.max)
 	class(resid) <- class(x)
 	res <- list(
 		order = p,
 		ar = ph,
-		var.pred = NULL,
-		x.mean = median(x),
+		var.pred = var.pred,
+		x.mean = x.mean,
 		x.intercept = NULL,
 		aic = aic,
 		n.used = n,
 		order.max = order.max,
-		partialacf = NULL,
-		resid = resid,
+		partialacf = partialacf,
+		resid = residuals,
 		method = method,
 		series = series,
 		frequency = frequency(x),

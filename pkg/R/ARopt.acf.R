@@ -6,7 +6,7 @@
 ## Output: coefficients vector of optimal AR model
 
 
-ARopt.acf <- function(tss, aic = TRUE, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")) {
+ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(n,p) {return(2*p/n)}) {
 	acf.fun <- match.arg(acf.fun)
 	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")
 	if (!any(acf.fun == posfuns)) stop("No valid ACF function.")
@@ -20,27 +20,30 @@ ARopt.acf <- function(tss, aic = TRUE, pmax = NULL, acf.fun = c("acfGK", "acfmed
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
 	acorf <- as.numeric(acfrob(tss, lag.max = lmax, fun = acf.fun, plot = FALSE)$acf)
 	fits <- DurbinLev(acf = acorf)
-	if (aic) {
+
 		RAICs <- numeric(pmax + 1)
 		# null model:
-		resi <- tss - median(tss)
-		RAICs[1] <- log(Qn(resi)^2)
+		x.mean <- median(tss)
+		residuals <- tss - x.mean
+		var.pred <- Qn(residuals)^2
+		RAICopt <- log(var.pred)
+		pacfbest <- rep(0,pmax)
 		phopt <- NULL
 		for (p in 1:pmax) {
 			D <- matrix(nrow = tmax - p, ncol = p)
 			for (j in 1:p) D[, j] <- tss[(p + 1 - j):(tmax - j)]
 			D <- cbind(1, D)
 			ph <- fits$phis[[p]]
-			ph <- c(median(tss) * (1 - sum(ph)), ph)
+			ph <- c(x.mean * (1 - sum(ph)), ph)
 			resi <- tss[(p + 1):tmax] - D %*% ph
-			RAICs[p + 1] <- log(Qn(resi)^2) + 2 * p / (tmax - p)
+			var.new <- Qn(resi)^2
+			RAICnew <- log(var.new) + aicpenalty(tmax-p,p)
+			if (RAICnew < RAICopt) {RAICopt <- RAICnew
+						residuals <- resi
+						var.pred <- var.new
+						phopt <- ph
+						pacfbest <- ARMAacf(ar=phopt,lag.max=pmax,pacf=TRUE)
+						}
 		}
-		popt <- which.min(RAICs)[1] - 1
-		aic <- RAICs[popt + 1]
-	} else {
-		popt <- pmax
-		aic <- NULL
-	}
-	if (popt > 0) phopt <- fits$phis[[popt]]
-	return(list(coefficients = phopt, aic = aic))
+	return(list(coefficients = phopt[-1], aic = RAICopt,residuals=residuals,x.mean=x.mean,var.pred=var.pred,partialacf=pacfbest))
 }
