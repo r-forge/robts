@@ -9,7 +9,7 @@
 ##		p.optimal
 
 
-lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpenalty=function(n,p) {return(2*p/n)}, ...) {
+lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpenalty=function(p) {return(2*p)}, ...) {
 	tmax <- length(ts)
 	o1 <- as.numeric(interc)
 	if (!is.null(pmax)) if (pmax >= floor((tmax - 1 - o1) / 2)) {
@@ -18,11 +18,13 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpe
 	}
 	if (is.null(pmax)) pmax <- floor(min((tmax - 1 - o1) / 4, 10 * log(tmax, base = 10)))
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
+	RAIC <- numeric(pmax+1)
 	# null model:
 	if (interc==TRUE) {	fitbest <- lmrob(ts~1)
 				p.opt <- 0
 				phopt <- NULL
-				paicbest <- log(fitbest$scale^2)
+				RAIC[1] <- log(fitbest$scale^2)+aicpenalty(1)/tmax
+				RAICbest <- RAIC[1]
 				resid <- fitbest$residuals
 				pacfbest <- rep(0,pmax)
 				var.pred <- fitbest$scale^2
@@ -31,7 +33,8 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpe
 					var.pred <- (Qn(ts)^2)
 					p.opt <- 0
 					phopt <- NULL
-					paicbest <- log(var.pred)
+					RAIC[1] <- log(var.pred)
+					RAICbest <- RAIC[1]
 					resid <- ts
 					pacfbest <- rep(0,pmax)
 				     }
@@ -40,9 +43,9 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpe
 		fit <- suppressWarnings(lmrobAR(ts = ts, p = p, interc = interc,
 			singular.ok = singular.ok, ...)$model)
 		if (fit$converged) {
-			paicnew <- log(fit$scale^2) + aicpenalty(tmax-p,p)
-			if (paicnew < paicbest) {
-				paicbest <- paicnew
+			RAIC[p+1] <- log(fit$scale^2) + aicpenalty(p+interc)/(tmax-p)
+			if (RAIC[p+1] < RAICbest) {
+				RAICbest <- RAIC[p+1]
 				fitbest <- fit
 				popt <- p
 				if (interc==TRUE) {	phopt <- fitbest$coefficients[2:(p+1)]
@@ -55,5 +58,5 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpe
 		}
 	}
 	
-	return(list(coefficients = phopt, model = fitbest, p.optimal = popt, aic = paicbest,x.mean=x.mean,var.pred=var.pred,partialacf=pacfbest,resid=resid))
+	return(list(coefficients = phopt, model = fitbest, p.optimal = popt, aic = RAIC,x.mean=x.mean,var.pred=var.pred,partialacf=pacfbest,resid=resid))
 }

@@ -5,7 +5,7 @@
 ##		psifunc: a robust Psi-Function
 ## Output: order of optimal AR model
 
-ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi,aicpenalty=function(n,p) {return(2*p/n)}) {
+ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi,aicpenalty=function(p) {return(2*p)}) {
 	tmax <- length(tss)
 	if (!is.null(pmax)) if (pmax >= floor((tmax - 1) / 2)) {
 		warning("Too less data for chosen pmax, corrected to greatest possible value.")
@@ -24,7 +24,7 @@ ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi,aicpenalty=functi
 	}
 	# null model:
 	locandscale <- scaleTau2(tss,mu.too=TRUE)
-	RAICs <- c(log(locandscale[2]^2), RAICs)
+	RAICs <- c(log(locandscale[2]^2)+aicpenalty(1)/tmax, RAICs)
 	popt <- which.min(RAICs)[1] - 1
 	if (popt==0) {	coeff <- NULL
 			var.pred <- locandscale[2]^2
@@ -40,5 +40,5 @@ ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi,aicpenalty=functi
 					for (i in 1:popt) {tssfilteredcenma[,i] <- tssfilteredcen[(popt-i+1):(tmax-i)]}
 					resid <- c(rep(NA,popt),tss[(popt+1):tmax]-x.mean-tssfilteredcenma%*%coeff)	
 				}
-	return(list(order = popt, aic = RAICs[popt + 1],coefficients=coeff,var.pred=var.pred,x.mean=x.mean,resid=resid,partialacf=partialacf))
+	return(list(order = popt, aic = RAICs,coefficients=coeff,var.pred=var.pred,x.mean=x.mean,resid=resid,partialacf=partialacf))
 }

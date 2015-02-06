@@ -11,7 +11,7 @@
 # phiacf: calculates acf until lag p (like proposed by oja (partial correlation with tue use of ranks)) 
 ########################
 
-ARfilter <- function(timeseries,p,psifunc=smoothpsi,aicpenalty=function(n,p) {return(2*p/n)}) {
+ARfilter <- function(timeseries,p,psifunc=smoothpsi,aicpenalty=function(p) {return(2*p)}) {
 n <- length(timeseries)
 aicv <- numeric(p)
 partial <- numeric(p)		# partial autocorrelations
@@ -35,7 +35,7 @@ helppar <- partial[1]
 aralt[1,1] <- partial[1]
 varold[1] <- op$objective
 phiacf[1] <- partial[1]		# estimated acf
-aicv[1] <- log(varold[1])+aicpenalty(n-1,1)
+aicv[1] <- log(varold[1])+aicpenalty(2)/(n-1)
 # calculation of the other autocorrelations
 timeseriesalt[,1] <- filterinit(partial[1],timeseries,psifunc=psifunc)[[2]]
 
@@ -64,7 +64,7 @@ if (p > 1) for (j in 2:p) {
 		}
 	helppar <- Phi
 	phiacf[j] <- sum(helppar[1:(j-1)]*phiacf[(j-1):1])+Phi[j]*(1-sum(helppar[1:(j-1)]*phiacf[1:(j-1)]))	# acf recursion like in the paper of oja (we use it also in function acfpartrank)
-	aicv[j] <- log(varold[j])+aicpenalty(n-j,j)	
+	aicv[j] <- log(varold[j])+aicpenalty(j+1)/(n-j)	
 
 	aralt[j,1:j] <- helppar 
 }

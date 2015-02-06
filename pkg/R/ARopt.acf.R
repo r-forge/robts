@@ -6,7 +6,7 @@
 ## Output: coefficients vector of optimal AR model
 
 
-ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(n,p) {return(2*p/n)}) {
+ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(p) {return(2*p)}) {
 	acf.fun <- match.arg(acf.fun)
 	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")
 	if (!any(acf.fun == posfuns)) stop("No valid ACF function.")
@@ -26,7 +26,8 @@ ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmu
 		x.mean <- median(tss)
 		residuals <- tss - x.mean
 		var.pred <- Qn(residuals)^2
-		RAICopt <- log(var.pred)
+		RAICs[1] <- log(var.pred)+aicpenalty(1)/tmax
+		RAICopt <- RAICs[1]
 		pacfbest <- rep(0,pmax)
 		phopt <- NULL
 		for (p in 1:pmax) {
@@ -37,13 +38,13 @@ ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmu
 			ph <- c(x.mean * (1 - sum(ph)), ph)
 			resi <- tss[(p + 1):tmax] - D %*% ph
 			var.new <- Qn(resi)^2
-			RAICnew <- log(var.new) + aicpenalty(tmax-p,p)
-			if (RAICnew < RAICopt) {RAICopt <- RAICnew
+			RAICs[p+1] <- log(var.new) + aicpenalty(p+1)/(tmax-p)
+			if (RAICs[p+1] < RAICopt) {RAICopt <- RAICs[p+1]
 						residuals <- resi
 						var.pred <- var.new
 						phopt <- ph
 						pacfbest <- ARMAacf(ar=phopt,lag.max=pmax,pacf=TRUE)
 						}
 		}
-	return(list(coefficients = phopt[-1], aic = RAICopt,residuals=residuals,x.mean=x.mean,var.pred=var.pred,partialacf=pacfbest))
+	return(list(coefficients = phopt[-1], aic = RAICs,residuals=residuals,x.mean=x.mean,var.pred=var.pred,partialacf=pacfbest))
 }

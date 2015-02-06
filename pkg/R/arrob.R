@@ -1,7 +1,7 @@
 arrob <- function(x, aic = TRUE, order.max = NULL,
 	method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),
 	na.action = na.fail, series = deparse(substitute(x)), ...,
-	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(n,p) {return(2*p/n)}) {
+	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(p) {return(2*p)}) {
 	
 	method <- match.arg(method)
 	if (!any(method == c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"))) stop("No valid method chosen.")
@@ -15,7 +15,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 	if (aic) {
 		if (method == "yule-walker") {
 			re <- ARopt.YW(x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty)
-			aic <- re$aic
+			aicv <- re$aic
 			ph <- re$coefficients
 			var.pred <- re$var.pred
 			partialacf <- re$partialacf
@@ -24,7 +24,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		}
 		if (method == "durbin-levinson") {
 			re <- ARopt.acf(tss = x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty)
-			aic <- re$aic
+			aicv <- re$aic
 			ph <- re$coefficients
 			var.pred <- re$var.pred
 			partialacf <- re$partialacf
@@ -33,7 +33,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		}
 		if (method == "robustregression") {
 			re <- lmrobARopt(x, pmax = order.max, interc = TRUE,aicpenalty=aicpenalty, ...)
-			aic <- re$aic
+			aicv <- re$aic
 			ph <- re$coefficients
 			var.pred <- re$var.pred
 			partialacf <- re$partialacf
@@ -42,7 +42,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		}
 		if (method == "filter") {
 			re <- ARopt.filter(x, pmax = order.max,aicpenalty=aicpenalty, ...)
-			aic <- re$aic
+			aicv <- re$aic
 			ph <- re$coefficients
 			var.pred <- re$var.pred
 			partialacf <- re$partialacf
@@ -54,7 +54,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			wm <- which.min(re$aic)[1]
 			if (wm == 1) ph <- NULL else ph <- re$phimatrix[wm, 1:(wm - 1)]
 			x.mean=re$x.mean
-			aic <- re$aic[wm]
+			aicv <- re$aic
 			var.pred <- re$var.pred[wm]
 			residuals <- re$residuals[,wm]
 			partialacf <- diag(re$phimatrix[-1,])
@@ -91,7 +91,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			x.mean <- re$coefficients[order.max+1]
 			ph <- re$coefficients[1:order.max]
 			var.pred <- re$model$scale
-			residuals <- c(rep(NA,p),re$model$residuals)
+			residuals <- c(rep(NA,order.max),re$model$residuals)
 			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
 		}
 		if (method == "filter") {
@@ -115,7 +115,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		}
 	}
 	p <- length(ph)
-	if(!aic) aic <- log(var.pred) + aicpenalty(n-order.max,order.max)
+	if(!aic) aicv <- log(var.pred) + aicpenalty(order.max+1)/(n-order.max)
 	class(resid) <- class(x)
 	res <- list(
 		order = p,
@@ -123,7 +123,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		var.pred = var.pred,
 		x.mean = x.mean,
 		x.intercept = NULL,
-		aic = aic,
+		aic = aicv,
 		n.used = n,
 		order.max = order.max,
 		partialacf = partialacf,
