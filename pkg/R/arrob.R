@@ -116,7 +116,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 	}
 	p <- length(ph)
 	if(!aic) aicv <- log(var.pred) + aicpenalty(order.max+1)/(n-order.max)
-	class(resid) <- class(x)
+	class(residuals) <- class(x)
 	res <- list(
 		order = p,
 		ar = ph,

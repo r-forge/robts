@@ -155,7 +155,7 @@ return(erg)
 #	smallest value in first element => white noise
 #####################################
 
-bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,aicpenalty=function(n,p) {return(2*p/n)}) {
+bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,aicpenalty=function(p) {return(2*p)}) {
 n <- length(timeseries)
 
 # is delta valid?
@@ -169,7 +169,7 @@ warning("Delta >= 1 is not possible. Delta is set to 0.5.")
 # calculating consistency correction
 kon <- concorf(delta)
 var.pred <- numeric(maxp+1)
-residuals <- matrix(ncol=p+1,nrow=n)
+residuals <- matrix(ncol=maxp+1,nrow=n)
 
 # mean estimation
 erg <- simul(timeseries,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon=kon)
@@ -183,7 +183,7 @@ phiacf <- numeric(maxp-1)
 if (var.pred[1]==0) {warning("Estimated variance is 0. Cannot fit AR-modell")
 		return(NA)
 		}
-aicv[1] <- log(var.pred[1]^2)
+aicv[1] <- log(var.pred[1]^2)+aicpenalty(1)/n
 timeseries <- timeseries-x.mean	# centering
 
 # AR 1 process
@@ -194,7 +194,7 @@ phima[1,1] <- erg$beta
 residuals[2:n,2] <- erg$residuals
 
 phiacf <- erg$beta
-aicv[2] <- log(var.pred[2]^2)+aicpenalty(n-1,1)
+aicv[2] <- log(var.pred[2]^2)+aicpenalty(2)/(n-1)
 if (var.pred[2]==0) {warning("Estimated variance is 0. Abort fitting further AR-modells.")
 		return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))
 		}
@@ -235,7 +235,7 @@ erg <- simul3(y,x,weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 beta <- erg$beta
 var.pred[p+1] <- erg$est.sig
 residuals[(p+1):n,p+1] <- erg$residuals
-aicv[p+1] <- log(var.pred[p+1]^2)+aicpenalty(n-p,p)
+aicv[p+1] <- log(var.pred[p+1]^2)+aicpenalty(p+1)/(n-p)
 phima[p,p] <- beta
 # updating AR-Parameter by Durbin Levinson
 for (i in 1:(p-1)) {
@@ -244,7 +244,7 @@ phima[p,i] <- phima[p-1,i]-beta*phima[p-1,p-i]
 # estimating acf for calculating the covariance matrix of the independent variables
 phiacf[p] <- sum(phima[p-1,1:(p-1)]*phiacf[(p-1):1])+beta*(1-sum(phima[p-1,1:(p-1)]*phiacf[1:(p-1)]))
 }
-phima <- rbind(rep(0,maxp),phima)
+phima <- rbind(rep(NA,maxp),phima)
 rownames(phima) <- paste("AR(",0:maxp,")",sep="")
 colnames(phima) <- paste("phi",1:maxp,sep=" ")
 names(aicv) <- paste("AR(",0:maxp,")",sep="")
