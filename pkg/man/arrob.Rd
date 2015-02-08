@@ -14,7 +14,7 @@ arrob(x, aic = TRUE, order.max = NULL, method =
     na.action = na.fail, series = deparse(substitute(x)), ...,
     acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
         "acfRA", "acfrank", "acftrim"), 
-    aicpenalty = function(n,p) {return(2*p/n)})
+    aicpenalty = function(p) {return(2 * p)})
 }
 
 \arguments{
@@ -26,7 +26,7 @@ arrob(x, aic = TRUE, order.max = NULL, method =
 	\item{series}{the time series name.}
 	\item{...}{further arguments to be passed to internal functions called.}
 	\item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{\link{acfrob}} for details.  Do not use \code{"acfrobfil"}.}
-	\item{aicpenalty}{function defining a penalty term to be added to the AIC.}
+	\item{aicpenalty}{function of the model order defining a penalty term to be added to the AIC.}
 }
 
 \details{
