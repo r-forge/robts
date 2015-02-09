@@ -99,7 +99,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			ph <- re[[6]][order.max,]
 			x.mean <- scaleTau2(x,mu.too=TRUE)[1]
 			var.pred <- re[[2]][order.max]
-			partialcf <- re[[1]]
+			partialacf <- re[[1]]
 			xcen <- re[[5]][,order.max]-x.mean
 			xcenma <- matrix(ncol=order.max,nrow=n-order.max)
 			for (i in 1:order.max) {xcenma[,i] <- xcen[(order.max-i+1):(n-i)]}
