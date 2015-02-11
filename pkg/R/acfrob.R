@@ -5,6 +5,7 @@
 ##		fun: function used for computation
 ##		p: order of AR fit used if fun == "acfrobfil"
 ##		robfiltype: type of robust filtering if fun == "acfrobfil"
+##		posdef: should autocorrelation be enforced to be positive semidefinite?
 ##		...: further arguments passed to the respective (p)acf-function
 ## Return value: object of class acf
 
@@ -14,7 +15,8 @@ acfrob <- function(x, lag.max = NULL,
 							"acfrank", "acfrobfil", "acftrim"),
 					plot = TRUE, na.action = na.fail, p = NULL,
 					robfiltype = c("emp", "pacf", "pacfMott"),
-					partialtype = c("ranks", "durbin-levinson", "filter"), ...) {
+					partialtype = c("ranks", "durbin-levinson", "filter"),
+					posdef=TRUE,...) {
 	
 	fun <- match.arg(fun)
 	robfiltype <- match.arg(robfiltype)
@@ -77,6 +79,9 @@ acfrob <- function(x, lag.max = NULL,
 		}
 	}
 	
+	if (posdef) {
+	acorf <- acfposmaker(acorf)
+	}
 	
 	res <- list(lag = array(data = 1:lag.max, dim = c(lag.max, 1, 1)),
 				acf = array(data = acorf, dim = c(lag.max, 1, 1)),
