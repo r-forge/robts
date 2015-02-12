@@ -148,6 +148,7 @@ return(erg)
 # maxit: maximal number of iterations for iterative weighting procedures of M-estimators
 # epsilon: accuracy of iterated solution of M-estimators
 # k1: tuning parameter for huber weights
+# k2: tuning parameter for regressor
 # output
 # phima: matrix with fitted AR-parameters
 # 	 AR modell of order p in row p+1, AR parameter s in column s
@@ -155,7 +156,7 @@ return(erg)
 #	smallest value in first element => white noise
 #####################################
 
-bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,aicpenalty=function(p) {return(2*p)}) {
+bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,k2=1,aicpenalty=function(p) {return(2*p)}) {
 n <- length(timeseries)
 
 # is delta valid?
@@ -187,7 +188,7 @@ aicv[1] <- log(var.pred[1]^2)+aicpenalty(1)/n
 timeseries <- timeseries-x.mean	# centering
 
 # AR 1 process
-weightx <- wbi(timeseries[-n]/var.pred[1],1)	# weights for Mallows-estimation (x dimension)
+weightx <- wbi(timeseries[-n]/var.pred[1],k2)	# weights for Mallows-estimation (x dimension)
 erg <- simul3(timeseries[-1],timeseries[-n],weightx=weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 var.pred[2] <- erg$est.sig
 phima[1,1] <- erg$beta
@@ -230,7 +231,7 @@ if (sum(dt<0)>0) {
 	warning("Acf is not positiv definit. Abort fitting further AR-modells.")
 	return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))	
 	}
-weightx <- wbi(sqrt(dt),1)
+weightx <- wbi(sqrt(dt),k2)
 erg <- simul3(y,x,weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 beta <- erg$beta
 var.pred[p+1] <- erg$est.sig
