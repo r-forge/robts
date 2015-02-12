@@ -16,7 +16,8 @@ acfrob(x, lag.max = NULL,
         "acfRA", "acfrank", "acfrobfil", "acftrim"),
     plot = TRUE, na.action = na.fail, p = NULL,
     robfiltype = c("emp", "pacf", "pacfMott"),
-    partialtype = c("ranks", "durbin-levinson", "filter"), ...)
+    partialtype = c("ranks", "durbin-levinson", "filter"),
+    posdef = TRUE, ...)
 }
 
 \arguments{
@@ -29,6 +30,7 @@ acfrob(x, lag.max = NULL,
 	\item{p}{numeric value of order of AR fit used if \code{fun == acfrobfil}.}
 	\item{robfiltype}{character string naming the type of robust filtering if \code{fun == "acfrobfil"}, see details.}
 	\item{partialtype}{character string naming the type of pacf calculation if \code{type == "partial"}, see details.}
+	\item{posdef}{logical whether autocorrelation is enforced to be positive semidefinite.}
 	\item{...}{further arguments passed to the respective internal autocorrelation function.}
 }
 
