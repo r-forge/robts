@@ -9,6 +9,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 	if (!any(acf.fun == c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"))) stop("No valid acf function chosen.")
 	
 	x <- na.action(x)
+	x <- ts(x)
 	n <- length(x)
 	if (is.null(order.max)) order.max <- min((n - 1) / 4, 10 * log(n, 10))
 	

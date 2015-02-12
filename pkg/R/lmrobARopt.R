@@ -47,7 +47,7 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpe
 			if (RAIC[p+1] < RAICbest) {
 				RAICbest <- RAIC[p+1]
 				fitbest <- fit
-				popt <- p
+				p.opt <- p
 				if (interc==TRUE) {	phopt <- fitbest$coefficients[2:(p+1)]
 							x.mean <- fitbest$coefficients[1]/(1-sum(phopt))
 						  }	else{	phopt <- fitbest$coefficients[1:p]}
@@ -58,5 +58,5 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpe
 		}
 	}
 	
-	return(list(coefficients = phopt, model = fitbest, p.optimal = popt, aic = RAIC,x.mean=x.mean,var.pred=var.pred,partialacf=pacfbest,resid=resid))
+	return(list(coefficients = phopt, model = fitbest, p.optimal = p.opt, aic = RAIC,x.mean=x.mean,var.pred=var.pred,partialacf=pacfbest,resid=resid))
 }
