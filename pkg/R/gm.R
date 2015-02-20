@@ -213,8 +213,8 @@ x <- x-phima[p-1,p-i]*timeseries[(p+1-i):(n-i)]
 # calculating the covariance matrix of the (multivariate) independent variables
 C <- diag(rep(1,p))
 for (i in 1:(p-1)) {
-C <- C+offdiag(rep(phiacf[1],p-i),i)
-C <- C+offdiag(rep(phiacf[1],p-i),-i)
+C <- C+offdiag(rep(phiacf[i],p-i),i)
+C <- C+offdiag(rep(phiacf[i],p-i),-i)
 }
 # defining multivariate independent variables to calculate weights of Mallows-type
 xma <- matrix(ncol=p,nrow=n-p)
@@ -225,10 +225,18 @@ C <- C*var.pred[p]
 dt <- try(mahalanobis(xma,center=FALSE,cov=C)/p,silent=TRUE) # weights of independent variables
 if (inherits(dt,"try-error")) {
 	warning("Calculation of Mahalanobisdistances failed. Maybe acf is not positiv definit. Abort fitting further AR-modells.")
+	phima <- rbind(rep(NA,maxp),phima)
+	rownames(phima) <- paste("AR(",0:maxp,")",sep="")
+	colnames(phima) <- paste("phi",1:maxp,sep=" ")
+	names(aicv) <- paste("AR(",0:maxp,")",sep="")
 	return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))	
 	}
 if (sum(dt<0)>0) {
 	warning("Acf is not positiv definit. Abort fitting further AR-modells.")
+	phima <- rbind(rep(NA,maxp),phima)
+	rownames(phima) <- paste("AR(",0:maxp,")",sep="")
+	colnames(phima) <- paste("phi",1:maxp,sep=" ")
+	names(aicv) <- paste("AR(",0:maxp,")",sep="")
 	return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))	
 	}
 weightx <- wbi(sqrt(dt),k2)
