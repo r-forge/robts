@@ -4,6 +4,7 @@
 ##		pmax: maximum AR order considered
 ##		acf.fun: function for acf calculation
 ## Output: coefficients vector of optimal AR model
+##
 
 
 ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(p) {return(2*p)}) {
