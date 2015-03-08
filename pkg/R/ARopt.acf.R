@@ -3,7 +3,8 @@
 ##		ts: time series
 ##		pmax: maximum AR order considered
 ##		acf.fun: function for acf calculation
-## Output: coefficients vector of optimal AR model
+## Output: coefficients vector of optimal AR model 
+##
 ##
 
 

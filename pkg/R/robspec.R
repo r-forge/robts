@@ -5,11 +5,13 @@
 ## 		Arguments of lmrobARopt
 ## 		psifunc: Argument of ts.robfilter
 
-robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), spans = 8) {
+robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), spans = 8, 
+				arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm")) {
 	acf.fun <- match.arg(acf.fun)
+	arrob.method <- match.arg(arrob.method)
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0, spans %% 2 == 0)
 	tmax <- length(tss)
-	ph <- ARopt.acf(tss = tss, acf.fun = acf.fun)$coefficients
+	ph <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)$ar
 	p <- length(ph)
 	D <- matrix(nrow = tmax - p, ncol = p)
 	for (j in 1:p) D[, j] <- tss[(p + 1 - j):(tmax - j)]

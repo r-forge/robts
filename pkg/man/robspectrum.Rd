@@ -11,12 +11,14 @@ Calculates the spectrum (or the spectral density) of a time series robustly via 
 robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi,
     spans = 8, acf.fun = c("acfGK", "acfmedian", "acfmulti",
     "acfpartrank", "acfRA", "acfrank", "acftrim"), 
+    arrob.method = c("yule-walker", "durbin-levinson", 
+    "robustregression", "filter", "gm"), 
     var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"),
     plot =TRUE, ...)
 }
 
 \details{
-If \code{method == "pgram"}, the AR(p) model coefficients and the respective optimal p ist computed by a subfunction of \code{\link{arrob}}.  The smoothed periodogram is calculated from the filtered residuals of this model.  See Maronna et al. (2006), chapter 8.14.
+If \code{method == "pgram"}, the AR(p) model coefficients and the respective optimal p ist computed by \code{\link{arrob}}.  The smoothed periodogram is calculated from the filtered residuals of this model.  See Maronna et al. (2006), chapter 8.14.
 
 If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
 }
@@ -27,6 +29,7 @@ If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
 \item{psifunc}{Psi function for filtering of residuals if \code{method == "pgram"}, currently no alternative.}
 \item{spans}{window width for smoothing kernel if \code{method == "pgram"}, has to be an even number.}
 \item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{"\link{acfrob}"} for details.  Do not use \code{"acfrobfil"}.}
+\item{arrob.method}{character string naming the calculation method passed to \code{\link{arrob}} if \code{method == "pgram"}, see there for details.}
 \item{var1}{logical whether the variance estimator is fixed to 1, resulting in a spectral density estimation if \code{method == "ar"}.}
 \item{sdestim}{character string naming the standard deviation estimator if \code{method == "ar"} and \code{var1 == FALSE}.}
 \item{plot}{logical whether the result is plotted and retured invisible.}

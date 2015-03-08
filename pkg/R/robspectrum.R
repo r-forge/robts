@@ -5,16 +5,18 @@
 
 
 robspectrum <- function(x, method = c("pgram", "ar"), psifunc = smoothpsi, spans = 8,
-            acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), 
+            acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),
+            arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"), 
             var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"), plot =TRUE, ...) {
             	
 	method <- match.arg(method)
 	acf.fun <- match.arg(acf.fun)
+	arrob.method <- match.arg(arrob.method)
 	
 	if (acf.fun == "acfrobfil") stop("This acf calculation function can not be used.")
 	
 	if (method == "pgram") {
-		res <- robspec(x, psifunc = psifunc, acf.fun = acf.fun, spans = spans)
+		res <- robspec(x, psifunc = psifunc, acf.fun = acf.fun, spans = spans, arrob.method = arrob.method)
 	}
 	
 	if (method == "ar") {
