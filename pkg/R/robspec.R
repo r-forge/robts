@@ -23,8 +23,8 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	tmax <- length(resi)
 	ph <- ph[-1]
 	kmax <- floor(tmax / 2)
-	ff <- 0:kmax / tmax
-	XXre <- numeric(kmax + 1)
+	ff <- spectrum(tss, plot = FALSE)$freq
+	XXre <- numeric(length(ff))
 	XXim <- XXre
 	sumRe <- XXre
 	sumIm <- XXre
@@ -35,10 +35,10 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 		sumIm[k] <- sum(ph * sin(2 * pi * ff[k] * 1:p))
 	}
 	per <- (XXre^2 + XXim^2) / tmax
-	perS <- numeric(kmax + 1)
+	perS <- numeric(length(ff))
 	for (i in seq_along(perS)) {
 		mi <- max(i - spans / 2, 1)
-		ma <- min(i + spans / 2, kmax + 1)
+		ma <- min(i + spans / 2, length(ff))
 		ww <- c(1 / 2, rep(1, ma - mi - 1), 1 / 2)
 		perS[i] <- weighted.mean(x = per[mi:ma], w = ww)
 	}

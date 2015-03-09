@@ -6,8 +6,8 @@
 robspec.acf <- function(acf, tmax = length(acf) + 2) {
 	kmax <- floor(tmax / 2)
 	hmax <- length(acf)
-	ff <- 0:kmax / tmax
-	s <- numeric(kmax + 1)
+	ff <- 1:kmax / tmax
+	s <- numeric(kmax)
 	for (k in seq_along(ff)) {
 		s[k] <- sum(acf * cos(2 * pi * ff[k] * 1:hmax))
 	}
