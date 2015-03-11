@@ -12,7 +12,7 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0, spans %% 2 == 0)
 	tmax <- length(tss)
 	arfit <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)
-	resi <- psifunc(arfit$resid / sqrt(arfit$var.pred))*sqrt(arfit$var.pred)
+	resi <- psifunc(as.numeric(arfit$resid) / sqrt(as.numeric(arfit$var.pred))) * sqrt(as.numeric(arfit$var.pred))
 	resi <- spec.taper(resi, p = 0.1)
 	tmax <- length(resi)
 	ph <- arfit$ar
