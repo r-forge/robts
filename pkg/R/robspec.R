@@ -35,12 +35,14 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 		sumIm[k] <- sum(ph * sin(2 * pi * ff[k] * 1:p))
 	}
 	per <- (XXre^2 + XXim^2) / tmax
-	perS <- numeric(length(ff))
-	for (i in seq_along(perS)) {
-		mi <- max(i - spans / 2, 1)
-		ma <- min(i + spans / 2, length(ff))
-		ww <- c(1 / 2, rep(1, ma - mi - 1), 1 / 2)
-		perS[i] <- weighted.mean(x = per[mi:ma], w = ww)
+	if (spans == 0) perS <- per else {
+		perS <- numeric(length(ff))
+		for (i in seq_along(perS)) {
+			mi <- max(i - spans / 2, 1)
+			ma <- min(i + spans / 2, length(ff))
+			ww <- c(1 / 2, rep(1, ma - mi - 1), 1 / 2)
+			perS[i] <- weighted.mean(x = per[mi:ma], w = ww)
+		}
 	}
 	Den <- (1 - sumRe)^2 + sumIm^2
 	S <- perS / Den
