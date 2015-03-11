@@ -20,7 +20,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			ph <- re$coefficients
 			var.pred <- re$var.pred
 			partialacf <- re$partialacf
-			resid <- re$resid
+			residuals <- re$residuals
 			x.mean <- re$x.mean
 		}
 		if (method == "durbin-levinson") {
@@ -29,7 +29,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			ph <- re$coefficients
 			var.pred <- re$var.pred
 			partialacf <- re$partialacf
-			resid <- re$resid
+			residuals <- re$residuals
 			x.mean <- re$x.mean
 		}
 		if (method == "robustregression") {
@@ -38,7 +38,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			ph <- re$coefficients
 			var.pred <- re$var.pred
 			partialacf <- re$partialacf
-			resid <- re$resid
+			residuals <- re$resid
 			x.mean <- re$x.mean
 		}
 		if (method == "filter") {
@@ -47,7 +47,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			ph <- re$coefficients
 			var.pred <- re$var.pred
 			partialacf <- re$partialacf
-			resid <- re$resid
+			residuals <- re$resid
 			x.mean <- re$x.mean
 		}
 		if (method == "gm") {
@@ -91,7 +91,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			re <- lmrobAR(x, p = order.max, interc = TRUE, ...)
 			x.mean <- re$coefficients[order.max+1]
 			ph <- re$coefficients[1:order.max]
-			var.pred <- re$model$scale
+			var.pred <- re$model$scale^2
 			residuals <- c(rep(NA,order.max),re$model$residuals)
 			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
 		}
@@ -99,7 +99,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			re <- ARfilter(x, p = order.max, ...)
 			ph <- re[[6]][order.max,]
 			x.mean <- scaleTau2(x,mu.too=TRUE)[1]
-			var.pred <- re[[2]][order.max]
+			var.pred <- re[[2]][order.max]^2
 			partialacf <- re[[1]]
 			xcen <- re[[5]][,order.max]-x.mean
 			xcenma <- matrix(ncol=order.max,nrow=n-order.max)

@@ -11,17 +11,12 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	arrob.method <- match.arg(arrob.method)
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0, spans %% 2 == 0)
 	tmax <- length(tss)
-	ph <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)$ar
-	p <- length(ph)
-	D <- matrix(nrow = tmax - p, ncol = p)
-	for (j in 1:p) D[, j] <- tss[(p + 1 - j):(tmax - j)]
-	ph <- c(median(tss) * (1 - sum(ph)), ph)
-	D <- cbind(1, D)
-	resi <- tss[(p + 1):tmax] - D %*% ph
-	resi <- psifunc(resi / Qn(resi))
+	arfit <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)
+	resi <- psifunc(arfit$resid / sqrt(arfit$var.pred))*sqrt(arfit$var.pred)
 	resi <- spec.taper(resi, p = 0.1)
 	tmax <- length(resi)
-	ph <- ph[-1]
+	ph <- arfit$ar
+	p <- length(ph)
 	kmax <- floor(tmax / 2)
 	ff <- spectrum(tss, plot = FALSE)$freq
 	XXre <- numeric(length(ff))

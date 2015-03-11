@@ -169,35 +169,35 @@ warning("Delta >= 1 is not possible. Delta is set to 0.5.")
 
 # calculating consistency correction
 kon <- concorf(delta)
-var.pred <- numeric(maxp+1)
+sd.pred <- numeric(maxp+1)
 residuals <- matrix(ncol=maxp+1,nrow=n)
 
 # mean estimation
 erg <- simul(timeseries,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon=kon)
 
 x.mean <- erg$x.mean
-var.pred[1] <- erg$est.sig
-residuals[,1] <- erg$residuals
+sd.pred[1] <- erg$est.sig
+residuals[,1] <- erg$residuals*sd.pred[1]
 phima <- matrix(NA,ncol=maxp,nrow=maxp)
 aicv <- rep(NA,maxp+1)
 phiacf <- numeric(maxp-1)
-if (var.pred[1]==0) {warning("Estimated variance is 0. Cannot fit AR-modell")
+if (sd.pred[1]==0) {warning("Estimated variance is 0. Cannot fit AR-modell")
 		return(NA)
 		}
-aicv[1] <- log(var.pred[1]^2)+aicpenalty(1)/n
+aicv[1] <- log(sd.pred[1]^2)+aicpenalty(1)/n
 timeseries <- timeseries-x.mean	# centering
 
 # AR 1 process
-weightx <- wbi(timeseries[-n]/var.pred[1],k2)	# weights for Mallows-estimation (x dimension)
+weightx <- wbi(timeseries[-n]/sd.pred[1],k2)	# weights for Mallows-estimation (x dimension)
 erg <- simul3(timeseries[-1],timeseries[-n],weightx=weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
-var.pred[2] <- erg$est.sig
+sd.pred[2] <- erg$est.sig
 phima[1,1] <- erg$beta
-residuals[2:n,2] <- erg$residuals
+residuals[2:n,2] <- erg$residuals*sd.pred[2]
 
 phiacf <- erg$beta
-aicv[2] <- log(var.pred[2]^2)+aicpenalty(2)/(n-1)
-if (var.pred[2]==0) {warning("Estimated variance is 0. Abort fitting further AR-modells.")
-		return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))
+aicv[2] <- log(sd.pred[2]^2)+aicpenalty(2)/(n-1)
+if (sd.pred[2]==0) {warning("Estimated variance is 0. Abort fitting further AR-modells.")
+		return(list(phimatrix=phima,aic=aicv,var.pred=sd.pred^2,x.mean=x.mean,residuals=residuals))
 		}
 
 # AR processes of order > 1
@@ -221,7 +221,7 @@ xma <- matrix(ncol=p,nrow=n-p)
 for (i in 1:p) {
 xma[,i] <- timeseries[i:(n-p+i-1)]
 }
-C <- C*var.pred[p]
+C <- C*sd.pred[p]
 dt <- try(mahalanobis(xma,center=FALSE,cov=C)/p,silent=TRUE) # weights of independent variables
 if (inherits(dt,"try-error")) {
 	warning("Calculation of Mahalanobisdistances failed. Maybe acf is not positiv definit. Abort fitting further AR-modells.")
@@ -229,7 +229,7 @@ if (inherits(dt,"try-error")) {
 	rownames(phima) <- paste("AR(",0:maxp,")",sep="")
 	colnames(phima) <- paste("phi",1:maxp,sep=" ")
 	names(aicv) <- paste("AR(",0:maxp,")",sep="")
-	return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))	
+	return(list(phimatrix=phima,aic=aicv,var.pred=sd.pred^2,x.mean=x.mean,residuals=residuals))	
 	}
 if (sum(dt<0)>0) {
 	warning("Acf is not positiv definit. Abort fitting further AR-modells.")
@@ -237,14 +237,14 @@ if (sum(dt<0)>0) {
 	rownames(phima) <- paste("AR(",0:maxp,")",sep="")
 	colnames(phima) <- paste("phi",1:maxp,sep=" ")
 	names(aicv) <- paste("AR(",0:maxp,")",sep="")
-	return(list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals))	
+	return(list(phimatrix=phima,aic=aicv,var.pred=sd.pred^2,x.mean=x.mean,residuals=residuals))	
 	}
 weightx <- wbi(sqrt(dt),k2)
 erg <- simul3(y,x,weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 beta <- erg$beta
-var.pred[p+1] <- erg$est.sig
-residuals[(p+1):n,p+1] <- erg$residuals
-aicv[p+1] <- log(var.pred[p+1]^2)+aicpenalty(p+1)/(n-p)
+sd.pred[p+1] <- erg$est.sig
+residuals[(p+1):n,p+1] <- erg$residuals*sd.pred[p+1]
+aicv[p+1] <- log(sd.pred[p+1]^2)+aicpenalty(p+1)/(n-p)
 phima[p,p] <- beta
 # updating AR-Parameter by Durbin Levinson
 for (i in 1:(p-1)) {
@@ -257,7 +257,7 @@ phima <- rbind(rep(NA,maxp),phima)
 rownames(phima) <- paste("AR(",0:maxp,")",sep="")
 colnames(phima) <- paste("phi",1:maxp,sep=" ")
 names(aicv) <- paste("AR(",0:maxp,")",sep="")
-erg <- list(phimatrix=phima,aic=aicv,var.pred=var.pred,x.mean=x.mean,residuals=residuals)
+erg <- list(phimatrix=phima,aic=aicv,var.pred=sd.pred^2,x.mean=x.mean,residuals=residuals)
 names(erg)
 return(erg)
 }

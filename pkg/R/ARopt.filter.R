@@ -32,7 +32,7 @@ ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi,aicpenalty=functi
 			resid <- tss-x.mean
 			partialacf <- rep(0,pmax)
 			} else {	coeff <- fits[[6]][popt,1:popt]
-					var.pred <- fits[[2]][popt]
+					var.pred <- fits[[2]][popt]^2
 					x.mean <- scaleTau2(fits[[5]][,popt],mu.too=TRUE)[1]
 					partialacf <- fits[[1]]
 					tssfilteredcen <- fits[[5]][,popt]-x.mean
