@@ -3,7 +3,7 @@
 ##		tmax: length of timeseries
 ## Output: robust spectral density
 
-robspec.acf <- function(acf, tmax = length(acf) + 2) {
+robspec.acf <- function(acf, tmax) {
 	kmax <- floor(tmax / 2)
 	hmax <- length(acf)
 	ff <- 1:kmax / tmax

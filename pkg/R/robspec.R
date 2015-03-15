@@ -10,7 +10,7 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	acf.fun <- match.arg(acf.fun)
 	arrob.method <- match.arg(arrob.method)
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0, spans %% 2 == 0)
-	tmax <- length(tss)
+	N <- length(tss)
 	arfit <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)
 	resi <- psifunc(as.numeric(arfit$resid) / sqrt(as.numeric(arfit$var.pred))) * sqrt(as.numeric(arfit$var.pred))
 	resi <- spec.taper(resi, p = 0.1)
@@ -18,8 +18,10 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	ph <- arfit$ar
 	p <- length(ph)
 	kmax <- floor(tmax / 2)
-	ff <- spectrum(tss, plot = FALSE)$freq
-	XXre <- numeric(length(ff))
+	ff <- frequency(tss)
+	ff <- seq.int(from = ff / N, by = ff / N, length.out = floor(N / 2))
+	Nff <- length(ff)
+	XXre <- numeric(Nff)
 	XXim <- XXre
 	sumRe <- XXre
 	sumIm <- XXre
@@ -31,10 +33,10 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	}
 	per <- (XXre^2 + XXim^2) / tmax
 	if (spans == 0) perS <- per else {
-		perS <- numeric(length(ff))
+		perS <- numeric(Nff)
 		for (i in seq_along(perS)) {
 			mi <- max(i - spans / 2, 1)
-			ma <- min(i + spans / 2, length(ff))
+			ma <- min(i + spans / 2, Nff)
 			ww <- c(1 / 2, rep(1, ma - mi - 1), 1 / 2)
 			perS[i] <- weighted.mean(x = per[mi:ma], w = ww)
 		}
