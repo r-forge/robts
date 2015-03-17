@@ -38,7 +38,7 @@ ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi,aicpenalty=functi
 					tssfilteredcen <- fits[[5]][,popt]-x.mean
 					tssfilteredcenma <- matrix(ncol=popt,nrow=tmax-popt)
 					for (i in 1:popt) {tssfilteredcenma[,i] <- tssfilteredcen[(popt-i+1):(tmax-i)]}
-					resid <- c(rep(NA,popt),tss[(popt+1):tmax]-x.mean-tssfilteredcenma%*%coeff)	
+					resid <- as.numeric(tss[(popt+1):tmax]-x.mean-tssfilteredcenma%*%coeff)	
 				}
 	return(list(order = popt, aic = RAICs,coefficients=coeff,var.pred=var.pred,x.mean=x.mean,resid=resid,partialacf=partialacf))
 }

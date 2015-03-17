@@ -52,7 +52,7 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpe
 							x.mean <- fitbest$coefficients[1]/(1-sum(phopt))
 						  }	else{	phopt <- fitbest$coefficients[1:p]}
 				var.pred <- fitbest$scale^2
-				resid <- c(rep(NA,p),fitbest$residuals)
+				resid <- as.numeric(fitbest$residuals)
 				pacfbest <- ARMAacf(ar=phopt,lag.max=pmax,pacf=TRUE)
 			}
 		}

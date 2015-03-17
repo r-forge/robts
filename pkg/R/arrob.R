@@ -58,6 +58,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			aicv <- re$aic
 			var.pred <- re$var.pred[wm]
 			residuals <- re$residuals[,wm]
+			if (wm != 1) residuals <- residuals[-(1:(wm - 1))]
 			partialacf <- diag(re$phimatrix[-1,])
 		}
 	} else {
@@ -71,7 +72,6 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			ph1 <- c(x.mean * (1 - sum(ph)), ph)
 			residuals <- x[(order.max + 1):n] - D %*% ph1
 			var.pred <- Qn(residuals)^2
-			residuals <- c(rep(NA,order.max),residuals)
 			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
 		}
 		if (method == "durbin-levinson") {
@@ -84,7 +84,6 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			ph1 <- c(x.mean * (1 - sum(ph)), ph)
 			residuals <- x[(order.max + 1):n] - D %*% ph1
 			var.pred <- Qn(residuals)^2
-			residuals <- c(rep(NA,order.max),residuals)
 			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
 		}
 		if (method == "robustregression") {
@@ -92,7 +91,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			x.mean <- re$coefficients[order.max+1]
 			ph <- re$coefficients[1:order.max]
 			var.pred <- re$model$scale^2
-			residuals <- c(rep(NA,order.max),re$model$residuals)
+			residuals <- re$model$residuals
 			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
 		}
 		if (method == "filter") {
@@ -104,14 +103,14 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			xcen <- re[[5]][,order.max]-x.mean
 			xcenma <- matrix(ncol=order.max,nrow=n-order.max)
 			for (i in 1:order.max) {xcenma[,i] <- xcen[(order.max-i+1):(n-i)]}
-			residuals <- c(rep(NA,order.max),x[(order.max+1):n]-x.mean-xcenma%*%ph)
+			residuals <- x[(order.max+1):n]-x.mean-xcenma%*%ph
 		}
 		if (method == "gm") {
 			re <- bestAR(x, maxp = order.max, ...)
 			ph <- re$phimatrix[order.max+1, 1:order.max]
 			x.mean=re$x.mean
 			var.pred <- re$var.pred[order.max+1]
-			residuals <- re$residuals[,order.max+1]
+			residuals <- re$residuals[-(1:order.max), order.max + 1]
 			partialacf <- diag(re$phimatrix[-1,])
 		}
 	}
