@@ -79,8 +79,10 @@ acfrob <- function(x, lag.max = NULL,
 		}
 	}
 	
-	if (posdef) {
-	acorf <- acfposmaker(acorf)
+	if (type=="correlation") {
+		if (posdef) {
+			acorf <- acfposmaker(acorf)
+		}
 	}
 	
 	res <- list(lag = array(data = 1:lag.max, dim = c(lag.max, 1, 1)),
