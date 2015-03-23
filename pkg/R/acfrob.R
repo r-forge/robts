@@ -19,6 +19,7 @@ acfrob <- function(x, lag.max = NULL,
 					posdef=TRUE,...) {
 	
 	fun <- match.arg(fun)
+	funname <- fun
 	robfiltype <- match.arg(robfiltype)
 	type <- match.arg(type)
 	partialtype <- match.arg(partialtype)
@@ -94,7 +95,12 @@ acfrob <- function(x, lag.max = NULL,
 				)
 	class(res) <- "acf"
 	if (plot) {
-		plot(res)
+		confint <- konfband(fun=funname,n=n,...)
+		plot(res,ci=0)
+		if (length(confint==2)) {
+			abline(h=confint[1],col="blue",lty="dashed")
+			abline(h=confint[2],col="blue",lty="dashed")
+			}
 		return(invisible(res))
 	} else return(res)
 }

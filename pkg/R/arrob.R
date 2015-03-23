@@ -52,7 +52,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		}
 		if (method == "gm") {
 			re <- bestAR(x, maxp = order.max,aicpenalty=aicpenalty, ...)
-			wm <- which.min(re$aic)[1]
+			1wm <- which.min(re$aic)[1]
 			if (wm == 1) ph <- NULL else ph <- re$phimatrix[wm, 1:(wm - 1)]
 			x.mean=re$x.mean
 			aicv <- re$aic
