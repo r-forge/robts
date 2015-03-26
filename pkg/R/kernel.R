@@ -10,14 +10,14 @@ warning("Input type is unkonwn. Using identity as kernel.")
 return(k)
 }
 
-parzen <- function(k,window.type="acf",M=10) {
-if(window.type=="acf")
-return((abs(k)<=M/2)*(1-6*(k/M)^2+6*(abs(k)/M)^3)+((M/2<abs(k))&(abs(k)<=M))*2*(1-abs(k)/M)^3)
-if(window.type=="spectrum"){
+daniell <- function(k,window.type="acf",M=10) {
+if(window.type=="acf") {
 Index <- k==0
-erg <- 3/8/pi/M^3*(sin(k*M/4)/(1/2*sin(k/2)))^4*(1-2/3*(sin(k/2))^2)
-erg[Index] <- 3/8*M/pi
-return(erg)}
+erg <- (abs(k)<=M)*sin(pi*k/M)/(k/M*pi)
+erg[Index] <- 1
+return(erg) }
+if(window.type=="spectrum"){
+return((abs(k)<= pi/M)*M/2/pi)}
 warning("Input type is unkonwn. Using identity as kernel.")
 return(k)
 }

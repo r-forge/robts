@@ -5,11 +5,11 @@
 ## 		Arguments of lmrobARopt
 ## 		psifunc: Argument of ts.robfilter
 
-robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), spans = 8, 
-				arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),kernel="parzen") {
+robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), truncation = 10*log(length(tss),10), 
+				arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),kernel="parzen",smoothing=FALSE) {
 	acf.fun <- match.arg(acf.fun)
 	arrob.method <- match.arg(arrob.method)
-	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0, spans %% 2 == 0)
+	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0)
 	N <- length(tss)
 	arfit <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)
 	resi <- psifunc(as.numeric(arfit$resid) / sqrt(as.numeric(arfit$var.pred))) * sqrt(as.numeric(arfit$var.pred))
@@ -32,19 +32,21 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 		sumIm[k] <- sum(ph * sin(2 * pi * ff[k] * 1:p))
 	}
 	per <- (XXre^2 + XXim^2) / tmax
-	if (spans == 0) perS <- per else {
+	if (!smoothing) perS <- per else {
 		perS <- numeric(Nff)
-		if (!any(kernel==c("parzen","bartlett","rectangular"))) {
+		if (!any(kernel==c("parzen","bartlett","rectangular","daniell"))) {
 			warning("This kernel is not implemented, using Parzen kernel instead.")
 			kernel <- "parzen"
 			}
 		spel <- c(rev(per),0,per,rev(per))
 		if (kernel=="parzen")
-			gew <- parzen(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=spans)*2*pi/N
+			gew <- parzen(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=truncation)*2*pi/N
 		if (kernel=="bartlett")
-			gew <- bartlett(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=spans)*2*pi/N
+			gew <- bartlett(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=truncation)*2*pi/N
 		if (kernel=="rectangular")
-			gew <- rectangular(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=spans)*2*pi/N
+			gew <- rectangular(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=truncation)*2*pi/N
+		if (kernel=="daniell")
+			gew <- daniell(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=truncation)*2*pi/N
 		for (i in 1:length(ff)) {
 			perS[i] <- sum(gew*spel[i:(2*length(ff)+i)])
 			}

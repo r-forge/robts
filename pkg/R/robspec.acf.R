@@ -8,7 +8,7 @@ robspec.acf <- function(acf, tmax,M,kernel) {
 	hmax <- length(acf)
 	ff <- 1:kmax / tmax
 	s <- numeric(kmax)
-	if (!any(kernel==c("parzen","bartlett","rectangular"))) {
+	if (!any(kernel==c("parzen","bartlett","rectangular","daniell"))) {
 		warning("This kernel is not implemented, using Parzen kernel instead.")
 		kernel <- "parzen"
 		}
@@ -18,6 +18,8 @@ robspec.acf <- function(acf, tmax,M,kernel) {
 	weight <- bartlett(1:hmax,M,window.type="acf")
 	if (kernel=="rectangular") 
 	weight <- 1
+	if (kernel=="daniell")
+	weight <- daniell(1:hmax,M,window.type="acf")
 	if (M>hmax) {
 		warning("Truncation point of acf is larger than calculated maximal lag of acf. This value is used instead")
 		M <- hmax
