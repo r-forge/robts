@@ -4,10 +4,10 @@
 
 
 
-robspectrum <- function(x, method = c("pgram", "ar"), psifunc = smoothpsi, spans = 8,
+robspectrum <- function(x, method = c("pgram", "ar"), psifunc = smoothpsi, spans = log(length(x),10)*10,
             acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),
             arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"), 
-            var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"), plot =TRUE, ...) {
+            var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"), plot =TRUE,kernel="parzen", ...) {
             	
 	method <- match.arg(method)
 	acf.fun <- match.arg(acf.fun)
@@ -16,12 +16,12 @@ robspectrum <- function(x, method = c("pgram", "ar"), psifunc = smoothpsi, spans
 	if (acf.fun == "acfrobfil") stop("This acf calculation function can not be used.")
 	
 	if (method == "pgram") {
-		res <- robspec(x, psifunc = psifunc, acf.fun = acf.fun, spans = spans, arrob.method = arrob.method)
+		res <- robspec(x, psifunc = psifunc, acf.fun = acf.fun, spans = spans, arrob.method = arrob.method,kernel=kernel)
 	}
 	
 	if (method == "ar") {
-		acorf <- as.numeric(suppressWarnings(acfrob(x, fun = acf.fun, ...))$acf)
-		res <- robspec.acf(acorf, tmax = length(x))
+		acorf <- as.numeric(suppressWarnings(acfrob(x, fun = acf.fun, lag.max=spans,...))$acf)
+		res <- robspec.acf(acorf, tmax = length(x),M=spans,kernel)
 		if (var1) {sdestim <- function(y) {return(1)}} else {
 			sdestim <- match.arg(sdestim)
 			sdestim <- get(sdestim)

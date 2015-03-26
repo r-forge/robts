@@ -6,7 +6,7 @@
 ## 		psifunc: Argument of ts.robfilter
 
 robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), spans = 8, 
-				arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm")) {
+				arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),kernel="parzen") {
 	acf.fun <- match.arg(acf.fun)
 	arrob.method <- match.arg(arrob.method)
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0, spans %% 2 == 0)
@@ -34,13 +34,21 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	per <- (XXre^2 + XXim^2) / tmax
 	if (spans == 0) perS <- per else {
 		perS <- numeric(Nff)
-		for (i in seq_along(perS)) {
-			mi <- max(i - spans / 2, 1)
-			ma <- min(i + spans / 2, Nff)
-			ww <- c(1 / 2, rep(1, ma - mi - 1), 1 / 2)
-			perS[i] <- weighted.mean(x = per[mi:ma], w = ww)
+		if (!any(fun==c("parzen","bartlett","rectangular"))) {
+			warning("This kernel is not implemented, using Parzen kernel instead.")
+			kernel <- "parzen"
+			}
+		spel <- c(rev(per),0,per,rev(per))
+		if (kernel=="parzen")
+			gew <- parzen(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=spans)*2*pi/N
+		if (kernel=="bartlett")
+			gew <- bartlett(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=spans)*2*pi/N
+		if (kernel=="rectangular")
+			gew <- rectangular(c(-rev(ff),0,ff)*2*pi,window.type="spectrum",M=spans)*2*pi/N
+		for (i in 1:length(ff)) {
+			perS[i] <- sum(gew*spel[i:(2*length(ff)+i)])
+			}
 		}
-	}
 	Den <- (1 - sumRe)^2 + sumIm^2
 	S <- perS / Den
 	return(list(freq = ff, spec = S, coh = NULL, phase = NULL, series = NULL, snames = NULL, method = "AR"))
