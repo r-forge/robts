@@ -8,13 +8,12 @@ Robust Spectrum
 Calculates the spectrum (or the spectral density) of a time series robustly via a periodogram or via the autocorrelation function, a wrapper calling an internal function.
 }
 \usage{
-robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi,
-    spans = 8, acf.fun = c("acfGK", "acfmedian", "acfmulti",
+robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi, truncation = log(length(x),10)*10,bandwidth=FALSE,acf.fun = c("acfGK", "acfmedian", "acfmulti",
     "acfpartrank", "acfRA", "acfrank", "acftrim"), 
     arrob.method = c("yule-walker", "durbin-levinson", 
     "robustregression", "filter", "gm"), 
     var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"),
-    plot =TRUE, ...)
+    plot =TRUE,kernel=c("parzen","daniell","bartlett","rectangular"), ...)
 }
 
 \details{
@@ -27,12 +26,14 @@ If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
 \item{x}{numeric vector containing the time series.}
 \item{method}{character string naming the calculation method used: \code{"pgram"} for the periodogram-based function, \code{"ar"} for calculation from the acf.}
 \item{psifunc}{Psi function for filtering of residuals if \code{method == "pgram"}, currently no alternative.}
-\item{spans}{window width for smoothing kernel if \code{method == "pgram"}, has to be an even number.}
+\item{truncation}{Truncation of the acf for spectrum estimation via fourier transform of acf. Otherwise this number is converted into the equivalent bandwidth.}
+\item{bandwidth}{If FALSE the bandwidth is determined by the truncation. Otherwise the stated number is used and converted into the truncation if necessary. A bandwidth of 0 prevent smoothing or at least tries to minimize smoothing if the method is "ar".}
 \item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{"\link{acfrob}"} for details.  Do not use \code{"acfrobfil"}.}
 \item{arrob.method}{character string naming the calculation method passed to \code{\link{arrob}} if \code{method == "pgram"}, see there for details.}
 \item{var1}{logical whether the variance estimator is fixed to 1, resulting in a spectral density estimation if \code{method == "ar"}.}
 \item{sdestim}{character string naming the standard deviation estimator if \code{method == "ar"} and \code{var1 == FALSE}.}
 \item{plot}{logical whether the result is plotted and retured invisible.}
+\item{kernel}{The used smoothing kernel. Possible are Bartless, Rectangular, Parzen and Daniell for method "ar" and "pgram".}
 \item{...}{further arguments passed to the acf calculation by \code{\link{acfrob}} if \code{method == "ar"}.}
 }
 

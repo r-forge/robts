@@ -7,8 +7,9 @@
 robspectrum <- function(x, method = c("pgram", "ar"), psifunc = smoothpsi, truncation = log(length(x),10)*10,bandwidth=FALSE,
             acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),
             arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"), 
-            var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"), plot =TRUE,kernel="parzen", ...) {
+            var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"), plot =TRUE,kernel=c("parzen","daniell","bartlett","rectangular"), ...) {
 	n <- length(x)
+	kernel <- match.arg(kernel)
 	if (kernel=="bartlett")
 		fa <- 3/2
 	if (kernel=="daniell")
