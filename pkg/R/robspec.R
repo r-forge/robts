@@ -34,7 +34,7 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	per <- (XXre^2 + XXim^2) / tmax
 	if (spans == 0) perS <- per else {
 		perS <- numeric(Nff)
-		if (!any(fun==c("parzen","bartlett","rectangular"))) {
+		if (!any(kernel==c("parzen","bartlett","rectangular"))) {
 			warning("This kernel is not implemented, using Parzen kernel instead.")
 			kernel <- "parzen"
 			}
