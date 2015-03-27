@@ -1,3 +1,4 @@
+\encoding{utf8}
 \name{robspectrum}
 \alias{robspectrum}
 
@@ -8,12 +9,15 @@ Robust Spectrum
 Calculates the spectrum (or the spectral density) of a time series robustly via a periodogram or via the autocorrelation function, a wrapper calling an internal function.
 }
 \usage{
-robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi, truncation = log(length(x),10)*10,bandwidth=FALSE,acf.fun = c("acfGK", "acfmedian", "acfmulti",
-    "acfpartrank", "acfRA", "acfrank", "acftrim"), 
+robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi,
+	truncation = log(length(x), 10) * 10, bandwidth = FALSE,
+	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
+	"acfRA", "acfrank", "acftrim", "nonrob"), 
     arrob.method = c("yule-walker", "durbin-levinson", 
-    "robustregression", "filter", "gm"), 
+    "robustregression", "filter", "gm", "nonrob"), 
     var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"),
-    plot =TRUE,kernel=c("parzen","daniell","bartlett","rectangular"), ...)
+    plot = TRUE, kernel = c("parzen", "daniell", "bartlett",
+    "rectangular"), ...)
 }
 
 \details{
@@ -44,7 +48,7 @@ An object of class \code{"spec"}, see \code{\link{spectrum}} for details.
 Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): \emph{Robust Statistics: Theory and Methods}, Wiley, chapter 8.
 }
 \author{
-Jonathan Rathjens
+Alexander \enc{Dürre}{Duerre} and Jonathan Rathjens
 }
 
 \seealso{

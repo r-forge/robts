@@ -5,8 +5,8 @@
 
 
 robspectrum <- function(x, method = c("pgram", "ar"), psifunc = smoothpsi, truncation = log(length(x),10)*10,bandwidth=FALSE,
-            acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),
-            arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"), 
+            acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim", "nonrob"),
+            arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm", "nonrob"), 
             var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"), plot =TRUE,kernel=c("parzen","daniell","bartlett","rectangular"), ...) {
 	n <- length(x)
 	kernel <- match.arg(kernel)
@@ -36,6 +36,7 @@ robspectrum <- function(x, method = c("pgram", "ar"), psifunc = smoothpsi, trunc
 	}
 	
 	if (method == "ar") {
+		if (acf.fun == "nonrob") acorf <- as.numeric(suppressWarnings(acf(x))$acf) else
 		acorf <- as.numeric(suppressWarnings(acfrob(x, fun = acf.fun, lag.max=truncation,...))$acf)
 		res <- robspec.acf(acorf, tmax = length(x),M=truncation,kernel)
 		if (var1) {sdestim <- function(y) {return(1)}} else {

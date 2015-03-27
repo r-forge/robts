@@ -11,6 +11,7 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", 
 	arrob.method <- match.arg(arrob.method)
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0)
 	N <- length(tss)
+	if (arrob.method == "nonrob" | acf.fun == "nonrob") arfit <- ar(x = tss) else
 	arfit <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)
 	resi <- psifunc(as.numeric(arfit$resid) / sqrt(as.numeric(arfit$var.pred))) * sqrt(as.numeric(arfit$var.pred))
 	resi <- spec.taper(resi, p = 0.1)
