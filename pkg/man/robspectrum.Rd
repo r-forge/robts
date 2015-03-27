@@ -37,7 +37,7 @@ If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
 \item{var1}{logical whether the variance estimator is fixed to 1, resulting in a spectral density estimation if \code{method == "ar"}.}
 \item{sdestim}{character string naming the standard deviation estimator if \code{method == "ar"} and \code{var1 == FALSE}.}
 \item{plot}{logical whether the result is plotted and retured invisible.}
-\item{kernel}{The used smoothing kernel. Possible are Bartless, Rectangular, Parzen and Daniell for method "ar" and "pgram".}
+\item{kernel}{The used smoothing kernel. Possible are Bartlett, Rectangular, Parzen and Daniell for method "ar" and "pgram".}
 \item{...}{further arguments passed to the acf calculation by \code{\link{acfrob}} if \code{method == "ar"}.}
 }
 

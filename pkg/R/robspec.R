@@ -5,10 +5,8 @@
 ## 		Arguments of lmrobARopt
 ## 		psifunc: Argument of ts.robfilter
 
-robspec <- function(tss, psifunc = smoothpsi, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"), truncation = 10*log(length(tss),10), 
-				arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),kernel="parzen",smoothing=FALSE) {
-	acf.fun <- match.arg(acf.fun)
-	arrob.method <- match.arg(arrob.method)
+robspec <- function(tss, psifunc = smoothpsi, acf.fun, truncation, 
+				arrob.method, kernel, smoothing) {
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0)
 	N <- length(tss)
 	if (arrob.method == "nonrob" | acf.fun == "nonrob") arfit <- ar(x = tss) else
