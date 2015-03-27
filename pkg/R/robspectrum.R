@@ -37,8 +37,8 @@ robspectrum <- function(x, method = c("pgram", "ar"), psifunc = smoothpsi, trunc
 	}
 	
 	if (method == "ar") {
-		if (acf.fun == "nonrob") acorf <- as.numeric(suppressWarnings(acf(x))$acf) else
-		acorf <- as.numeric(suppressWarnings(acfrob(x, fun = acf.fun, lag.max=truncation,...))$acf)
+		if (acf.fun == "nonrob") acorf <- as.numeric(suppressWarnings(acf(x, plot = FALSE))$acf) else
+		acorf <- as.numeric(suppressWarnings(acfrob(x, fun = acf.fun, lag.max=truncation,..., plot = FALSE))$acf)
 		res <- robspec.acf(acorf, tmax = length(x),M=truncation,kernel)
 		if (var1) {sdestim <- function(y) {return(1)}} else {
 			sdestim <- match.arg(sdestim)
