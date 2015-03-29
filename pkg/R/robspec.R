@@ -9,12 +9,18 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun, truncation,
 				arrob.method, kernel, smoothing) {
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0)
 	N <- length(tss)
-	if (arrob.method == "nonrob" | acf.fun == "nonrob") {
+	if (acf.fun == "nonrob") arrob.method <- "nonrob"
+	if (arrob.method == "nonrob") {
 		arfit <- ar(x = tss)
 		arfit$resid <- matrix(arfit$resid[-(1:arfit$order)], ncol = 1)
-	} else
-	arfit <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)
-	resi <- psifunc(as.numeric(arfit$resid) / sqrt(as.numeric(arfit$var.pred))) * sqrt(as.numeric(arfit$var.pred))
+		resi <- as.numeric(arfit$resid)
+		ka <- 1
+	} else {
+		arfit <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)
+		resi <- psifunc(as.numeric(arfit$resid) / sqrt(as.numeric(arfit$var.pred))) * sqrt(as.numeric(arfit$var.pred))
+		inte <- function(x) smoothpsi(x)^2 * dnorm(x)
+		ka <- integrate(inte, -Inf, +Inf)$value
+	}
 	resi <- spec.taper(resi, p = 0.1)
 	tmax <- length(resi)
 	ph <- arfit$ar
@@ -54,6 +60,6 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun, truncation,
 			}
 		}
 	Den <- (1 - sumRe)^2 + sumIm^2
-	S <- perS / Den
+	S <- perS / Den / ka
 	return(list(freq = ff, spec = S, coh = NULL, phase = NULL, series = NULL, snames = NULL, method = "AR"))
 }
