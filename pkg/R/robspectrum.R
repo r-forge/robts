@@ -33,7 +33,7 @@ robspectrum <- function(x, method = c("pgram", "ar"), psifunc = smoothpsi, trunc
 	
 	if (method == "pgram") {
 		res <- robspec(x, psifunc = psifunc, acf.fun = acf.fun, truncation = truncation, arrob.method = arrob.method,
-		kernel = kernel, smoothing = (bandwidth != 0))
+		kernel = kernel, smoothing = (bandwidth != 0), ...)
 	}
 	
 	if (method == "ar") {

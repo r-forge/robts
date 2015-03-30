@@ -38,7 +38,7 @@ If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
 \item{sdestim}{character string naming the standard deviation estimator if \code{method == "ar"} and \code{var1 == FALSE}.}
 \item{plot}{logical whether the result is plotted and retured invisible.}
 \item{kernel}{The used smoothing kernel. Possible are Bartlett, Rectangular, Parzen and Daniell for method "ar" and "pgram".}
-\item{...}{further arguments passed to the acf calculation by \code{\link{acfrob}} if \code{method == "ar"}.}
+\item{...}{further arguments passed to the acf calculation by \code{\link{acfrob}} if \code{method == "ar"} or the AR calculation if \code{method == "pgram"}.}
 }
 
 \value{

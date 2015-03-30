@@ -6,7 +6,7 @@
 ## 		psifunc: Argument of ts.robfilter
 
 robspec <- function(tss, psifunc = smoothpsi, acf.fun, truncation, 
-				arrob.method, kernel, smoothing) {
+				arrob.method, kernel, smoothing, ...) {
 	stopifnot(is.numeric(tss), sum(is.na(tss)) == 0)
 	N <- length(tss)
 	if (acf.fun == "nonrob") arrob.method <- "nonrob"
@@ -16,7 +16,7 @@ robspec <- function(tss, psifunc = smoothpsi, acf.fun, truncation,
 		resi <- as.numeric(arfit$resid)
 		ka <- 1
 	} else {
-		arfit <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun)
+		arfit <- arrob(x = tss, method = arrob.method, acf.fun = acf.fun, ...)
 		resi <- psifunc(as.numeric(arfit$resid) / sqrt(as.numeric(arfit$var.pred))) * sqrt(as.numeric(arfit$var.pred))
 		inte <- function(x) smoothpsi(x)^2 * dnorm(x)
 		ka <- integrate(inte, -Inf, +Inf)$value
