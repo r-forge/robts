@@ -1,13 +1,17 @@
-export("acfrob")
+import(stats)
+import(utils)
+import(grDevices)
+import(graphics)
+importFrom("robustbase", "Qn", "covMcd", "lmrob", "ltsReg", "scaleTau2")
+importFrom("rrcov", "CovSde", "CovSest")
+importFrom("ICSNP", "tyler.shape")
+importFrom("SpatialNP", "mvhuberM")
 
-export("arrob")
-
-export("Corefw")
-
-export("robAIC")
-
-export("filterrob")
-
-export("robspectrum")
-
-import(ICSNP, SpatialNP, robustbase, rrcov)
+export(
+  acfrob,
+  arrob,
+  Corefw,
+  robAIC,
+  filterrob,
+  robspectrum
+)
