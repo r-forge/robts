@@ -2,7 +2,7 @@ Package: robts
 Type: Package
 Title: Robust Time Series Analysis
 Version: 0.1.0
-Date: 2015-07-03
+Date: 2015-08-14
 Authors@R: c(
   person("Alexander", "Duerre", role=c("aut", "cre"), email="alexander.duerre@tu-dortmund.de"),
   person("Roland", "Fried", role=c("aut"), email="fried@statistik.tu-dortmund.de"),
