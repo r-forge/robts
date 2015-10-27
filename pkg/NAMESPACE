@@ -14,4 +14,12 @@ export(
   robAIC,
   filterrob,
   robspectrum
+  strucchange.HL
+  asymvar.acf
+  asymvar.acfextra
+  asymvar.window
+  rob.change
+  strucchange.wilcox
+  strucchange.cusum
+  densdiff
 )
