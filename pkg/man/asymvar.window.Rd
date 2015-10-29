@@ -10,7 +10,7 @@ Computes the long run variance, which is required for change point testing, base
 }
 
 \usage{
-asymvar.window(x=x,overlapping=FALSE,shiftcorrect=TRUE,obs=c("untransformed","ranks"),dd=c("independent","carlstein-cor","carlstein-Qn"),borderN=10,p=1,...)
+asymvar.window(x=x,overlapping=FALSE,shiftcorrect=TRUE,obs=c("untransformed","ranks"),dd=c("independent","carlstein-cor","carlstein-Qn"),borderN=10,momentp=1,...)
 }
 
 \arguments{
@@ -20,7 +20,7 @@ asymvar.window(x=x,overlapping=FALSE,shiftcorrect=TRUE,obs=c("untransformed","ra
 	\item{borderN}{numeric, if \code{shiftcorrect == TRUE} the changepoint for the estimation of the log run variance is not searched below the first and last borderN observations.}
 	\item{obs}{character string indicating whether the lon run variance of a cusum statistic or a Wilcoxon statistic is calculated.}
 	\item{dd}{character string indicating how the blocklength should be determined. Must be one of '"independent"', '"carlstein-cor"' or '"carlstein-Qn"', see details.}
-	\item{p}{numeric indicating what absolute centered mean is used to estimate the long run variance.}
+	\item{momentp}{numeric indicating what absolute centered mean is used to estimate the long run variance.}
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 

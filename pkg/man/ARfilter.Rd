@@ -1,0 +1,66 @@
+\encoding{utf8}
+\name{ARfilter}
+\alias{ARfilter}
+
+\title{
+Estimation of AR models by robust filtering.
+}
+\description{
+Robustly estimates AR models using the robust filter algorithm. See \enc{Dürre}{Duerre} et al. (2014) for details.
+}
+
+\usage{
+ARfilter(timeseries,p,psifunc=smoothpsi,aicpenalty=function(p) {return(2*p)})
+}
+
+\arguments{
+	\item{timeseries}{univariate numeric vector or time series object.}
+	\item{p}{numeric determining the order of the AR fit.}
+	\item{psifunc}{function which determines outlyingness.}
+	\item{aicpenalty}{numeric, indicating the penalty for a larger modell, see details.}
+	}
+
+\value{
+List containing the following values
+
+\item{partial autocorrelations}{matrix representing the successive estimated partial correlations of the modell. In the first column are the partial correlations of the AR model or order 1 and so on.}
+\item{variance of innovations}{numeric containing the successive scale estimation of the residuals of the successive AR models. The first entry is for the AR(1) model and so on.}
+\item{autocorrelation}{numeric of estimated acf up until lag p.}
+\item{aic}{numeric of aic values of successive AR modells.}
+\item{robustly filtered timeseries}{matrix containing the robustly filtered time series of successive AR models. The first column corresponds to the AR(1) model and so on.}
+\item{AR-coefficients}{matrix containing the estimated AR coefficients of successive AR models. The first column corresponds to the AR(1) model and the first row to the first AR coefficient and so on.}
+}
+
+\details{
+
+The function fits AR models of increasing order by a robust version of the Durbin Levinson algorithm as described in chapter 8 of Maronna et al. (2006). The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filter process basically compares the under the estimated modell predicted value with the observed one and transformes the corresponding residual with the psi-function. The transformed value is then set to the sum of the predicted value and the transformed residual. For more details see Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2014).
+
+The Psi function should fulfill two properties. It should be the identity for small absolute values and 0 for large absolute values.
+
+Note that the algorithm is very timeconsuming even for small timeseries, especially if one chooses large \code{p}.
+}
+
+\references{
+
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
+
+Maronna, R., Martin, D. and Yohai, V. (2006): \emph{Robust statistics}, Wiley, Chichester.
+
+}
+
+\author{
+Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
+}
+
+
+\seealso{
+
+The wrapper function \code{\link{arrob}}
+
+}
+
+\examples{
+set.seed(1066)
+tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+ARfilter(tss,p=5)
+}

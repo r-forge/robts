@@ -10,7 +10,7 @@ Computes the test trajectory for the Hodges-Lehmann change point test. See Dehli
 }
 
 \usage{
-strucchange.HL(x,varmethod=c("window","acf","acfextra"),overlapping=TRUE,shiftcorrect=TRUE,...)
+strucchange.HL(x,varmethod=c("window","acf","acfextra"),overlapping=TRUE,shiftcorrect=TRUE,borderN=10,...)
 }
 
 \arguments{

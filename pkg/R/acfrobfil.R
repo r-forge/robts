@@ -11,7 +11,7 @@
 ##################
 
 
-acfrobfil <- function(timeseries,p,maxlag,psifunc=smoothpsi) {
+acfrobfil <- function(timeseries,p,maxlag,psifunc=smoothpsi,robfiltype="filtered",aic=TRUE) {
 
 
 n <- length(timeseries)
@@ -30,86 +30,24 @@ warning("Calculation of the acf failed.")
 	return(NA)
 }
 
+if (aic) p <- which.min(estimate[[4]])
+
 # estimating acf using robustly filtered values
 
-robfiltered <- estimate[[5]][,p]
-acft <- try(acf(robfiltered,plot=FALSE,lag.max=maxlag)$acf[-1],silent=TRUE)
-if (inherits(acft,"try-error")){
-	warning("Calculation of the acf failed.")
-	return(NA)
-	}
+if (robfiltype=="filtered"){
 
-
-
-# estimate acf using partial autocorrelations
-
-acfp2 <- numeric(maxlag+1)		# Oja-Type
-acfp2[1] <- 1
-acfp2[2:(p+1)] <- estimate[[3]][1:p]
-
-acfp <- numeric(maxlag+1)		# Yule-Walke-Equiation-Type
-acfp[1] <- 1
-werte <- estimate[[1]][1:p]		# partial autocorrelations
-
-if (p>1){
-acfp[2:(p+1)] <- solveYuleII(werte)} else{acfp[2] <- werte}	# autocorrelations until lag p
-
-# further autocorrelations if needed using yule walker recursion
-
-if (maxlag > p) {
-	for (i in (p+1):(maxlag)) {
-		rho <- 0
-		rho2 <- 0
-		for (j in 1:p){
-			rho <- rho+werte[j]*acfp[abs(i-j)+1]
-			rho2 <- rho2+werte[j]*acfp2[abs(i-j)+1]
-			} 
-		acfp[i+1] <- rho
-		acfp2[i+1] <- rho2
+	robfiltered <- estimate[[5]][,p]
+	acfv <- try(acf(robfiltered,plot=FALSE,lag.max=maxlag)$acf[-1],silent=TRUE)
+	if (inherits(acfv,"try-error")){
+		warning("Calculation of the acf failed.")
+		return(NA)
 		}
 	}
 
-result <- list(acft,acfp[-1],acfp2[-1],p)
+# estimate acf using AR fit
 
-p <- which.min(estimate[[4]])
-# estimating acf using robustly filtered values
-
-robfiltered <- estimate[[5]][,p]
-acftaic <- try(acf(robfiltered,plot=FALSE,lag.max=maxlag)$acf[-1],silent=TRUE)
-if (inherits(acftaic,"try-error")){
-	warning("Calculation of the acf failed.")
-	return(NA)
+if (robfiltype=="ar") {
+	acfv <- ARMAacf(ar=estimate[[6]][,p],lag.max=maxlag)[-1]
 	}
-
-
-# estimate acf using partial autocorrelations
-
-acfp2aic <- numeric(maxlag+1)		# Oja-Type
-acfp2aic[1] <- 1
-acfp2aic[2:(p+1)] <- estimate[[3]][1:p]
-
-acfpaic <- numeric(maxlag+1)		# Yule-Walke-Equiation-Type
-acfpaic[1] <- 1
-werte <- estimate[[1]][1:p]		# partial autocorrelations
-
-if (p>1){
-acfpaic[2:(p+1)] <- solveYuleII(werte)} else{acfpaic[2] <- werte}	# autocorrelations until lag p
-
-# further autocorrelations if needed using yule walker recursion
-
-if (maxlag > p) {
-	for (i in (p+1):(maxlag)) {
-		rho <- 0
-		rho2 <- 0
-		for (j in 1:p){
-			rho <- rho+werte[j]*acfpaic[abs(i-j)+1]
-			rho2 <- rho2+werte[j]*acfp2aic[abs(i-j)+1]
-			} 
-		acfpaic[i+1] <- rho
-		acfp2aic[i+1] <- rho2
-		}
-	}
-
-result <- list(acft,acfp[-1],acfp2[-1],acftaic,acfpaic[-1],acfp2aic[-1],p,robfiltered)
-return(result)
+return(acfv)
 }

@@ -27,7 +27,7 @@ Numeric of length timeseries-length - 1 which contains the whole path of the tes
 }
 
 \details{
-The Cusum change point test is a nonparametric test against a change in location under short range dependence. The test has high power under gaussian processes and is able to detect even small changes. The test may suffer under outliers and in case of heavy tailed timeseries. In this case the Hodges-Lehmann change point test \code{\link{strucchange.HL}} or the Wilcoxon changepoint test \code{\link{schrucchange.wilcox}} are preferable. See Dehling et al. (2013) for details. This funtion computes only the testtrajectory, the actual test is excuted by the funtion \code{\link{rob.change}}. 
+The Cusum change point test is a nonparametric test against a change in location under short range dependence. The test has high power under gaussian processes and is able to detect even small changes. The test may suffer under outliers and in case of heavy tailed timeseries. In this case the Hodges-Lehmann change point test \code{\link{strucchange.HL}} or the Wilcoxon changepoint test \code{\link{strucchange.wilcox}} are preferable. See Dehling et al. (2013) for details. This funtion computes only the testtrajectory, the actual test is excuted by the funtion \code{\link{rob.change}}. 
 
 There are three possibilities to estimate the long run variance.
 

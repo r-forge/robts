@@ -10,7 +10,7 @@ Estimates the density of the difference of two samples at 0. This is necessary f
 }
 
 \usage{
-densdiff(x,y,cor=FALSE,type2=c("all","within","between"),adjust=1,kernelused=c("gaussian", "epanechnikov", "rectangular","triangular", "biweight","cosine", "optcosine"),...)
+densdiff(x,y,type2=c("all","within","between"),adjust=1,kernelused=c("gaussian", "epanechnikov", "rectangular","triangular", "biweight","cosine", "optcosine"),...)
 }
 
 \arguments{

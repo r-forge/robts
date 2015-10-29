@@ -27,10 +27,10 @@ acfrob(x, lag.max = NULL,
 	\item{fun}{character string naming the function used for computation, see details.}
 	\item{plot}{logical.  If \code{TRUE} (the default) the acf is plotted.}
 	\item{na.action}{function to be called to handle missing values.}
-	\item{p}{numeric value of order of AR fit used if \code{fun == acfrobfil}.}
+	\item{p}{numeric value of order of AR fit used if \code{fun == acfrobfil}, see details.}
 	\item{robfiltype}{character string naming the type of robust filtering if \code{fun == "acfrobfil"}, see details.}
 	\item{partialtype}{character string naming the type of pacf calculation if \code{type == "partial"}, see details.}
-	\item{posdef}{logical whether autocorrelation is enforced to be positive semidefinite.}
+	\item{posdef}{logical whether autocorrelation is enforced to be positive semidefinite, see details.}
 	\item{...}{further arguments passed to the respective internal autocorrelation function.}
 }
 
@@ -39,38 +39,38 @@ Object of class \code{"acf"}, see \code{\link{acf}} for details.
 }
 
 \details{
-	Possible autocorrelation functions and respective further arguments:
+
+This function robustly estimates the (partial) autocorrelation function. If one is interested in a robust autocovariance estimation, one can multiply the acf with a robust estimation of the marginal variance of the timeseries, e.g. using the \code{\link{Qn}} of the \code{robustbase} package. There are many approaches for robust autocorrelation estimation. They are described in the following.
 	
-	\code{acfGK}: Gnanadesikan-Kettenring (GK) method.  Character string argument \code{method} giving the type of variance estimator to be used.  Possible values are default \code{"Qn"}, \code{"MAD"} or \code{"Tau"}.  Additional arguments passed to the function \code{\link[robustbase]{scaleTau2}} in package \code{robustbase}.
+	If \code{fun="acfGK"} one applies a Gnanadesikan-Kettenring (GK) estimator, which calculates the acf for every lag individually and is based on a scale estimator. This is method is quick and favourable if autliers are isolated.  See the help page of \code{link{acfGK}} for more details and additional arguments.
 	
-	\code{acfmedian}: based on mediancorrelation.  No further arguments.
+	If \code{fun="acfmedian"} one applies the so called mediancorrelation, which calculates the acf for every lag individually No further arguments. Basically this estimator substitutes the median for the mean in the definition of the empirical correlation. See the help of \code{\link{acfmedian}} for details.
 	
-	\code{acfmulti}: from multivariate correlation.  Character string argument \code{method} giving the correlation estimator to be used: default \code{"weightedMCD"}, \code{"rawMCD"}, \code{"Stahel-Donoho"}, \code{"S"}, \code{"M"}, \code{"reweight"}, or \code{"Tyler"}.  Additional arguments passed to the correlation estimator.
+	If \code{fun="acfmulti"} one applies a robust estimator for the correlation matrix to compute the acf en bloc. This method can get quite time consuming if lag.max is large (e.g. larger than 15). It is favourable if outliers accour in blocks. See \code{\link{acfmulti}} for details and further arguments.
 	
-	\code{acfpartrank}: from partial autokorrelations and ranks.  Character string argument \code{method} giving the correlation estimator to be used: default \code{"spearman"}, \code{"gaussian"}, \code{"kendall"}, \code{"quadrant"} or \code{"masarotto"}.
+	If \code{fun="acfpartrank"} one first calculates the partial autokorrelations and then derive the acf. This procedure has the advantage that one automatically gets a positive definite acf. See the help of \code{\link{acfpartrank}} for more details and further arguments.
 	
-	\code{acfRA}: RA approach.  Character string \code{Psi} giving Psi function to be used: default \code{"Huber"} or \code{"Tukey"}. Mean estimator function \code{meanvalue} (default \code{\link{median}}) and scale estimator function \code{scattervalue} (default \code{\link{mad}}).  Additional robustness parameters for \code{Psi} functions.
+	If \code{fun="acfRA"} one first robustly transform the timeseries using a psi-function and calculates the usual acf afterwards. See the help of \code{\link{acfRA}} for more details and further arguments.
 	
-	\code{acfrank}: rank estimators.  Character string argument \code{method} giving the correlation estimator to be used: \code{"spearman"}, default \code{"gaussian"}, \code{"kendall"}, \code{"quadrant"} or \code{"masarotto"}.
+	If \code{fun="acfrank"} one applies a rank correlation estimator like Spearmans-tau, which calculates the acf for every lag individually. It is favourable if one considers integer valued processes. See the help of \code{\link{acfrank}} for more details and further options.
 	
-	\code{acfrobfil}: using robustly filtered values.  Obligatory argument: Numeric value \code{p} of order of AR fit to be used.  Psi function \code{psifunc} to be used, defaults to \code{smoothpsi}.  Returned acf depends on \code{acfrob}'s argument \code{robfiltype}: default \code{"emp"} for the empirical acf of the robustly filtered timeseries, \code{"pacf"} for the estimated partial autocorrelations, \code{"pacfMott"} for the estimated partial autocorrelations after Mottonen et al. (1999).
+	If \code{fun="acfrobfil"} one applies the robust filter algorithm. This is basically a robust version of the Kalman filter. The acf is then either computed by applying the usual acf to the filtered timeseries or by a robust AR-fit. See the help of \code{\link{acfrobfil}} for more details and further arguments.
 	
-	\code{acftrim}: trimmimg.  Numeric value \code{alpha} of part of largest and smallest observations to be trimmed, defaults to \code{0.1}.
+	If \code{fun="acftrim"} one applies a trimmed correlation, which calculates the acf for every lag individually. This estimator basically substitutes a trimmed mean for the mean in the definition of the empirical correlation.  See the help of \code{\link{acftrim}} for more details and further arguments.
 	
-	Types of pacf calculation, see \enc{Dürre}{Duerre} et al. (2014) for details:
+The partial autocorrelation could be either computed by first estimating the acf by one of the above methods (by setting the related \code{fun} argument and \code{partialtype="durbin-levinson"}) and deriving the pacf by the Durbin-Levinson algorithm or by one of the following methods. 
 	
-	\code{ranks}: using rank estimators.
+	If \code{partialtype="ranks"} one uses a rank based correlation estimator. See the help of \code{\link{pacf2}} for more information and further arguments.
 	
-	\code{durbin-levinson}: The acf is calculated via one of the functions above.  Afterwards, the Durbin-Levinson algorithm is used to obtain the pacf.
-	
-	\code{filter}: using robustly filtered values.
+	If \code{partialtype="filter"} one uses the robust filter algorithm. This is basically a robust version of the Kalman filter and provides a robust AR fit which is then used to derive the partial autocorrelation. See the help of \code{\link{ARfilter}} for more details.
+
+	With exception of the methods \code{fun=c("acfpartrank","acfrobfil","acftrim","acfRA")} a positive definite acf is not guaranteed, although it will be in most of the cases. If one needs a positive definite and therefore valid acf one can enforce this property by a projection algorithm. Usually this will also improve the acf estimation. See the help of \code{\link{acfposmaker}} for more details. 
 }
 
 \references{
 \enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
-
-Mottonen, J., Koivunen, V. and Oja, H. (1999): Robust autocovariance estimation based on sign and rank correlation coefficients, In: \emph{Proceedings of the IEEE Signal Processing Workshop on Higher-Order Statistics}, 187--190.
 }
+
 \author{
 Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 }
@@ -78,6 +78,10 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 
 \seealso{
 Classical, nonrobust estimation is provided by the function \code{\link{acf}}.
+
+The subroutines which actually estimates the acf: \code{link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
+
+The subroutines which actually estimates the pacf: \code{\link{pacf2}}, \code{\link{ARfilter}}.
 }
 
 \examples{

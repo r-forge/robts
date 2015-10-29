@@ -59,7 +59,7 @@ acfrob <- function(x, lag.max = NULL,
 				warning("No valid type of robust filtering given.")
 				return(NA)
 			}
-			acorf <- acfrobfil(timeseries = x, maxlag = lag.max, p = p, ...)[[which(robfiltype == c("emp", "pacf", "pacfMott"))]]
+			acorf <- acfrobfil(timeseries = x, maxlag = lag.max, p = p, ...)
 		} else {
 			fun <- get(fun)
 			acorf <- fun(timeseries = x, maxlag = lag.max, ...)

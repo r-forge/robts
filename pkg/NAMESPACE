@@ -13,13 +13,24 @@ export(
   Corefw,
   robAIC,
   filterrob,
-  robspectrum
-  strucchange.HL
-  asymvar.acf
-  asymvar.acfextra
-  asymvar.window
-  rob.change
-  strucchange.wilcox
-  strucchange.cusum
-  densdiff
+  robspectrum,
+  strucchange.HL,
+  asymvar.acf,
+  asymvar.acfextra,
+  asymvar.window,
+  rob.change,
+  strucchange.wilcox,
+  strucchange.cusum,
+  densdiff,
+  acfposmaker,
+  acftrim,
+  acfrank,
+  ARfilter,
+  acfrobfil,
+  acfRA,
+  acfpartrank,
+  acfmedian,
+  acfGK,
+  acfmulti,
+  pacf2
 )

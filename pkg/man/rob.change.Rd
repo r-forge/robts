@@ -16,7 +16,7 @@ rob.change(x,property=c("location","scale"),procedure=c("HL","Wilcoxon","Cusum")
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
 	\item{property}{character string whether one tests against a change in location or scale}
-	\item{type}{character string defining the applied change point test. Possible are the non robust Cusum test, the Wilcoxon test and the Hodges-Lehmann test. See details for more information on the tests.}
+	\item{procedure}{character string defining the applied change point test. Possible are the non robust Cusum test, the Wilcoxon test and the Hodges-Lehmann test. See details for more information on the tests.}
 	\item{conf.level}{numeric indicating the confidence level of the test.}
 	\item{alternative}{character string which specifies the alternative hypothesis. Must be one of '"two.sided"', '"less"' or '"greater"'.}
 	\item{varmethod}{character string defining the estimator for the long run variance. Must be one of '"window"', '"acf"' or '"acfextra"', see details.}
