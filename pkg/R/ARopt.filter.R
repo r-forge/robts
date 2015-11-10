@@ -5,7 +5,7 @@
 ##		psifunc: a robust Psi-Function
 ## Output: order of optimal AR model
 
-ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi,aicpenalty=function(p) {return(2*p)}) {
+ARopt.filter <- function(tss, pmax = NULL,aicpenalty=function(p) {return(2*p)},psi.l=2,psi.0=3) {
 	tmax <- length(tss)
 	if (!is.null(pmax)) if (pmax >= floor((tmax - 1) / 2)) {
 		warning("Too less data for chosen pmax, corrected to greatest possible value.")
@@ -15,7 +15,7 @@ ARopt.filter <- function(tss, pmax = NULL, psifunc = smoothpsi,aicpenalty=functi
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
 	p <- pmax
 	repeat {
-		fits <- ARfilter(timeseries = tss, p = p, psifunc = psifunc,aicpenalty=aicpenalty)
+		fits <- ARfilter(timeseries = tss, p = p, aicpenalty=aicpenalty,psi.l=psi.l,psi.0=psi.0)
 		if (is.list(fits)) {
 			RAICs <- fits[[4]]
 			break

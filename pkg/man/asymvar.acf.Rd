@@ -10,14 +10,12 @@ Computes the long run variance, which is required for change point testing, by a
 }
 
 \usage{
-asymvar.acf(x,shiftcorrect=TRUE,obs=c("untransformed","ranks"),cc=1.4,K=3,type=c("bartlett","trapezoid"),borderN=10,...)
+asymvar.acf(x,obs=c("untransformed","ranks"),cc=1.4,K=3,type=c("bartlett","trapezoid"),...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{shiftcorrect}{logical, if TRUE the estimation of the long run variance considers a change in location by first estimating the changepoint and then subtracting the estimated jump height from the second part of the time series}
 	\item{obs}{character string indicating whether the lon run variance of a cusum statistic or a Wilcoxon statistic is calculated.}
-	\item{borderN}{numeric, if \code{shiftcorrect == TRUE} the changepoint for the estimation of the log run variance is not searched below the first and last borderN observations.}
 	\item{cc}{numeric which determines the choosen bandwith, see details.}
 	\item{K}{numeric which determines the choosen bandwith, see details.}
 	\item{type}{character string determining the used kernel. Must be either '"bartlett"' or '"trapezoid"', see details.}

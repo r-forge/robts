@@ -9,8 +9,7 @@ Robustly Filtered Time Series
 Filters a given time series robustly.  The filtered series can be applied to improve estimations. Optionally, the coefficients of a fitted AR model can be used.  See \enc{Dürre}{Duerre} et al. (2014) and Maronna et al. (2006), chapter 8.6 for details.
 }
 \usage{
-filterrob(x, filter = NULL, method = c("direct", "ar"), p = 0,
-    psifunc = smoothpsi, na.action = na.fail)
+filterrob(x, filter = NULL, method = c("direct", "ar"), p = 0, na.action = na.fail)
 }
 
 \arguments{
@@ -18,7 +17,6 @@ filterrob(x, filter = NULL, method = c("direct", "ar"), p = 0,
 	\item{filter}{numeric vector of the coefficients of the AR model fitted to \code{x} if \code{method == "ar"}.}
 	\item{method}{character string whether the filtering is performed directly or using model coefficients calculated previously.}
 	\item{p}{order of AR model if \code{method == "direct"}.}
-	\item{psifunc}{Psi function, currently no alternative.}
 	\item{na.action}{function to be called to handle missing values.}
 }
 

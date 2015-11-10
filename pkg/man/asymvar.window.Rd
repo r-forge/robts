@@ -10,14 +10,12 @@ Computes the long run variance, which is required for change point testing, base
 }
 
 \usage{
-asymvar.window(x=x,overlapping=FALSE,shiftcorrect=TRUE,obs=c("untransformed","ranks"),dd=c("independent","carlstein-cor","carlstein-Qn"),borderN=10,momentp=1,...)
+asymvar.window(x=x,overlapping=FALSE,obs=c("untransformed","ranks"),dd=c("independent","carlstein-cor","carlstein-Qn"),momentp=1,...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
 	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping, see details.}
-	\item{shiftcorrect}{logical, if TRUE the estimation of the long run variance considers a change in location by first estimating the changepoint and then subtracting the estimated jump height from the second part of the time series}
-	\item{borderN}{numeric, if \code{shiftcorrect == TRUE} the changepoint for the estimation of the log run variance is not searched below the first and last borderN observations.}
 	\item{obs}{character string indicating whether the lon run variance of a cusum statistic or a Wilcoxon statistic is calculated.}
 	\item{dd}{character string indicating how the blocklength should be determined. Must be one of '"independent"', '"carlstein-cor"' or '"carlstein-Qn"', see details.}
 	\item{momentp}{numeric indicating what absolute centered mean is used to estimate the long run variance.}

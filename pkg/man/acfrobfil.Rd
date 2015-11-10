@@ -10,14 +10,15 @@ Robustly estimates the autocorrelation function of a time series based on the ro
 }
 
 \usage{
-acfrobfil(timeseries,p,maxlag,psifunc=smoothpsi,robfiltype="filtered",aic=TRUE) 
+acfrobfil(timeseries,p,maxlag,robfiltype="filtered",aic=TRUE,psi.l=2,psi.0=3) 
 }
 
 \arguments{
 	\item{timeseries}{univariate numeric vector or time series object.}
 	\item{p}{numeric determining the (maximal) order of the AR fit.}
 	\item{maxlag}{numeric value of maximum lag at which to calculate the acf.}
-	\item{psifunc}{function which determines outlyingness.}
+	\item{psi.l}{numeric determining the used psi function, see details.}
+	\item{psi.0}{numeric determining the used psi function, see details.}
 	\item{robfiltype}{characterstring indicating whether the acf is calculated based on the empirical acf using robustly filtered values (\code{robfiltype="filtered"}) or based on an AR fit (\code{robfiltype="ar"}). }
 	\item{aic}{logical indicating wether the AR order should be estimated by robust AIC criteria or should be equal to p}
 	

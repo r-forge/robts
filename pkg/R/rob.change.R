@@ -48,11 +48,11 @@ if (procedure=="HL") {
 
 data.name <- names(x)
 if (alternative=="two.sided") {
-	p.value <- 1-.Call(stats:::C_pKS2, p = max(abs(testtrajectory)), 10^(-6))
+	p.value <- 1-pKS(max(abs(testtrajectory)))
 	statistic <- max(abs(testtrajectory))
 	estimate <- which.max(abs(testtrajectory))
 		if (plot==TRUE) {
-			border <- quantileKS(1-conf.level)
+			border <- qKS(conf.level)
 			mini <- min(c(-border,testtrajectory))
 			maxi <- max(c(border,testtrajectory))
 			plot(testtrajectory,type="l",main=data.name,ylim=c(mini,maxi))

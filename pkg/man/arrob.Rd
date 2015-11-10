@@ -30,6 +30,9 @@ arrob(x, aic = TRUE, order.max = NULL, method =
 }
 
 \details{
+
+There are many possibilities to robustly estimate an AR model
+
 For default \code{method == "yule-walker"}, the autocorrelation function is calculated by \code{\link{acfrob}}.  Afterwards, the regression coefficients are obtained from it by solving the Yule-Walker equations, see Maronna et al. (2006), chapter 8.2 for details.
 
 For \code{method == "durbin-levinson"}, the Durbin-Levinson algorithm is used, see Maronna et al. (2006), chapter 8.2.

@@ -11,32 +11,11 @@
 ## output:
 # asy: estimated long run variance
 
-asymvar.acf<-function(x,shiftcorrect=TRUE,obs=c("untransformed","ranks"),cc=1.4,K=3,type=c("bartlett","trapezoid"),borderN=10,...){
-print(cc)
+asymvar.acf<-function(x,obs=c("untransformed","ranks"),cc=1.4,K=3,type=c("bartlett","trapezoid"),...){
  N=length(x)
  type <- match.arg(type)
  obs <- match.arg(obs)
- if (obs=="untransformed"){
- 	if (shiftcorrect) {
-		zz=rep(0,N)
-		for (jj in borderN:(N-borderN)){
-			zz[jj]=jj*(N-jj)*abs(mean(x[1:jj])-mean(x[(jj+1):N]))
-			}
-		tauh=which.max(zz==max(zz))
-		height= mean(x[1:tauh])-mean(x[(tauh+1):N])
-		x[(tauh+1):N] <- x[(tauh+1):N]+height
-		}
-	}
   if (obs=="ranks") {
-	if(shiftcorrect) {
-		zz=rep(0,N)
-		for (jj in borderN:(N-borderN)){
-			zz[jj]=jj*(N-jj)*abs(meddiff(x[1:jj],x[(jj+1):N]))
-			}
-		tauh=which.max(zz)
-		height= meddiff(x[1:tauh],x[(tauh+1):N])
-		x[(tauh+1):N] = x[(tauh+1):N]+height
-		}
   	x=edf(x)
 	}
 

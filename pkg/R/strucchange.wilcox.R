@@ -11,25 +11,26 @@
 
 strucchange.wilcox <- function(x,varmethod=c("window","acf","acfextra"),overlapping=TRUE,shiftcorrect=TRUE,borderN=10,...){
 N <- length(x)
+
+t2 <- .Call("wilcoxsukz",x)[-N]
+
+if (shiftcorrect) {
+	tau <- which.max(t2[borderN:(N-borderN)])
+	jumpheight <- median(x[1:tau])-median(x[(tau+1):N])
+	x[(tau+1):N] <- x[(tau+1):N]+jumpheight
+	}
+
 varmethod <- match.arg(varmethod)
 if (varmethod=="window") {
-	asy <- asymvar.window(x=x,overlapping=overlapping,shiftcorrect=shiftcorrect,obs="ranks",borderN=borderN,...)[[1]]
+	asy <- asymvar.window(x=x,overlapping=overlapping,obs="ranks",...)[[1]]
 	}
 if (varmethod=="acf") {
-	asy <- asymvar.acf(x=x,shiftcorrect=shiftcorrect,obs="ranks",...)[[1]]	
+	asy <- asymvar.acf(x=x,obs="ranks",...)[[1]]	
 	}
 if (varmethod=="acfextra") {	
-	asy <- asymvar.acfextra(x=x,shiftcorrect=shiftcorrect,obs="ranks",...)[[1]]
+	asy <- asymvar.acfextra(x=x,obs="ranks",...)[[1]]
 	}
-t2 <- numeric(N-1)
-for (m in 1:(N-1)){
-	x2=x[(m+1):N]
-	x1=x[1:m]
-	n=N-m
-	sx <- wilcox.test(x1,x2)$statistic
-	t0=2*sx-m*n
-	t2[m]=sqrt(m*n)*t0/(sqrt(m+n)*N*N)	
-	}
+
 t2 <- t2/asy
 return(t2)
 }

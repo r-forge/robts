@@ -11,7 +11,6 @@
 
 strucchange.HL <- function(x,varmethod=c("window","acf","acfextra"),overlapping=TRUE,shiftcorrect=TRUE,borderN=10,...){
 N <- length(x)
-
 varmethod <- match.arg(varmethod)
 
 	threedots <- list(...)
@@ -23,29 +22,43 @@ varmethod <- match.arg(varmethod)
 	if (length(index2)==0) threedots2 <- list() else{
 		threedots2 <- threedots[index2]
 		}
-	
+
+diffi <- outer(x,x,"-")
+index <- upper.tri(diag(N))
+zeilennummer <- matrix(1:N,ncol=N,nrow=N)
+spaltennummer <- t(zeilennummer)
+
+diffi <- diffi[index]
+zeilennummer <- zeilennummer[index]
+spaltennummer <- spaltennummer[index]
+
+diffi <- rbind(diffi,zeilennummer,spaltennummer)
+index <- order(diffi[1,])
+diffi <- diffi[,index]
+t2 <- .Call("meddiffneu",diffi[1,],diffi[2,],diffi[3,],x[-N])
+
+t2 <- N^(-3/2)*t2*as.numeric((1:(N-1)))*as.numeric(((N-1):1))
+
+tau <- which.max(t2[borderN:(N-borderN)])
+
+if (shiftcorrect) {
+	jumpheight <- meddiff(x[1:tau],x[(tau+1):N])
+	x[(tau+1):N] <- x[(tau+1):N]+jumpheight
+	}
+
+u0 <- do.call(densdiff,c(list(x[1:tau]),list(x[(tau+1):N]),threedots2))
 
 if (varmethod=="window") {
-	asy <- do.call(asymvar.window,c(list(x=x),list(overlapping=overlapping),list(shiftcorrect=shiftcorrect),list(borderN=borderN),list(obs="ranks"),threedots1))[[1]]
+	asy <- do.call(asymvar.window,c(list(x=x),list(overlapping=overlapping),list(obs="ranks"),threedots1))[[1]]
 	}
 if (varmethod=="acf") {
-	asy <- do.call(asymvar.acf,c(list(x=x,shiftcorrect=shiftcorrect,obs="ranks"),threedots1))[[1]]	
+	asy <- do.call(asymvar.acf,c(list(x=x,obs="ranks"),threedots1))[[1]]	
 	}
 if (varmethod=="acfextra") {	
-	asy <- do.call(asymvar.acfextra,c(list(x=x,shiftcorrect=shiftcorrect,obs="ranks"),threedots1))[[1]]
+	asy <- do.call(asymvar.acfextra,c(list(x=x,obs="ranks"),threedots1))[[1]]
 	}
-t2 <- numeric(N-1)
-for (m in 1:(N-1)){
-	x2=x[(m+1):N]
-	x1=x[1:m]
-	n=N-m
-	t1=meddiff(x1,x2)
-		if (shiftcorrect) {
-			x2 <- x2+t1
-			}
-		u0 <- do.call(densdiff,c(list(x1),list(x2),threedots2))
-	t2[m]=N^(-3/2)*t1*m*n*u0	
-	}
+
 t2 <- t2/asy
 return(t2)
 }
+

@@ -10,13 +10,14 @@ Robustly estimates AR models using the robust filter algorithm. See \enc{Dürre}
 }
 
 \usage{
-ARfilter(timeseries,p,psifunc=smoothpsi,aicpenalty=function(p) {return(2*p)})
+ARfilter(timeseries,p,aicpenalty=function(p) {return(2*p)},psi.l=2,psi.0=3)
 }
 
 \arguments{
 	\item{timeseries}{univariate numeric vector or time series object.}
 	\item{p}{numeric determining the order of the AR fit.}
-	\item{psifunc}{function which determines outlyingness.}
+	\item{psi.l}{numeric determining the used psi function, see details.}
+	\item{psi.0}{numeric determining the used psi function, see details.}
 	\item{aicpenalty}{numeric, indicating the penalty for a larger modell, see details.}
 	}
 

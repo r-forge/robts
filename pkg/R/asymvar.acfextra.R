@@ -8,30 +8,10 @@
 ## output:
 # asy: estimated long run variance
 
-asymvar.acfextra <-function(x,shiftcorrect=TRUE,obs=c("untransformed","ranks"),borderN=10,order.max=2,aic=FALSE,...){
+asymvar.acfextra <-function(x,obs=c("untransformed","ranks"),order.max=2,aic=FALSE,...){
  n=length(x)
  obs <- match.arg(obs)
- if (obs=="untransformed") {
- 	if (shiftcorrect) {
-		zz=rep(0,n)
-		for (jj in borderN:(n-borderN)){
-			zz[jj]=jj*(n-jj)*abs(mean(x[1:jj])-mean(x[(jj+1):n]))
-			}
-		tauh=which.max(zz==max(zz))
-		height= mean(x[1:tauh])-mean(x[(tauh+1):n])
-		x[(tauh+1):n] <- x[(tauh+1):n]+height
-		}
-	}
 if (obs=="ranks") {
-	if(shiftcorrect) {
-		zz=rep(0,n)
-		for (jj in borderN:(n-borderN)){
-			zz[jj]=jj*(n-jj)*abs(meddiff(x[1:jj],x[(jj+1):n]))
-			}
-		tauh=which.max(zz)
-		height= meddiff(x[1:tauh],x[(tauh+1):n])
-		x[(tauh+1):n] = x[(tauh+1):n]+height
-		}
   	x=edf(x)
 	}
  armodel <- ar(x,order.max=order.max,aic=aic)

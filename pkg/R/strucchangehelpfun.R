@@ -36,10 +36,33 @@ return(erg)
 # input: x in (0,1)
 # output: q(x)
 
-quantileKS <- function(x) {
-x <- 1-x
-pKS <- function(y) return(.Call(stats:::C_pKS2, p = y, 10^(-6))-x)
-quan <- uniroot(pKS,lower=0.2,upper=3)
+qKS <- function(x) {
+pKSm <- function(y) return(pKS(y)-x)
+quan <- uniroot(pKSm,lower=0.2,upper=3)
 return(quan$root)
 }
 
+pKS <- function(x) {
+return(c(.Call("pKS2",x,tol=10^(-6))))
+}
+
+
+
+alter2 <- function(x) {
+n <- length(x)
+meddiffw <- numeric(n-1)
+diffi <- outer(x,x,"-")
+index <- upper.tri(diag(n))
+zeilennummer <- matrix(1:n,ncol=n,nrow=n)
+spaltennummer <- t(zeilennummer)
+
+diffi <- diffi[index]
+zeilennummer <- zeilennummer[index]
+spaltennummer <- spaltennummer[index]
+
+diffi <- rbind(diffi,zeilennummer,spaltennummer)
+index <- order(diffi[1,])
+diffi <- diffi[,index]
+bwq <- .Call("meddiffneu",diffi[1,],diffi[2,],diffi[3,],rep(0,length(x)-1))
+return(bwq)
+}

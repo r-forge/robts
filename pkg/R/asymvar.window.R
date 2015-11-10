@@ -14,33 +14,11 @@
 # l: used blocklength of variance estimator
 # er: estimated long run variance
 
-asymvar.window=function(x=x,overlapping=FALSE,shiftcorrect=TRUE,obs=c("untransformed","ranks"),dd=c("independent","carlstein-cor","carlstein-Qn"),borderN=10,momentp=1,...){
+asymvar.window=function(x=x,overlapping=FALSE,obs=c("untransformed","ranks"),dd=c("independent","carlstein-cor","carlstein-Qn"),momentp=1,...){
  N=length(x)
  dd <- match.arg(dd)
  obs <- match.arg(obs)
- if (obs=="untransformed") {
-	if (shiftcorrect) {
-		zz=rep(0,N)
-		for (jj in borderN:(N-borderN)){
-			zz[jj]=jj*(N-jj)*abs(mean(x[1:jj])-mean(x[(jj+1):N]))
-			}
-		tauh=which.max(zz==max(zz))
-		height= mean(x[1:tauh])-mean(x[(tauh+1):N])
-		x[(tauh+1):N] <- x[(tauh+1):N]+height
-		}
-	}
- if (obs=="ranks") {
-	if(shiftcorrect) {
-		zz=rep(0,N)
-		for (jj in borderN:(N-borderN)){
-			zz[jj]=jj*(N-jj)*abs(meddiff(x[1:jj],x[(jj+1):N]))
-			}
-		tauh=which.max(zz)
-		height= meddiff(x[1:tauh],x[(tauh+1):N])
-		x[(tauh+1):N] = x[(tauh+1):N]+height
-		}
-  	x=edf(x)
-	}
+ if (obs=="ranks") x=edf(x)
 
  l=round((3*N)**(1/3)+1)
  
@@ -55,8 +33,7 @@ asymvar.window=function(x=x,overlapping=FALSE,shiftcorrect=TRUE,obs=c("untransfo
 
  phibar=mean(x)
  if (overlapping) {
- S=x
- for (i in 1:(N-l)){S[i]=sum(x[i:(i+l-1)])}
+ S=.Call("runmean",x,l)[1:(N-l)]
    S=(abs(S-l*phibar)/sqrt(l))^momentp
    cp=2^(-momentp/2)*sqrt(pi)/gamma((momentp+1)/2)
    er=sum(S)/(N-l)*cp
@@ -65,8 +42,8 @@ asymvar.window=function(x=x,overlapping=FALSE,shiftcorrect=TRUE,obs=c("untransfo
  }
  if (!overlapping) {
  k=floor(N/l)
- S=rep(0,k)
- for (i in 1:k){S[i]=sum(x[((i-1)*l+1):(i*l)])}
+ xma <- matrix(x[1:(k*l)],ncol=l,nrow=k)
+ S <- apply(xma,2,sum)
  S=(abs(S-l*phibar)/sqrt(l))^momentp
  cp=2^(-momentp/2)*sqrt(pi)/gamma((momentp+1)/2)
  er=sum(S)/k*cp

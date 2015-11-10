@@ -11,7 +11,7 @@
 ##################
 
 
-acfrobfil <- function(timeseries,p,maxlag,psifunc=smoothpsi,robfiltype="filtered",aic=TRUE) {
+acfrobfil <- function(timeseries,p,maxlag,robfiltype="filtered",aic=TRUE,psi.l=2,psi.0=3) {
 
 
 n <- length(timeseries)
@@ -20,7 +20,7 @@ n <- length(timeseries)
 
 # estimating the partial autocorrelation and robustly filtered values
 
-estimate <- try(ARfilter(timeseries,p,psifunc),silent=TRUE)
+estimate <- try(ARfilter(timeseries,p,psi.l=psi.l,psi.0=psi.0),silent=TRUE)
 if (inherits(estimate,"try-error")){
 	warning("Calculation of the acf failed.")
 	return(NA)

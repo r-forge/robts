@@ -9,13 +9,12 @@ Robust AIC of an AR(p) model
 Calculates a robust version of Akaikes information criterion for the AR(p) model fit of a given time series.  See Maronna et al. (2006), chapter 8.6.6 for details.
 }
 \usage{
-robAIC(ts, p, psifunc = smoothpsi)
+robAIC(ts, p)
 }
 
 \arguments{
 	\item{ts}{numeric vector of observations sorted as time series, without \code{NA}s.}
 	\item{p}{numeric value of order of the AR model.}
-	\item{psifunc}{Psi function, currently no alternative.}
 }
 
 \value{
