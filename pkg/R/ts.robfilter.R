@@ -7,7 +7,7 @@
 # output: robustly filtered time series
 ##################
 
-ts.robfilter <- function(ts, p) {
-	res <- ARfilter(timeseries = ts, p = p)[[5]][,p]
+ts.robfilter <- function(ts, p,psi.l=psi.l,psi.0=psi.0) {
+	res <- ARfilter(timeseries = ts, p = p,psi.l=psi.l,psi.0=psi.0)[[5]][,p]
 	return(res)
 }

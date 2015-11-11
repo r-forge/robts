@@ -9,7 +9,7 @@ Robust Spectrum
 Calculates the spectrum (or the spectral density) of a time series robustly via a periodogram or via the autocorrelation function, a wrapper calling an internal function.
 }
 \usage{
-robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi,
+robspectrum(x, method = c("pgram", "acf"), psifunc = smoothpsi,
 	truncation = log(length(x), 10) * 10, bandwidth = FALSE,
 	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
 	"acfRA", "acfrank", "acftrim", "nonrob"), 
@@ -21,17 +21,21 @@ robspectrum(x, method = c("pgram", "ar"), psifunc = smoothpsi,
 }
 
 \details{
-If \code{method == "pgram"}, the AR(p) model coefficients and the respective optimal p ist computed by \code{\link{arrob}}.  The smoothed periodogram is calculated from the filtered residuals of this model.  See Maronna et al. (2006), chapter 8.14.
+There are two general methods to compute a robust spectrum.
 
-If \code{method == "ar"}, the sprectrum is calculated directly from the acf.
+If \code{method == "pgram"} the pre-whitening method as described in chapter 8.14 of Maronna et al. (2006) is applied. The method contains two spectrum estimations. First one fits an AR model robustly, all methods implemented in \code{\link{arrob}} are possible and can be choosen by \code{arrob.method}, see the help page of \code{\link{arrob}} for more details. Afterwards residuals are calculated and transformed by a given psi-function \code{psifunc}, which should project exceptional large values to 0. The usual spectrum of this residuals is then combined with the theoretic spectrum aof the AR fit, see Maronna et al. (2006) for details.
+
+If \code{method == "ar"}, the sprectrum is calculated directly from acf using the well-known relationship between acf and spectrum. Here are also all methods of \code{\link{acfrob}} possible and can be choosen by \code{acf.fun}, see the help page of \code{\link{acfrob}} for more details and additional arguments. Because of computational reasons it is usually not possible to estimate the whole acf up to lag \eqn{n-1}. Truncating the acf will always yield a smoothed estimate which is in most applications also desired.
+
+The degree of smoothing can be either determined by setting a bandwith \code{bandwith} or a maximal lag of the acf \code{truncation}.
 }
 
 \arguments{
 \item{x}{numeric vector containing the time series.}
-\item{method}{character string naming the calculation method used: \code{"pgram"} for the periodogram-based function, \code{"ar"} for calculation from the acf.}
-\item{psifunc}{Psi function for filtering of residuals if \code{method == "pgram"}, currently no alternative.}
+\item{method}{character string naming the calculation method used: \code{"pgram"} for the pre-whitening method, \code{"acf"} for calculation from the acf, see details}
+\item{psifunc}{Psi function for filtering of residuals if \code{method == "pgram"}, see details.}
 \item{truncation}{Truncation of the acf for spectrum estimation via fourier transform of acf. Otherwise this number is converted into the equivalent bandwidth.}
-\item{bandwidth}{If FALSE the bandwidth is determined by the truncation. Otherwise the stated number is used and converted into the truncation if necessary. A bandwidth of 0 prevent smoothing or at least tries to minimize smoothing if the method is "ar".}
+\item{bandwidth}{If FALSE the bandwidth is determined by the truncation. Otherwise the stated number is used and converted into the truncation if necessary. A bandwidth of 0 prevent smoothing or at least tries to minimize smoothing if the method is "acf".}
 \item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{"\link{acfrob}"} for details.  Do not use \code{"acfrobfil"}.}
 \item{arrob.method}{character string naming the calculation method passed to \code{\link{arrob}} if \code{method == "pgram"}, see there for details.}
 \item{var1}{logical whether the variance estimator is fixed to 1, resulting in a spectral density estimation if \code{method == "ar"}.}
@@ -58,5 +62,5 @@ Classical, nonrobust estimation is provided by the function \code{\link{spectrum
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 50)
 robspectrum(tss)
-robspectrum(tss, method = "ar", plot = FALSE)
+robspectrum(tss, method = "acf", plot = FALSE)
 }

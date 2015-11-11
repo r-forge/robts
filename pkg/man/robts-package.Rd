@@ -6,7 +6,7 @@
 Robust Time Series Analysis
 }
 \description{
-Collection of R functions for robust time series analysis.  This includes various approaches for robust estimation of (partial) autocorrelation, robust filtering and robust fitting of AR(p) processes.
+Collection of R functions for robust time series analysis.  This includes various approaches for robust estimation of (partial) autocorrelation, robust filtering, robust fitting of AR(p) processes and robust changepoint detection.
 }
 \details{
 \tabular{ll}{

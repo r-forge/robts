@@ -10,8 +10,8 @@
 #####################
 
 
-robfilterAR <- function(timeseries, phi) {
-psifunc <- smoothpsi
+robfilterAR <- function(timeseries, phi,psi.l=psi.l,psi.0=psi.0) {
+psifunc <- function(x) return(smoothpsi(x,k=psi.l,l=psi.0))
 
 n <- length(timeseries)
 p <- length(phi)
