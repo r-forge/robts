@@ -3,10 +3,10 @@
 \alias{arrob}
 
 \title{
-Robust Autoregression Model
+Robust estimation of autoregressive models
 }
 \description{
-	Robust fit of an autogression model to a time series.  Its order is optimized with respect to the AIC or given.
+	Robust fit of an autogression model to a time series.  Its order is optimized with respect to a robustified AIC or given.
 }
 \usage{
 arrob(x, aic = TRUE, order.max = NULL, method =
@@ -25,31 +25,30 @@ arrob(x, aic = TRUE, order.max = NULL, method =
 	\item{na.action}{function to be called to handle missing values.}
 	\item{series}{the time series name.}
 	\item{...}{further arguments to be passed to internal functions called.}
-	\item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{\link{acfrob}} for details.  Do not use \code{"acfrobfil"}.}
-	\item{aicpenalty}{function of the model order defining a penalty term to be added to the AIC.}
+	\item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{\link{acfrob}} for details.  Do not use \code{"acfrobfil"} since one can get an AR-fit more directly by the method \code{filter}.}
+	\item{aicpenalty}{function of the model order defining the penalty term of the model selection criteria. The default results in a robust AIC.}
 }
 
 \details{
 
-There are many possibilities to robustly estimate an AR model
+There are many possibilities for robust estimation of AR models.
 
-For default \code{method == "yule-walker"}, the autocorrelation function is calculated by \code{\link{acfrob}}.  Afterwards, the regression coefficients are obtained from it by solving the Yule-Walker equations, see Maronna et al. (2006), chapter 8.2 for details.
+One approach is to use a roust estimation of the autocorrelation function. The corresponding AR coefficients can be then either computed by solving the Yule-Walker equations \code{method == "yule-walker"} or by using the Durbin-Levinson algorithm \code{method == "durbin-levinson"}. The acf estimator can be determined by \code{acf.fun}. See the help of \code{\link{acfrob}} for an overview of implemented procedures.
 
-For \code{method == "durbin-levinson"}, the Durbin-Levinson algorithm is used, see Maronna et al. (2006), chapter 8.2.
+For \code{method == "robustregression"}, the AR coefficients are computed by a robust regression. Here the dependent variable is the timeseries and the \code{p} independent variables are the lagged timeserieses. The regression is done by MM estimator \code{\link{lmrob}}, see Rousseeuw et al. (2014).
 
-For \code{method == "ols"}, the regression coefficients are computed by robustly fitting a linear model, see Maronna et al. (2006), chapter 8.2 for details.  The model fit is performed by \code{\link{lmrob}}, see Rousseeuw et al. (2014).
+For \code{method == "gm"}, generalized M estimates are used for the AR fit as described in Maronna et al. (2006), see the help page of \code{link{bestAR}} for details and further arguments.
 
-For \code{method == "filter"}, the regression coefficients are computed via robust filtering.  See \enc{Dürre}{Duerre} et al. (2014) and Maronna et al. (2006), chapter 8.6 for details.
+For \code{method == "filter"}, the regression coefficients are computed via robust filtering as described in the chapter 8.6 of Maronna et al. (2006), see the help page of \code{\link{ARfilter}} for details.
 
-For \code{method == "gm"}, generalized M estimates are used for the AR fit, see Maronna et al. (2006) for details.
-
-See also Maronna et al. (2006), chapter 8.6.6 for optimization of the AR order.
+If \code{aic == "TRUE"} AR models for every order up to \code{order.max} are estimated and the one with the smallest model selection criteria returned. The criterion is the sum of the logarithm of a robust variance estimation of the residuals and a penalty term devidided by \code{n-p} depending on the AR order \code{p}
+\deqn{crit=log(\hat{\sigma}^2)+\frac{pen(p)}{n-p}.}
+The penalty term can be set by \code{aicpenalty}.
 }
 \value{
 An object of class \code{"ar"}, see \code{\link{ar}} for details.
 }
 \references{
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
 
 Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): Robust Statistics: Theory and Methods, Wiley, chapter 8.
 

@@ -221,7 +221,7 @@ xma <- matrix(ncol=p,nrow=n-p)
 for (i in 1:p) {
 xma[,i] <- timeseries[i:(n-p+i-1)]
 }
-C <- C*sd.pred[p]
+C <- C*sd.pred[1]^2
 dt <- try(mahalanobis(xma,center=FALSE,cov=C)/p,silent=TRUE) # weights of independent variables
 if (inherits(dt,"try-error")) {
 	warning("Calculation of Mahalanobisdistances failed. Maybe acf is not positiv definit. Abort fitting further AR-modells.")
@@ -261,7 +261,6 @@ erg <- list(phimatrix=phima,aic=aicv,var.pred=sd.pred^2,x.mean=x.mean,residuals=
 names(erg)
 return(erg)
 }
-
 
 
 #######################################

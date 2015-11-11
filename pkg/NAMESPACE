@@ -35,6 +35,6 @@ export(
   acfmulti,
   pacf2,
   pKS,
-  qKS
-
+  qKS,
+  bestAR
 )
