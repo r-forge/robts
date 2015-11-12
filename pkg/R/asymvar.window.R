@@ -43,7 +43,7 @@ asymvar.window=function(x=x,overlapping=FALSE,obs=c("untransformed","ranks"),dd=
  if (!overlapping) {
  k=floor(N/l)
  xma <- matrix(x[1:(k*l)],ncol=l,nrow=k)
- S <- apply(xma,2,sum)
+ S <- apply(xma,1,sum)
  S=(abs(S-l*phibar)/sqrt(l))^momentp
  cp=2^(-momentp/2)*sqrt(pi)/gamma((momentp+1)/2)
  er=sum(S)/k*cp
