@@ -15,7 +15,7 @@ Corefw(data, boundq = 0.975, startestimator = "wMCD")
 \arguments{
 	\item{data}{matrix with the observations in rows.}
 	\item{boundq}{quantile-bound for comparism of theoretical and empirical distribution function, see details.}
-	\item{startestimator}{start estimator to be used: {\code{"rMCD"}, \code{"wMCD"} and \code{"S"}-estimator are possible, see details.}
+	\item{startestimator}{start estimator to be used: \code{"rMCD"}, \code{"wMCD"} and \code{"S"}-estimator are possible, see details.}
 }
 
 \value{
