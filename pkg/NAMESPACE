@@ -12,7 +12,6 @@ export(
   acfrob,
   arrob,
   Corefw,
-  robAIC,
   filterrob,
   robspectrum,
   strucchange.HL,
