@@ -3,7 +3,7 @@
 \alias{acfRA}
 
 \title{
-Robust autocorrelation estimation based on residual autocorrelation estimators 
+Robust Autocorrelation Estimation Based on Residual Autocorrelation
 }
 \description{
 Robustly estimates the autocorrelation function of a time series based on a robustly transformed timeseries. See \enc{Dürre}{Duerre} et al. (2014) for details.
@@ -16,10 +16,10 @@ acfRA(timeseries,maxlag,Psi="Huber",meanvalue=median,scattervalue=mad,...)
 \arguments{
 	\item{timeseries}{univariate numeric vector or time series object.}
 	\item{maxlag}{numeric value of maximum lag at which to calculate the acf.}
-	\item{Psi}{character string indicating the used Psi function. Must be either '"Huber"' or '"Tukey"', see details.}
+	\item{Psi}{character string indicating the used psi function. Must be either 'Huber' or 'Tukey', see details.}
 	\item{meanvalue}{function which estimates the location of the timeseries.}
 	\item{scattervalue}{function which estimates the scale of the timeseries.}
-	\item{...}{tuning parameters for Huber or Tukey Psi function, see details.}
+	\item{...}{tuning parameters for Huber or Tukey psi function, see details.}
 }
 
 \value{
@@ -45,9 +45,9 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 
 
 \seealso{
-The wrapper function \code{\link{acfrob}}
+The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}
+Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
 
 }
 

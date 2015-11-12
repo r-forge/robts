@@ -3,7 +3,7 @@
 \alias{qKS}
 
 \title{
-Quantile function of the Kolmogorov Smirnov distribution
+Quantile Function of the Kolmogorov Smirnov Distribution
 }
 \description{
 Computes the quantiles of the two sided Kolmogorov Smirnow test
@@ -31,7 +31,7 @@ R Core Team and Alexander \enc{Dürre}{Duerre}
 
 
 \seealso{
-\code{\link{pKS}} for the distribution function
+\code{\link{pKS}} for the distribution function.
 }
 
 \examples{

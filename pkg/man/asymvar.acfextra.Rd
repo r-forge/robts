@@ -3,10 +3,10 @@
 \alias{asymvar.acfextra}
 
 \title{
-Calculation of the long run variance based on a an AR-fit
+Calculation of the Long Run Variance Based on a an AR Fit
 }
 \description{
-Computes the long run variance, which is required for change point testing, by first fitting an AR-model and then extrapoliting its theoretic autocovariancefunction.
+Computes the long run variance, which is required for change point testing, by first fitting an AR-model and then extrapolating its theoretic autocovariance function.
 }
 
 \usage{
@@ -17,7 +17,7 @@ asymvar.acfextra(x,obs=c("untransformed","ranks"),order.max=2,aic=FALSE,...)
 	\item{x}{univariate numeric vector or time series object.}
 	\item{obs}{character string indicating whether the lon run variance of a cusum statistic or a Wilcoxon statistic is calculated.}
 	\item{aic}{logical whether the order of the AR model is estimated by the aic criterium or is considered as fixed.}
-	\item{order.max}{If \code{aic=TRUE} this is the maximal considered AR modell, otherwise it is the used order of the AR modell.}
+	\item{order.max}{If \code{aic=TRUE} this is the maximal considered AR model, otherwise it is the used order of the AR model.}
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 
@@ -28,7 +28,7 @@ List containing the folowing values:
 }
 
 \details{
-Cusum-type changepoint tests require an estimation of the long run variance. One possibility is to fit an AR model and calculates its corresponding autocovariance function. The long run variance is then estimated by the bartlett estimator with bandwith \eqn{n-1}.
+Cusum-type changepoint tests require an estimation of the long run variance. One possibility is to fit an AR model and calculate its corresponding autocovariance function. The long run variance is then estimated by the bartlett estimator with bandwith \eqn{n-1}.
 }
 
 

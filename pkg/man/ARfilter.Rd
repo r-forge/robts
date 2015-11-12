@@ -3,7 +3,7 @@
 \alias{ARfilter}
 
 \title{
-Estimation of AR models by robust filtering.
+Estimation of AR Models by Robust Filtering
 }
 \description{
 Robustly estimates AR models using the robust filter algorithm. See \enc{Dürre}{Duerre} et al. (2014) for details.
@@ -18,13 +18,13 @@ ARfilter(timeseries,p,aicpenalty=function(p) {return(2*p)},psi.l=2,psi.0=3)
 	\item{p}{numeric determining the order of the AR fit.}
 	\item{psi.l}{numeric determining the used psi function, see details.}
 	\item{psi.0}{numeric determining the used psi function, see details.}
-	\item{aicpenalty}{numeric, indicating the penalty for a larger modell, see details.}
+	\item{aicpenalty}{function of p, indicating the penalty for a larger model, see details.}
 	}
 
 \value{
 List containing the following values
 
-\item{partial autocorrelations}{matrix representing the successive estimated partial correlations of the modell. In the first column are the partial correlations of the AR model or order 1 and so on.}
+\item{partial autocorrelations}{matrix representing the successive estimated partial correlations of the model. In the first column are the partial correlations of the AR model or order 1 and so on.}
 \item{variance of innovations}{numeric containing the successive scale estimation of the residuals of the successive AR models. The first entry is for the AR(1) model and so on.}
 \item{autocorrelation}{numeric of estimated acf up until lag p.}
 \item{aic}{numeric of aic values of successive AR modells.}
@@ -34,11 +34,10 @@ List containing the following values
 
 \details{
 
-The function fits AR models of increasing order by a robust version of the Durbin Levinson algorithm as described in chapter 8 of Maronna et al. (2006). The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filter process basically compares the under the estimated modell predicted value with the observed one and transformes the corresponding residual with the psi-function. The transformed value is then set to the sum of the predicted value and the transformed residual. For more details see Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2014).
+The function fits AR models of increasing order by a robust version of the Durbin Levinson algorithm as described in chapter 8 of Maronna et al. (2006). The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filter process basically compares the under the estimated model predicted value with the observed one and transformes the corresponding residual with the psi function. The transformed value is then set to the sum of the predicted value and the transformed residual. For more details see Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2014).
 
-The Psi function should fulfill two properties. It should be the identity for small absolute values and 0 for large absolute values.
+Following Maronna et al. (2006), the psi function should fulfill two properties. It should be the identity for small absolute values and 0 for large absolute values. Both thresholds can be determined by \code{psi.l} and \code{psi.0}. Here the psi function is choosen to be two times continuous differentiable, see \enc{Dürre}{Duerre} et al. (2014) for a formal definition.
 
-Note that the algorithm is very timeconsuming even for small timeseries, especially if one chooses large \code{p}.
 }
 
 \references{
@@ -56,7 +55,7 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 
 \seealso{
 
-The wrapper function \code{\link{arrob}}
+The wrapper function \code{\link{arrob}}.
 
 }
 

@@ -9,12 +9,13 @@ Robustly Filtered Time Series
 Filters a given time series robustly. The filtered series can be applied to improve estimations. Optionally, the coefficients of a fitted AR model can be used.  See \enc{Dürre}{Duerre} et al. (2014) and Maronna et al. (2006), chapter 8.6 for details.
 }
 \usage{
-filterrob(x, filter = NULL, method = c("direct", "ar"), p = 0, na.action = na.fail, psi.l=2,psi.0=3)
+filterrob(x, filter = NULL, method = c("direct", "ar"), 
+    p = 0, na.action = na.fail, psi.l=2,psi.0=3)
 }
 
 \arguments{
 	\item{x}{numeric vector of a univariate time series.}
-	\item{filter}{numeric vector of the coefficients of the AR model fitted to \code{x} if \code{method == "ar"}.}
+	\item{filter}{numeric vector AR coefficients if \code{method == "ar"}.}
 	\item{method}{character string whether the filtering is performed directly or using model coefficients calculated previously.}
 	\item{p}{order of AR model if \code{method == "direct"}.}
 	\item{na.action}{function to be called to handle missing values.}
@@ -23,7 +24,8 @@ filterrob(x, filter = NULL, method = c("direct", "ar"), p = 0, na.action = na.fa
 }
 
 \details{
-This function filters a timeseries relative to outliers. It is assumed that the timeseries follows an AR-process with gaussian innovations. If one knows the model one can determine the AR coefficients by the argument \code{filter} and set \code{method="ar"}. If one does not know the coefficients but at least the model order \code{p}, one has to set \code{method="direct"}. In this case the parameter are estimated by the robust filter algorithm, see the help of \code{\link{ARfilter}} for details. If one does not even know the order one should use the function \code{arrob} which determines the model order by an AIC criteria.
+This function filters a timeseries in respect of outliers. It is assumed that the timeseries follows an AR-process with gaussian innovations. If one knows the model, one can determine the AR coefficients by the argument \code{filter} and set \code{method="ar"}. If one does not know the coefficients, but at least the model order \code{p}, one has to set \code{method="direct"}. In this case the parameter are estimated by the robust filter algorithm, see the help of \code{\link{ARfilter}} for details. If one does not even know the order, one should use the function \code{arrob} which determines the model order by an AIC criteria.
+
 Based on the model, residuals are calculated and smoothed by a psi-function, which is the identity for absolute values smaller than \code{psi.l} and 0 for absolute values larger than \code{psi.0}. See \enc{Dürre}{Duerre} et al. (2014) for a formal definition of the psi function. 
 
 Note that this function can be also abused to handle missing values. If one replaces missing values with abnormal high ones, the algorithm will replace them by the best linear prediction. 
@@ -42,7 +44,7 @@ Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): \emph{Robust Statistics:
 }
 
 \seealso{
-The function \code{\link{ARfilter}} estimates an AR modell based on robustly filtered values.
+The function \code{\link{ARfilter}} estimates an AR model using the robust filter algorithm.
 }
 
 \author{

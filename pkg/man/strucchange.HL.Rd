@@ -3,41 +3,44 @@
 \alias{strucchange.HL}
 
 \title{
-Hodges-Lehmann cumulative sum
+Hodges-Lehmann Cumulative Sum
 }
 \description{
 Computes the test trajectory for the Hodges-Lehmann change point test. See Dehling et al. (2015) for details.
 }
 
 \usage{
-strucchange.HL(x,varmethod=c("window","acf","acfextra"),overlapping=TRUE,shiftcorrect=TRUE,borderN=10,...)
+strucchange.HL(x,varmethod=c("window","acf","acfextra"),
+    overlapping=TRUE,shiftcorrect=TRUE,borderN=10,...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{varmethod}{character string defining the estimator for the long run variance. Must be one of '"window"', '"acf"' or '"acfextra"', see details.}
-	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping. Only relevant if \code{varmethod == window}, see details.}
+	\item{varmethod}{character string defining the estimator of the long run variance. Must be one of 'window', 'acf' or 'acfextra', see details.}
+	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping. Only relevant if \code{varmethod == "window"}, see details.}
 	\item{shiftcorrect}{logical, if TRUE the estimation of the long run variance considers a change in location by first estimating the changepoint and then subtracting the estimated jump height from the second part of the time series}
-	\item{borderN}{numeric, if \code{shiftcorrect == TRUE} the changepoint for the estimation of the log run variance is not searched below the first and last borderN observations.}
+	\item{borderN}{numeric, if \code{shiftcorrect == TRUE} the changepoint for the estimation of the long run variance is not searched below the first and last borderN observations.}
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 
 \value{
-Numeric of length timeseries-length - 1 which contains the whole path of the test statistic.
+Numeric of timeseries length - 1 which contains the whole path of the test statistic.
 }
 
 \details{
 The Hodges-Lehmann change point test is a robust and nonparametric test against a change in location under short range dependence. It is preferable to the usual Cusum test if the timeseries contains outliers or has heavy tails. See Dehling et al. (2015) for details. This funtion computes the testtrajectory which is basically a series of two sample tests, splitting the timeseries at every possible break point. The actual test is excuted by the funtion \code{\link{rob.change}}. 
 
-The long run variance of the test statistic consists of two parts, the long run variance of the ranks of the timeseries \eqn{\sigma} and the density at 0 of the difference of two independent random variables which have the same marginal distribution as an observation of the timeseries \eqn{u(0)}. There are several possibilities to estimate both. For the long run variance of the ranks there are three options. 
+The long run variance of the test statistic consists of two parts, the long run variance of the ranks of the timeseries \eqn{\sigma} and the density at 0 of the difference of two independent random variables which have the same marginal distribution as an observation of the timeseries \eqn{u(0)}. There are several possibilities to estimate both. For the long run variance of the ranks \eqn{\sigma} there are three options. 
 
-If 'varmethod' is '"window"' one uses a subsampling estimator, which is based on centred absolute moments of block sums. One can either use distinct blocks, which was proposed by Carlstein (1986), and is applied if one sets \code{"overlapping=FALSE"} or overlapping blocks, which was proposed by Peligrad and Shao (1995), and works in case of \code{"overlapping=TRUE"}. For more details how to set the blocklength and other tuning possibilities, see the help page of \code{\link{asymvar.window}}.
+If 'varmethod' is 'window' one uses a subsampling estimator, which is based on centred absolute moments of block sums. One can either use distinct blocks, which was proposed by Carlstein (1986) and is applied if one sets \code{"overlapping=FALSE"} or overlapping blocks, which was proposed by Peligrad and Shao (1995) and is applied in case of \code{"overlapping=TRUE"}. For more details how to set the blocklength and other tuning possibilities, see the help page of \code{\link{asymvar.window}}.
 
-if 'varmethod' is '"acf"' one uses a kernel estimator, which weights estimated autocovariances. For more details how to set the bandwith and other tuning possibilities, see the help page of \code{\link{asymvar.acf}}.
+if 'varmethod' is 'acf' one uses a kernel estimator, which weights estimated autocovariances. For more details how to set the bandwith and other tuning possibilities, see the help page of \code{\link{asymvar.acf}}.
 
-if 'varmethod' is '"acfextra"' one uses an extrapolation of the acf based on an ar-fit. For more details how to set the bandwith and other tuning possibilities, see the help page of \code{\link{asymvar.acfextra}}.
+if 'varmethod' is 'acfextra' one uses an extrapolation of the acf based on an AR fit. For more details how to set the bandwith and other tuning possibilities, see the help page of \code{\link{asymvar.acfextra}}.
 
 To estimate \eqn{u(0)} a classical kernel estimator is used, in fact the function \code{\link{density}} of the stats package. There are several possibilities of differences to use. See the help page of \code{\link{densdiff}} for more details. 
+
+Note that the procedure is computational demanding and can take some time for long timeseries (with more than 2000 observations).
 }
 
 \references{
@@ -56,13 +59,13 @@ Roland Fried and Alexander \enc{Dürre}{Duerre}
 
 
 \seealso{
-Further non robust change point tests are provided by the package \code{strucchange}
+Further non robust change point tests are provided by the package \code{strucchange}.
 
-The wrapper function \code{\link{rob.change}}
+The wrapper function \code{\link{rob.change}}.
 
-The long run variance is calculated by \code{\link{asymvar.window}}, \code{\link{asymvar.acf}} or \code{\link{asymvar.acfextra}}
+The long run variance is calculated by \code{\link{asymvar.window}}, \code{\link{asymvar.acf}} or \code{\link{asymvar.acfextra}}.
 
-The density at 0 for the Hodges-Lehmann estimator is calculated by \code{\link{densdiff}}
+The density at 0 for the Hodges-Lehmann estimator is calculated by \code{\link{densdiff}}.
 }
 
 \examples{

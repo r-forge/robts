@@ -3,7 +3,7 @@
 \alias{acftrim}
 
 \title{
-Robust autocorrelation estimation based on trimming
+Robust Autocorrelation Estimation Based on Trimming
 }
 \description{
 Robustly estimates the autocorrelation function of a time series based on the trimmed timeseries. See \enc{Dürre}{Duerre} et al. (2014) for details.
@@ -27,7 +27,7 @@ Numeric vector of estimated autocorrelations.
 
 The function basically first trimms the smallest and largest observations of the time series and then calculates the usual sample acf. This procedure was proposed by Chan and Wei (1992).
 
-\code{alpha} determines the quantiles (\eqn{\alpha} and \eqn{1-\alpha}) at which the data is trimmed. Therefore \eqn{2\alpha} of the data is trimmed. \enc{Dürre}{Duerre} et al. (2014) for details.
+\code{alpha} determines the quantiles (\eqn{\alpha} and \eqn{1-\alpha}) at which the data is trimmed. Therefore \eqn{2\alpha} of the data is trimmed, see \enc{Dürre}{Duerre} et al. (2014) for details.
 
 Since the estimator does not measure the usual autocorrelation, a nonlinear transformation based on simulations is applied, which guarantees consistency under gaussian processes.
 
@@ -48,9 +48,9 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 
 
 \seealso{
-The wrapper function \code{\link{acfrob}}
+The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrobfil}}, \code{\link{acfrank}}
+Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrobfil}}, \code{\link{acfrank}}.
 
 }
 

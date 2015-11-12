@@ -3,7 +3,7 @@
 \alias{acfrobfil}
 
 \title{
-Robust autocorrelation estimation based on robust filtering
+Robust Autocorrelation Estimation Based on Robust Filtering
 }
 \description{
 Robustly estimates the autocorrelation function of a time series based on the robust filter algorithm. See \enc{Dürre}{Duerre} et al. (2014) for details.
@@ -30,7 +30,7 @@ Numeric vector of estimated autocorrelations.
 
 \details{
 
-The function estimates the acf using the robust filter algorithm, which is a kind of robust Kalman filter, as described in chapter 8 of Maronna et al. (2006). The method fits AR models of increasing order by a robust version of the Durbin Levinson algorithm. The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filtering process depends on the choosen Psi function and respects the estimated dependence structue of the timeseries. The order of the AR process can be determined by the user by the argument \code{p} if one chooses \code{aic=FALSE} or estimated by a robust aic criteria if \code{aic=TRUE}. In this case \code{p} represents the maximal possible AR order.
+The function estimates the acf using the robust filter algorithm, which is a kind of robust Kalman filter, as described in chapter 8 of Maronna et al. (2006). The method fits AR models of increasing order by a robust version of the Durbin Levinson algorithm. The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filtering process depends on the psi function and respects the estimated dependence structue of the timeseries. The order of the AR process can be determined by the argument \code{p} if one chooses \code{aic=FALSE} or estimated by a robust aic criteria if \code{aic=TRUE}. In this case \code{p} represents the maximal possible AR order.
 
 There are two possibilities to derive an acf estimation.
 
@@ -38,7 +38,7 @@ If \code{robfiltype="filtered"} one calculates the usual empirical acf from the 
 
 If \code{robfiltype="ar"} one calculates the acf by the estimated AR coefficients using the function \code{\link{ARMAacf}}.
 
-Note that the algorithm is very timeconsuming even for small timeseries, especially if one chooses large \code{p}.
+A psi function which is two times continuous differentiable is used here, see \enc{Dürre}{Duerre} et al. (2014) for a formal definition. The form depends on the tuning parameters \code{psi.l} and \code{psi.0}, see the help of \code{\link{ARfilter}} for more details.
 
 More details cn be found in Maronna et al. (2006), \enc{Dürre}{Duerre} et al. (2014) and the help of the subroutine \code{\link{ARfilter}}.
 }
@@ -57,11 +57,11 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 
 
 \seealso{
-The wrapper function \code{\link{acfrob}}
+The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acftrim}}
+Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acftrim}}.
 
-The subroutine \code{\link{ARfilter}}
+The subroutine \code{\link{ARfilter}}.
 
 }
 

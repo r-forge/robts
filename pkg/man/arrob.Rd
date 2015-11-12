@@ -3,7 +3,7 @@
 \alias{arrob}
 
 \title{
-Robust estimation of autoregressive models
+Robust Estimation of Autoregressive Models
 }
 \description{
 	Robust fit of an autogression model to a time series.  Its order is optimized with respect to a robustified AIC or given.
@@ -37,7 +37,7 @@ One approach is to use a roust estimation of the autocorrelation function. The c
 
 For \code{method == "robustregression"}, the AR coefficients are computed by a robust regression. Here the dependent variable is the timeseries and the \code{p} independent variables are the lagged timeserieses. The regression is done by MM estimator \code{\link{lmrob}}, see Rousseeuw et al. (2014).
 
-For \code{method == "gm"}, generalized M estimates are used for the AR fit as described in Maronna et al. (2006), see the help page of \code{link{bestAR}} for details and further arguments.
+For \code{method == "gm"}, generalized M estimates are used for the AR fit as described in Maronna et al. (2006), see the help page of \code{\link{bestAR}} for details and further arguments.
 
 For \code{method == "filter"}, the regression coefficients are computed via robust filtering as described in the chapter 8.6 of Maronna et al. (2006), see the help page of \code{\link{ARfilter}} for details.
 

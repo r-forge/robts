@@ -3,21 +3,22 @@
 \alias{asymvar.window}
 
 \title{
-Calculation of the long run variance based on subsampling
+Calculation of the Long Run Variance Based on Subsampling
 }
 \description{
 Computes the long run variance, which is required for change point testing, based on supsampling. See Dehling et al. (2013) for details.
 }
 
 \usage{
-asymvar.window(x=x,overlapping=FALSE,obs=c("untransformed","ranks"),dd=c("independent","carlstein-cor","carlstein-Qn"),momentp=1,...)
+asymvar.window(x=x,overlapping=FALSE,obs=c("untransformed","ranks"),
+    dd=c("independent","carlstein-cor","carlstein-Qn"),momentp=1,...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
 	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping, see details.}
-	\item{obs}{character string indicating whether the lon run variance of a cusum statistic or a Wilcoxon statistic is calculated.}
-	\item{dd}{character string indicating how the blocklength should be determined. Must be one of '"independent"', '"carlstein-cor"' or '"carlstein-Qn"', see details.}
+	\item{obs}{character string indicating whether the long run variance of a cusum statistic or a Wilcoxon statistic is calculated.}
+	\item{dd}{character string indicating how the blocklength should be determined. Must be one of 'independent', 'carlstein-cor' or 'carlstein-Qn', see details.}
 	\item{momentp}{numeric indicating what absolute centered mean is used to estimate the long run variance.}
 	\item{...}{further arguments passed to the respective internal functions.}
 }
@@ -35,12 +36,12 @@ If 'overlapping' is 'TRUE' one uses a \eqn{n-l} successive overlapping blocks. T
 
 There are three different methods to determine a working blocklength  \eqn{l}:
 
-if 'dd' is '"carlstein-cor"' one uses Carlstein-rule for an optimal blocklength. Herefore it is assumed that the timeseries follows an AR(1) modell. See Carlstein (1986) for more Information.
+if 'dd' is 'carlstein-cor' one uses Carlstein-rule for an optimal blocklength. Therefore it is assumed that the timeseries follows an AR(1) modell. See Carlstein (1986) for more Information.
 
-if 'dd' is '"carlstein-Qn"' one basically applies Carlstein-rule with a robust estimation of the AR(1) coefficient. More in detail it is estimated by the autocorrelation of the first lag by \code{\link{acfGK}} .
+if 'dd' is 'carlstein-Qn' one basically applies Carlstein-rule with a robust estimation of the AR(1) coefficient. More in detail, it is estimated by the autocorrelation of the first lag using \code{\link{acfGK}} .
 
-if 'dd' is '"independent"' one uses a thumb rule only based on the timeseries length \eqn{n}:
-\deqn{round((3N)^(1/3)+1).}
+if 'dd' is 'independent' one uses a thumb rule only based on the timeseries length \eqn{n}:
+\deqn{round((3N)^{1/3}+1).}
 
 }
 
@@ -62,7 +63,7 @@ Roland Fried and Alexander \enc{Dürre}{Duerre}
 
 The long run variance can be also estimated by \code{\link{asymvar.acf}} and \code{\link{asymvar.acfextra}}.
 
-the robust estimation of the AR(1) coefficient is performed by \code{\link{acfGK}}.
+The robust estimation of the AR(1) coefficient is performed by \code{\link{acfGK}}.
 
 }
 

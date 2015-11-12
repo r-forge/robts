@@ -3,7 +3,7 @@
 \alias{pKS}
 
 \title{
-Distribution function of the Kolmogorov Smirnov distribution
+Distribution Function of the Kolmogorov Smirnov Distribution
 }
 \description{
 Computes the asymptotic distribution of the two sided Kolmogorov Smirnow test

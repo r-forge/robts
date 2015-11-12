@@ -3,10 +3,10 @@
 \alias{acfmedian}
 
 \title{
-Robust autocorrelation estimation based on median correlation
+Robust Autocorrelation Estimation Based on Median Correlation
 }
 \description{
-Robustly estimates the autocorrelation function of a time series based on median correlation. See Chakhchoukh (2010) for details.
+Robustly estimates the autocorrelation function of a time series based on the median correlation. See Chakhchoukh (2010) for details.
 }
 
 \usage{
@@ -24,9 +24,9 @@ Numeric vector of estimated autocorrelations.
 
 \details{
 
-This function estimates the autocorrelation function based on the median correlation, which was proposed by Chakhchoukh (2010). The acf is estimated for each lag individually. Let X denote the original timeseries and Y the lagged one, then the autocorrelation is estimated by
+This function estimates the autocorrelation function based on the median correlation, which is proposed by Chakhchoukh (2010). The acf is estimated for each lag individually. Let X denote the original timeseries and Y the lagged one, then the autocorrelation is estimated by
 \deqn{median(XY)/median(X^2).}
-This value does not measure the usual autocorrelation. Therefore a nonlinear transformation based on a Monte Carlo simulation is applied, which is only valid under gaussian processes.
+The resulting value does not measure the usual autocorrelation. Therefore a nonlinear transformation based on a Monte Carlo simulation is applied, which is only valid under gaussian processes.
 }  
 
 \references{
@@ -39,7 +39,7 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 
 
 \seealso{
-The wrapper function \code{\link{acfrob}}
+The wrapper function \code{\link{acfrob}}.
 
 Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
 

@@ -3,7 +3,7 @@
 \alias{acfrank}
 
 \title{
-Robust autocorrelation estimation based on signs and ranks 
+Robust Autocorrelation Estimation Based on Signs and Ranks 
 }
 \description{
 Robustly estimates the autocorrelation function of a time series based nonparametric estimators using ranks and signs. See \enc{Dürre}{Duerre} et al. (2014) for details.
@@ -16,7 +16,7 @@ acfrank(timeseries,maxlag,method="gaussian")
 \arguments{
 	\item{timeseries}{univariate numeric vector or time series object.}
 	\item{maxlag}{numeric value of maximum lag at which to calculate the acf.}
-	\item{method}{character string indicating the used correlation estimator. Must be one of '"masarotto"', '"gaussian"','"spearman"','"kendall"','"quadrant"', see details.}
+	\item{method}{character string indicating the used correlation estimator. Must be one of 'masarotto', 'gaussian','spearman','kendall','quadrant', see details.}
 }
 
 \value{
@@ -38,9 +38,9 @@ This estimator has the same asymptotic efficiency as the usual empirical correla
 
 	If \code{method="kendall"} one uses the well known Kendalls tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendalls tau. Note that Kendalls tau can get rather time consuming for large timeseries (e.g. greater than 10000).
 
-	If \code{method="quadrant"} one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therfore only applied for timeseries with a high amount of outliers.
+	If \code{method="quadrant"} one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for timeseries with a high amount of outliers.
 
-If \code{method="masarotto"} one uses and M estimator proposed by Masarotto (1987). Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK (using the Qn) estimator, new variances and correlations are iteratively computed until convergence using weights which are defined by the following psi function
+If \code{method="masarotto"} one uses the M estimator proposed by Masarotto (1987). Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK (using the Qn) estimator, new variances and correlations are iteratively computed until convergence using weights which are defined by the following psi function
 
 \deqn{\psi(x)=3/(1+x).}
 Note that this is not really a rank or sign based estimator. See Masarotto (1987) for more details.
@@ -64,9 +64,9 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 
 
 \seealso{
-The wrapper function \code{\link{acfrob}}
+The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}
+Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
 
 }
 
