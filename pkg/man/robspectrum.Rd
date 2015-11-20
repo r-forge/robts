@@ -16,7 +16,7 @@ robspectrum(x, method = c("pgram", "acf"), psifunc = smoothpsi,
     arrob.method = c("yule-walker", "durbin-levinson", 
     "robustregression", "filter", "gm", "nonrob"), 
     var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"),
-    plot = TRUE, kernel = c("parzen", "daniell", "bartlett",
+    plot = TRUE, kernel = c("bartlett","parzen", "daniell",
     "rectangular"), ...)
 }
 

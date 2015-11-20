@@ -7,7 +7,7 @@
 robspectrum <- function(x, method = c("pgram", "acf"), psifunc = smoothpsi, truncation = log(length(x),10)*10,bandwidth=FALSE,
             acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim", "nonrob"),
             arrob.method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm", "nonrob"), 
-            var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"), plot =TRUE,kernel=c("parzen","daniell","bartlett","rectangular"), ...) {
+            var1 = FALSE, sdestim = c("Qn", "scaleTau2", "mad", "sd"), plot =TRUE,kernel=c("bartlett","parzen","daniell","rectangular"), ...) {
 	n <- length(x)
 	kernel <- match.arg(kernel)
 	if (kernel=="bartlett")
@@ -21,7 +21,7 @@ robspectrum <- function(x, method = c("pgram", "acf"), psifunc = smoothpsi, trun
         if (is.logical(bandwidth)) {
 		bandwidth <- 2*pi/truncation*fa
 		} else {if (bandwidth==0) truncation <- n-1 else {
-				truncation <- 2*pi/bandwidth*fa
+				truncation <- round(2*pi/bandwidth*fa)
 			}
 		}	
 		
