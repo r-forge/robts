@@ -8,7 +8,7 @@
 ##
 
 
-ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(p) {return(2*p)}) {
+ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(p) {return(2*p)},...) {
 	acf.fun <- match.arg(acf.fun)
 	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")
 	if (!any(acf.fun == posfuns)) stop("No valid ACF function.")
@@ -18,9 +18,9 @@ ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmu
 		warning("Too less acf values calculated for chosen pmax, corrected to greatest possible p.")
 		pmax <- lmax
 	}
-	if (is.null(pmax)) pmax <- floor(min((tmax - 1) / 4, 10 * log(tmax, base = 10)))
+	if (is.null(pmax)) pmax <- floor(min(c((tmax - 1) / 4, 10 * log(tmax, base = 10))))
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
-	acorf <- as.numeric(acfrob(tss, lag.max = lmax, fun = acf.fun, plot = FALSE)$acf)
+	acorf <- as.numeric(acfrob(tss, lag.max = pmax, fun = acf.fun, plot = FALSE,...)$acf)
 	fits <- DurbinLev(acf = acorf)
 
 		RAICs <- numeric(pmax + 1)

@@ -7,6 +7,7 @@ importFrom("robustbase", "Qn", "covMcd", "lmrob", "ltsReg", "scaleTau2")
 importFrom("rrcov", "CovSde", "CovSest")
 importFrom("ICSNP", "tyler.shape")
 importFrom("SpatialNP", "mvhuberM")
+importFrom("sscor", "sscor")
 
 export(
   acfrob,

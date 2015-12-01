@@ -11,11 +11,10 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 	x <- na.action(x)
 	x <- ts(x)
 	n <- length(x)
-	if (is.null(order.max)) order.max <- min((n - 1) / 4, 10 * log(n, 10))
-	
+	if (is.null(order.max)) order.max <- min(c((n - 1) / 4, 10 * log(n, 10)))
 	if (aic) {
 		if (method == "yule-walker") {
-			re <- ARopt.YW(x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty)
+			re <- ARopt.YW(x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty,...)
 			aicv <- re$aic
 			ph <- re$coefficients
 			var.pred <- re$var.pred
@@ -24,7 +23,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			x.mean <- re$x.mean
 		}
 		if (method == "durbin-levinson") {
-			re <- ARopt.acf(tss = x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty)
+			re <- ARopt.acf(tss = x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty,...)
 			aicv <- re$aic
 			ph <- re$coefficients
 			var.pred <- re$var.pred

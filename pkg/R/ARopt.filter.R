@@ -11,7 +11,7 @@ ARopt.filter <- function(tss, pmax = NULL,aicpenalty=function(p) {return(2*p)},p
 		warning("Too less data for chosen pmax, corrected to greatest possible value.")
 		pmax <- floor((tmax - 1) / 2) - 1
 	}
-	if (is.null(pmax)) pmax <- floor(min((tmax - 1) / 4, 10 * log(tmax, base = 10)))
+	if (is.null(pmax)) pmax <- floor(min(c((tmax - 1) / 4, 10 * log(tmax, base = 10))))
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
 	p <- pmax
 	repeat {

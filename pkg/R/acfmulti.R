@@ -8,23 +8,23 @@
 #################
  
 
-acfmulti <- function(timeseries,maxlag,method="weightedMCD",...) {
-
+acfmulti <- function(timeseries,maxlag,multi.method="weightedMCD",...) {
 
 n <- length(timeseries)
 
 
 # choosing the right multivariate estimator
 
-if (method=="weightedMCD") corest <- function(x) covMcd(x)$cov
-if (method=="rawMCD") corest <- function(x) covMcd(x)$raw.cov
-if (method=="Stahel-Donoho") corest <- function(x) CovSde(x)@cov
-if (method=="S") corest <- function(x) CovSest(x, ...)@cov
-if (method=="M") corest <- function(x) mvhuberM(x, ...)$scatter
-if (method=="reweight") corest <- function(x) Corefw(x, ...)
-if (method=="Tyler") corest <- function(x) tyler.shape(x, location = rep(median, maxlag + 1))
+if (multi.method=="weightedMCD") corest <- function(x) covMcd(x)$cov
+if (multi.method=="rawMCD") corest <- function(x) covMcd(x)$raw.cov
+if (multi.method=="Stahel-Donoho") corest <- function(x) CovSde(x)@cov
+if (multi.method=="S") corest <- function(x) CovSest(x, ...)@cov
+if (multi.method=="M") corest <- function(x) mvhuberM(x, ...)$scatter
+if (multi.method=="reweight") corest <- function(x) Corefw(x, ...)
+if (multi.method=="Tyler") corest <- function(x) tyler.shape(x, location = rep(median(timeseries), maxlag + 1))
+if (multi.method=="sscor") corest <- function(x) sscor(x,location=rep(median(timeseries),maxlag+1),standardized=FALSE,pdim=TRUE)
 
-if (!any(method==c("weightedMCD", "rawMCD", "Stahel-Donoho", "S", "reweight", "Tyler", "M"))) {
+if (!any(multi.method==c("weightedMCD", "rawMCD", "Stahel-Donoho", "S", "reweight", "Tyler", "M","sscor"))) {
 	warning("This is no suitable correlation estimator. The weighted MCD is used instead.")
 	corest <- function(x) covMcd(x)$cov
 }
