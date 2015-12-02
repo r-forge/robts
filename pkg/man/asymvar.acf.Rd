@@ -29,16 +29,16 @@ List containing the folowing values:
 }
 
 \details{
-Cusum-type changepoint tests require an estimation of the long run variance. One possibility is to use a kernel estimation which downweights empirical autocorrelations of larger lags which one cannot reliable estimate. There are different tuning options regarding the bandwith \eqn{bn} and kernel. For the later only two are implemented. 
+Cusum-type changepoint tests require an estimation of the long run variance. One possibility is to use a kernel estimation which downweights empirical autocorrelations of larger lags which one cannot reliable estimate. There are different tuning options regarding the bandwith \eqn{bw} and kernel. For the later only two are implemented. 
 
 If 'kernel' is 'bartlett' one uses the classical Bartlett kernel which is defined as
-\deqn{k(x)= 1 - x/bn~~\mbox{for} |x|\leq bn~~\mbox{and}~~ 0~~\mbox{for} |x|>bn}
+\deqn{k(x)= 1 - x/bn~~\mbox{for}~|x|\leq bw~~\mbox{and}~~ 0~~\mbox{for}~|x|>bw}
 
 If 'kernel' is 'trapezoid' the following flat-top kernel is used
-\deqn{k(x)= 1 ~~\mbox{for}~~ |x|\leq bn,~~ 1-|x-bn|/bn~~\mbox{for}~~ 2bn\leq |x|>bn~~and 0~~\mbox{for}~~ x>2bn}
+\deqn{k(x)= 1 ~~\mbox{for}~ |x|\leq bw,~~ 1-|x-bw|/bw~~\mbox{for}~2bw\leq |x|>bw~~and 0~~\mbox{for}~x>2bw}
 
 For the bandwith a data-adaptive thumbrule depending on two tuning parameters is used. The basic idea is to determine after which lag the autocorrelation is negligible. Therefor one looks if the emprirical acf is smaller than
-\deqn{cc \sqrt{\log(N)_{10}/N}.}
+\deqn{cc \sqrt{\log_{10}(N)/N}.}
 If the next \eqn{K} autocorrelation also fulfill this criteria, this lag is considered as bandwith.
 }
 

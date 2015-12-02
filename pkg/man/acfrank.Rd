@@ -34,7 +34,7 @@ The function estimates the acf using rank correlation estimators, which estimate
 
 This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.
 
-	If \code{method="spearman"} one uses the well known Spearmans rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearmans rho.
+	If \code{method="spearman"} one uses the well known Spearmans rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.
 
 	If \code{method="kendall"} one uses the well known Kendalls tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendalls tau. Note that Kendalls tau can get rather time consuming for large timeseries (e.g. greater than 10000).
 

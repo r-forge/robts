@@ -6,7 +6,7 @@
 Robust Estimation of the pacf Using Signs and Ranks
 }
 \description{
-Robustly estimates the partial autocorrelation function of a time series based on signs anr ranks. See \enc{Dürre}{Duerre} et al. (2014) for details.
+Robustly estimates the partial autocorrelation function of a time series based on signs and ranks. See \enc{Dürre}{Duerre} et al. (2014) for details.
 }
 
 \usage{
@@ -41,11 +41,11 @@ See Masarotto (1987) for more details.
 
 This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.
 
-	If \code{method="spearman"} one uses the well known Spearmans rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearmans rho.
+	If \code{method="spearman"} one uses the well known Spearman's rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.
 
-	If \code{method="kendall"} one uses the well known Kendalls tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendalls tau. Note that Kendalls tau can get rather time consuming for large timeseries (e.g. greater than 10000).
+	If \code{method="kendall"} one uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for large time series (e.g. larger than 10000).
 
-	If \code{method="quadrant"} one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for timeseries with a high amount of outliers.
+	If \code{method="quadrant"} one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers or with very heavy tails.
 
 }  
 

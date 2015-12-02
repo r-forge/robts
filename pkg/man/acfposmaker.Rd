@@ -24,7 +24,7 @@ Numeric vector of transformed autocorrelations.
 
 \details{
 
-The function transforms a vector into semidefinite one by a projection algorithm, described in Al-Homidan (2006). First, based on the estimated acf, the corresponding correlation matrix (of the lagged timeseries) is build. Then the best positive semidefinite matrix with toeplitz structure is computed by iteratively projecting onto positive semidefinite and toeplitz matrices. The algorithm stops either a maximal number of iterations is reached \code{maxit=100} or the changes of the Frobeniusnorm is smaller then a given threshold \code{tol
+The function transforms a vector into a semidefinite one by a projection algorithm, described in Al-Homidan (2006). First, based on the estimated acf, the corresponding correlation matrix (of the lagged timeseries) is build. Then the best positive semidefinite matrix with Toeplitz structure is computed by iteratively projecting onto positive semidefinite and toeplitz matrices. The algorithm stops either a maximal number of iterations is reached \code{maxit=100} or the changes of the Frobenius norm is smaller then a given threshold \code{tol
 =10^(-8)}, both values can be changed by the ... argument. See \enc{Dürre}{Duerre} (2014) for more details of the algorithm.
 }  
 

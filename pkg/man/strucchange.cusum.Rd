@@ -24,11 +24,11 @@ strucchange.cusum(x,varmethod=c("window","acf","acfextra"),
 }
 
 \value{
-Numeric of timeseries length - 1 which contains the whole path of the test statistic.
+Numeric of time series length - 1 which contains the whole path of the test statistic.
 }
 
 \details{
-The cusum change point test is a nonparametric test against a change in location under short range dependence. The test has high power under gaussian processes and is able to detect even small changes. The test may suffer under outliers and in case of heavy tailed timeseries. In this case the Hodges-Lehmann change point test \code{\link{strucchange.HL}} or the Wilcoxon changepoint test \code{\link{strucchange.wilcox}} are preferable. See Dehling et al. (2013) for details. This funtion computes only the testtrajectory, the actual test is excuted by the funtion \code{\link{rob.change}}. 
+The cusum change-point test is a nonparametric test against a change in location under short range dependence. The test has high power under gaussian processes and is able to detect even small changes. The test may suffer under outliers and in case of heavy tailed time series. In this case the Hodges-Lehmann change-point test \code{\link{strucchange.HL}} or the Wilcoxon change-point test \code{\link{strucchange.wilcox}} are preferable. See Dehling et al. (2013) for details. This funtion computes only the testtrajectory, the actual test is excuted by the funtion \code{\link{rob.change}}. 
 
 There are three possibilities to estimate the long run variance.
 
@@ -55,7 +55,7 @@ Roland Fried and Alexander \enc{Dürre}{Duerre}
 
 
 \seealso{
-Further non robust change point tests are provided by the package \code{strucchange}.
+Further non robust change-point tests are provided by the packages \code{changepoint} and \code{strucchange}.
 
 The wrapper function \code{\link{rob.change}}.
 

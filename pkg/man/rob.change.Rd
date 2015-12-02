@@ -6,7 +6,7 @@
 Robust Change Point Detection
 }
 \description{
-Robust and non robst tests for changes in location and scale based on U-statistics and U-quantiles under short range dependence. See Dehling et al. (2013) and Dehling et al. (2015) for details.
+Robust and non robust tests for changes in location and scale based on U-statistics and U-quantiles under short range dependence. See Dehling et al. (2013) and Dehling et al. (2015) for details.
 }
 
 \usage{
@@ -45,13 +45,13 @@ Object of class \code{"htest"} containing the following values:
 \details{
 The cusum type test procedures are originally designed to test for a constant location but are also able to detect changes in scale using the following transformation
 \deqn{\tilde{x}_i=log(|x_i-median(x)|)}
-of the original timeseries \eqn{x}. As usual cusum type tests are very powerful if there is one structural break but might suffer in case of multiple changes, especially if there are in different directions. There are three different tests implemented.
+of the original time series \eqn{x}. As usual cusum type tests are very powerful if there is one structural break but might suffer in case of multiple changes, especially if they are in different directions. There are three different tests implemented.
 
-If 'procedure' is 'Cusum' the usual Cusum test for a change in location is applied. Because of its sensitivity relative to particular large or small values one should be careful in case of outliers. Furthermore the test looses considerably power if the timeseries is heavy tailed. In both cases one should apply one of the following tests.
+If 'procedure' is 'Cusum' the usual Cusum test for a change in location is applied. Because of its sensitivity relative to particular large or small values one should be careful in case of outliers. Furthermore, the test loses a lot of power if the time series is heavy tailed. In both cases one should apply one of the following tests.
 
-If 'procedure' is 'Wilcoxon' one basically applies a two sample Mann-Whitney-Wilcoxon test for every possible break point and choose a kind of maximal teststatistic. The exakt definition and details can be found in Dehling et al. (2013). By using ranks the tests gets less sensitive to outliers and does not suffer under heavy tailed distributions. Even under Gaussian proccesses the power of the test is not much worse than that of the cusum test.
+If 'procedure' is 'Wilcoxon' one basically applies a two sample Mann-Whitney-Wilcoxon test for every possible change-point and choose a kind of maximal test statistic. The exact definition and details can be found in Dehling et al. (2013). By using ranks the tests gets less sensitive to outliers and does not suffer under heavy tailed distributions. Even under Gaussian proccesses the power of the test is not much worse than that of the cusum test. However, the test has little power against changes far from the center of the time series.
 
-If 'procedure' is 'HL' one basically applies a two sample Hodges-Lehmann test for every possible break point and choose a kind of maximal teststatistic. The exakt definition and details can be found in Dehling et al. (2015). As the Mann-Whitney-Wilcoxon test the Hodges-Lehmann test is less sensitive to outliers and does not suffer under heavy tailed distributions. The power of the test is infact comparable to the Wilcoxon based one if the change point is in the center of the timeseries but outperforms the former if the change is nearer to the margins. The test procedure is computational demanding and can take some time for large timeseries (with more than 2000 observations).
+If 'procedure' is 'HL' one basically applies a two sample Hodges-Lehmann test for every possible change-point and choose a kind of maximal test statistic. The exact definition and details can be found in Dehling et al. (2015). As the Mann-Whitney-Wilcoxon test the Hodges-Lehmann test is less sensitive to outliers and does not suffer under heavy tailed distributions. The power of the test is in fact comparable to the Wilcoxon based one if the change-point is in the center of the time series but outperforms the former if the change is nearer to the margins. The test procedure is computationally demanding and can take some time for large time series (with more than 2000 observations).
 
 There are several possibilities to estimate the long run variance. Three of them with further variations are implemented.
 
@@ -83,7 +83,7 @@ Roland Fried and Alexander \enc{Dürre}{Duerre}
 
 
 \seealso{
-Further non robust change point tests are provided by the package \code{strucchange}.
+Further non robust change-point tests are provided by the packages \code{changepoint} and \code{strucchange}.
 
 rob.change calls the subroutines \code{\link{strucchange.cusum}}, \code{\link{strucchange.wilcox}} or \code{\link{strucchange.HL}}.
 

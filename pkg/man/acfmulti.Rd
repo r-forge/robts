@@ -30,7 +30,7 @@ This function estimates the autocorrelation function based on multivariate corre
 
 	If \code{multi.method="rawMCD"} one applies the MCD proposed by Rousseeuw (1985). This estimator is known to be very robust but also inefficient under normality. Therefore one often uses reweighted versions. See the help of \code{\link{covMcd}} for more details.
 
-	If \code{multi.method="weightedMCD"} one applies the weighted MCD which is basically the empirical covariance of observations which are not identified as outliers. The identification is based on Mahalanobis distances calculated from the raw MCD, see \code{\link{covMcd}} for more details. For acf estimation the weighted MCD is preferable to the unweighted one, see \enc{Dürre}{Duerre} et al. (2014).
+	If \code{multi.method="weightedMCD"} one applies the weighted MCD, which is basically the empirical covariance of observations which are not identified as outliers. The identification is based on Mahalanobis distances calculated from the raw MCD, see \code{\link{covMcd}} for more details. For acf estimation the weighted MCD is preferable to the unweighted one, see \enc{Dürre}{Duerre} et al. (2014).
 
 	If \code{multi.method="reweight"} one applies the efficient weighted MCD which was proposed by Gervini (2003). See the help of \code{\link{Corefw}} for more details.
 

@@ -6,7 +6,7 @@
 Calculation of the Long Run Variance Based on Subsampling
 }
 \description{
-Computes the long run variance, which is required for change point testing, based on supsampling. See Dehling et al. (2013) for details.
+Computes the long run variance, which is required for change point testing, based on subsampling. See Dehling et al. (2013) for details.
 }
 
 \usage{
@@ -36,7 +36,7 @@ If 'overlapping' is 'TRUE' one uses a \eqn{n-l} successive overlapping blocks. T
 
 There are three different methods to determine a working blocklength  \eqn{l}:
 
-if 'dd' is 'carlstein-cor' one uses Carlstein-rule for an optimal blocklength. Therefore it is assumed that the timeseries follows an AR(1) modell. See Carlstein (1986) for more Information.
+if 'dd' is 'carlstein-cor' one uses Carlstein's rule for an optimal blocklength. Therefore it is assumed that the time series follows an AR(1) model. See Carlstein (1986) for more Information.
 
 if 'dd' is 'carlstein-Qn' one basically applies Carlstein-rule with a robust estimation of the AR(1) coefficient. More in detail, it is estimated by the autocorrelation of the first lag using \code{\link{acfGK}} .
 

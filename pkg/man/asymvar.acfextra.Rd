@@ -3,7 +3,7 @@
 \alias{asymvar.acfextra}
 
 \title{
-Calculation of the Long Run Variance Based on a an AR Fit
+Calculation of the Long Run Variance Based on an AR Fit
 }
 \description{
 Computes the long run variance, which is required for change point testing, by first fitting an AR-model and then extrapolating its theoretic autocovariance function.
@@ -24,7 +24,7 @@ asymvar.acfextra(x,obs=c("untransformed","ranks"),order.max=2,aic=FALSE,...)
 \value{
 List containing the folowing values:
 \item{lrv}{estimated long run variance}
-\item{order}{estimated order of the AR modell}
+\item{order}{estimated order of the AR model}
 }
 
 \details{

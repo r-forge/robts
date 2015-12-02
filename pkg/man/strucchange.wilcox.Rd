@@ -6,7 +6,7 @@
 Wilcoxon Cumulative Sum
 }
 \description{
-Computes the test trajectory of the Mann-Whitney-Wilcoxon change point test. See Dehling et al. (2013) for details.
+Computes the test trajectory of the Mann-Whitney-Wilcoxon change-point test. See Dehling et al. (2013) for details.
 }
 
 \usage{
@@ -19,16 +19,16 @@ strucchange.wilcox(x,varmethod=c("window","acf","acfextra"),
 	\item{varmethod}{character string defining the estimator of the long run variance. Must be one of 'window', 'acf' or 'acfextra', see details.}
 	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping. Only relevant if \code{varmethod == "window"}, see details.}
 	\item{shiftcorrect}{logical, if TRUE the estimation of the long run variance considers a change in location by first estimating the changepoint and then subtracting the estimated jump height from the second part of the time series}
-	\item{borderN}{numeric, if \code{shiftcorrect == TRUE} the changepoint for the estimation of the loNg run variance is not searched below the first and last borderN observations.}
+	\item{borderN}{numeric, if \code{shiftcorrect == TRUE} the change-point for the estimation of the loNg run variance is not searched below the first and last borderN observations.}
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 
 \value{
-Numeric of timeseries length - 1 which contains the whole path of the test statistic.
+Numeric of time series length - 1 which contains the whole path of the test statistic.
 }
 
 \details{
-The Mann-Whitney-Wilcoxon change point test is a robust and nonparametric test against a change in location under short range dependence. It is preferable to the usual Cusum test if the timeseries contains outliers or has heavy tails. See Dehling et al. (2013) for details. This funtion computes the testtrajectory which is basically a series of two sample tests, splitting the timeseries at every possible break point. The actual test is excuted by the funtion \code{\link{rob.change}}. 
+The Mann-Whitney-Wilcoxon change-point test is a robust and nonparametric test against a change in location under short range dependence. It is preferable to the usual Cusum test if the time series contains outliers or has heavy tails. See Dehling et al. (2013) for details. This funtion computes the testtrajectory which is basically a series of two sample tests, splitting the time series at every possible change-point. The actual test is excuted by the funtion \code{\link{rob.change}}. 
 
 There are three possibilities to estimate the long run variance.
 
@@ -55,7 +55,7 @@ Roland Fried and Alexander \enc{Dürre}{Duerre}
 
 
 \seealso{
-Further non robust change point tests are provided by the package \code{strucchange}.
+Further non robust change-point tests are provided by the packages \code{changepoint} and \code{strucchange}.
 
 The wrapper function \code{\link{rob.change}}.
 

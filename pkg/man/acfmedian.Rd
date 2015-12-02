@@ -26,7 +26,7 @@ Numeric vector of estimated autocorrelations.
 
 This function estimates the autocorrelation function based on the median correlation, which is proposed by Chakhchoukh (2010). The acf is estimated for each lag individually. Let X denote the original timeseries and Y the lagged one, then the autocorrelation is estimated by
 \deqn{median(XY)/median(X^2).}
-The resulting value does not measure the usual autocorrelation. Therefore a nonlinear transformation based on a Monte Carlo simulation is applied, which is only valid under gaussian processes.
+The resulting value does not measure the usual autocorrelation. Therefore a nonlinear transformation based on a Monte Carlo simulation is applied, which is only valid under Gaussian processes.
 }  
 
 \references{

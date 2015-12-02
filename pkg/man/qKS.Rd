@@ -6,7 +6,7 @@
 Quantile Function of the Kolmogorov Smirnov Distribution
 }
 \description{
-Computes the quantiles of the two sided Kolmogorov Smirnow test
+Computes the quantiles of the two sided Kolmogorov Smirnov test
 }
 
 \usage{
