@@ -52,7 +52,7 @@ Croux, C. and Dehon, C. (2010): Influence functions of the Spearman and Kendall 
 
 Fried, R., Liboschik, T., Elsaid, H., Kitromilidou, S. and Fokianos, K. (2014): On outliers and interventions in count time series following GLMs, \emph{Austrian Journal of Statistics}, vol 43, .181--193.
 
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
 
 Masarotto, D. (2003): Robust identification of autoregressive moving average models, \emph{Applied statistics}, vol. 36, 214--220.
 

@@ -23,7 +23,7 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik, Roland Fried and Jonathan Rath
 Maintainer: Alexander \enc{Dürre}{Duerre} <alexander.duerre@udo.edu>
 }
 \references{
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2014): Robust estimation of (partial) autocorrelation, working paper, \url{http://hdl.handle.net/2003/33011}.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
 
 Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): \emph{Robust Statistics: Theory and Methods}, Wiley, chapter 8.
 }
