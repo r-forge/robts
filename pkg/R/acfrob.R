@@ -82,7 +82,10 @@ acfrob <- function(x, lag.max = NULL,
 	
 	if (type=="correlation") {
 		if (posdef) {
-			acorf <- acfposmaker(acorf)
+			acorf2 <- try(acfposmaker(acorf),silent=TRUE)
+			if (inherits(acorf2,"try-error")){
+				warning("Transformation to a positiv definit acf failed.")
+				} else {acorf <- acorf2}
 		}
 	}
 	
