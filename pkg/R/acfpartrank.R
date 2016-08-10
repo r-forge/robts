@@ -8,18 +8,18 @@
 ##################
 
 
-acfpartrank <- function(timeseries,maxlag,method="spearman") {
+acfpartrank <- function(timeseries,maxlag,partial.method="spearman") {
 
 
 n <- length(timeseries)
 
 
 # centering timeseries for masarotto approach
-if (method=="masarotto") timeseries <- timeseries - median(timeseries)
+if (partial.method=="masarotto") timeseries <- timeseries - median(timeseries)
 
 # choosing the right estimator
 
-if (method=="gaussian") {
+if (partial.method=="gaussian") {
 	correlation <- function(x,y) {
 		n <- length(x)
 		
@@ -37,15 +37,15 @@ if (method=="gaussian") {
 		}
 	}
 
-if (method=="spearman")  {
+if (partial.method=="spearman")  {
 	correlation <- function(x,y) {2*sin(cor(x,y,method="spearman")/6*pi)}
 	}
 
-if (method=="kendall")  {
+if (partial.method=="kendall")  {
 	correlation <- function(x,y) {sin(cor(x,y,method="kendall")*pi/2)}
 	}
 
-if (method=="quadrant") {
+if (partial.method=="quadrant") {
 	Median <- median(timeseries)	
 	correlation <- function(x,y) {
 		x <- sign(x-Median)
@@ -55,12 +55,12 @@ if (method=="quadrant") {
 		return(sin(erg*pi/2))
 		}
 	}
-if (method=="masarotto") {
+if (partial.method=="masarotto") {
 	correlation <- function(x,y) BurgM(x,y)
 }
 
-if (!any(method==c("gaussian","spearman","kendall","quadrant","masarotto"))) {
-warning("hTis is no suitable correlation estimator. Gaussian-rank-correlation is used instead.")
+if (!any(partial.method==c("gaussian","spearman","kendall","quadrant","masarotto"))) {
+warning("This is no suitable correlation estimator. Gaussian-rank-correlation is used instead.")
 	correlation <- function(x,y) {
 		n <- length(x)
 		
