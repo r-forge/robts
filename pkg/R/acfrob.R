@@ -12,9 +12,9 @@
 acfrob <- function(x, lag.max = NULL,
 					type = c("correlation", "partial"),
 					fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA",
-							"acfrank", "acfrobfil", "acftrim"),
+							"acfrank", "acfrobfil", "acftrim","acfregression"),
 					plot = TRUE, na.action = na.fail, p = NULL,
-					robfiltype = c("emp", "pacf", "pacfMott"),
+					robfiltype = c("filtered","ar"),
 					partialtype = c("ranks", "durbin-levinson", "filter"),
 					posdef=TRUE,...) {
 	
@@ -29,7 +29,7 @@ acfrob <- function(x, lag.max = NULL,
 	x <- na.action(x)
 	
 	if (!any(fun == c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA",
-						"acfrank", "acfrobfil", "acftrim"))) {
+						"acfrank", "acfrobfil", "acftrim","acfregression"))) {
 			warning("No valid acf function.")
 			return(NA)
 		}
@@ -52,10 +52,9 @@ acfrob <- function(x, lag.max = NULL,
 	
 		if (fun == "acfrobfil") {
 			if (is.null(p)) {
-				warning("No AR order given.")
-				return(NA)
+				p <- lag.max
 			}
-			if (!any(robfiltype == c("emp", "pacf", "pacfMott"))) {
+			if (!any(robfiltype == c("filtered", "ar"))) {
 				warning("No valid type of robust filtering given.")
 				return(NA)
 			}

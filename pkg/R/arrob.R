@@ -1,12 +1,12 @@
 arrob <- function(x, aic = TRUE, order.max = NULL,
 	method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),
 	na.action = na.fail, series = deparse(substitute(x)), ...,
-	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(p) {return(2*p)}) {
+	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim","acfrobfil","acfregression"),aicpenalty=function(p) {return(2*p)}) {
 	
 	method <- match.arg(method)
-	if (!any(method == c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"))) stop("No valid method chosen.")
+	if (!any(method == c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm","filter2"))) stop("No valid method chosen.")
 	acf.fun = match.arg(acf.fun)
-	if (!any(acf.fun == c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"))) stop("No valid acf function chosen.")
+	if (!any(acf.fun == c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim","acfrobfil","acfregression"))) stop("No valid acf function chosen.")
 	
 	x <- na.action(x)
 	x <- ts(x)
@@ -15,6 +15,10 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 	if (aic) {
 		if (method == "yule-walker") {
 			re <- ARopt.YW(x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty,...)
+			if (sum(is.na(re))>0) {
+				warning("Calculation failed")
+				return(NA)
+			}
 			aicv <- re$aic
 			ph <- re$coefficients
 			var.pred <- re$var.pred
@@ -24,6 +28,10 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		}
 		if (method == "durbin-levinson") {
 			re <- ARopt.acf(tss = x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty,...)
+			if (sum(is.na(re))>0) {
+				warning("Calculation failed")
+				return(NA)
+			}
 			aicv <- re$aic
 			ph <- re$coefficients
 			var.pred <- re$var.pred

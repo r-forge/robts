@@ -6,9 +6,9 @@
 ## Output: coefficients of optimal AR model
 
 
-ARopt.YW <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim"),aicpenalty=function(p) {return(2*p)},...) {
+ARopt.YW <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim","acfrobfil","acfregression"),aicpenalty=function(p) {return(2*p)},...) {
 	acf.fun <- match.arg(acf.fun)
-	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim")
+	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim","acfrobfil","acfregression")
 	if (!any(acf.fun == posfuns)) stop("No valid ACF function.")
 	tmax <- length(tss)
 	lmax <- floor(tmax / 4)
@@ -20,6 +20,9 @@ ARopt.YW <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmul
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
 	RAIC <- numeric(pmax+1)
 	acorf <- as.numeric(acfrob(tss, lag.max = pmax, fun = acf.fun, plot = FALSE,...)$acf)
+	if (sum(is.na(acorf))>0) {
+	return(NA)
+	}
 	# null model:
 	x.mean <- median(tss)
 	residuals <- tss - x.mean

@@ -13,7 +13,7 @@ arrob(x, aic = TRUE, order.max = NULL, method =
     c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),
     na.action = na.fail, series = deparse(substitute(x)), ...,
     acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
-        "acfRA", "acfrank", "acftrim"), 
+        "acfRA", "acfrank", "acftrim","acfrobfil","acfregression"), 
     aicpenalty = function(p) {return(2 * p)})
 }
 

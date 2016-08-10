@@ -13,9 +13,9 @@ Robustly estimates the (partial) autocorrelation function of a time series, a wr
 acfrob(x, lag.max = NULL,
     type = c("correlation", "partial"),
     fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
-        "acfRA", "acfrank", "acfrobfil", "acftrim"),
+        "acfRA", "acfrank", "acfrobfil", "acftrim","acfregression"),
     plot = TRUE, na.action = na.fail, p = NULL,
-    robfiltype = c("emp", "pacf", "pacfMott"),
+    robfiltype = c("filtered", "ar"),
     partialtype = c("ranks", "durbin-levinson", "filter"),
     posdef = TRUE, ...)
 }
@@ -57,6 +57,8 @@ This function robustly estimates the (partial) autocorrelation function. If one 
 	If \code{fun="acfrobfil"} one applies the robust filter algorithm. This is basically a robust version of the Kalman filter. The acf is then either computed by applying the usual acf to the filtered timeseries or by a robust AR fit. See the help of \code{\link{acfrobfil}} for more details and further arguments.
 	
 	If \code{fun="acftrim"} one applies a trimmed correlation, which calculates the acf for every lag individually. This estimator basically substitutes a trimmed mean for the mean in the definition of the empirical correlation.  See the help of \code{\link{acftrim}} for more details and further arguments.
+
+	If \code{fun="acfregression"} one applies a method proposed by politis. We need more text here.
 	
 The partial autocorrelation could be either computed by first estimating the acf by one of the above methods (by setting the related \code{fun} argument and \code{partialtype="durbin-levinson"}) and deriving the pacf by the Durbin-Levinson algorithm or by one of the following methods. 
 	
