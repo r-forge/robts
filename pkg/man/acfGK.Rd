@@ -36,7 +36,6 @@ If one uses the standard deviation as scale estimator \eqn{\hat{\sigma}}, one ro
 	If \code{GK.method="Tau"} the scale Tau estimator is used, which was proposed by Maronna and Zamar (2002). The estimator is also known to be robust and rather efficient under normality. The estimator includes two tuning-parameters, which are set as in the default of \code{\link{scaleTau2}} but can be changed using the ... argument. See the help of \code{\link{scaleTau2}} in the package \code{robustbase} for more details.
 	
 	If \code{GK.method="MAD"} one uses the usual median absolute deviation, which is known to be very robust and fast to compute, but not very efficient under normality. For more details see the help of \code{\link{mad}} in the package \code{stats}.
-}
 
 	If \code{GK.method="effi"} one uses the the efficient weighted Qn. We should add more details here.
 }
