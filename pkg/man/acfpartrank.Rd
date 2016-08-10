@@ -10,7 +10,7 @@ Robustly estimates the autocorrelation function of a time series based on a robu
 }
 
 \usage{
-acfpartrank(timeseries,maxlag,method="spearman")
+acfpartrank(timeseries,maxlag,partial.method="spearman")
 }
 
 \arguments{
@@ -27,7 +27,7 @@ Numeric vector of estimated autocorrelations.
 
 This function estimates the autocorrelation function based on partial autocorrelations. This procedure was first proposed by Masarotto (1987) and has the advantage that it produces positive definite and therefore valid acf estimations. To estimate the pacf, the estimation procedure described in \enc{Möttönen}{Moettoennen} et al. (1999) is used. It depends on successive correlation estimations of forward and backward residuals. There are many possibilities to estimate these correlations.
 
-	If \code{method="masarotto"} one follows the original proposal of Masarotto (1987), which is a kind of M estimator. Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK (using the Qn) estimator, new variances and correlations are iteratively computed until convergence, using weights which are defined by the following psi function
+	If \code{partial.method="masarotto"} one follows the original proposal of Masarotto (1987), which is a kind of M estimator. Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK (using the Qn) estimator, new variances and correlations are iteratively computed until convergence, using weights which are defined by the following psi function
 
 \deqn{\psi(x)=3/(1+x).}
 See Masarotto (1987) for more details.
