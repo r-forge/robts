@@ -8,19 +8,19 @@
 ##################
 
 
-acfrank <- function(timeseries,maxlag,method="gaussian") {
+acfrank <- function(timeseries,maxlag,rank.method="gaussian") {
 
 n <- length(timeseries)
 
 # centering timeseries for masarotto approach
 
-if (method=="masarotto") timeseries <- timeseries - median(timeseries)
+if (rank.method=="masarotto") timeseries <- timeseries - median(timeseries)
 
 
 # choosing the right estimator
 
 
-if (method=="gaussian") {
+if (rank.method=="gaussian") {
 	# transformation into ranks
 	rang <- rank(timeseries)
 	n <- length(timeseries)
@@ -28,15 +28,12 @@ if (method=="gaussian") {
 	# calculating the consistency factor
 	i <- 1:n
 	cn <- sum(qnorm(i/(n+1))^2)
-
-	kor <- numeric(maxlag)
-	for (i in 1:maxlag) {
-		kor[i] <- sum(qnorm(rang[1:(n-i)]/(n+1))*qnorm(rang[(i+1):n]/(n+1)))/cn
-		}
-	return(kor)
+	beob <- qnorm(rang/(n+1))
+	acv <- acf(beob,lag.max=maxlag,plot=FALSE,type="cov")$acf[-1]
+	return(acv/cn*n)
 	}
 
-if (method=="spearman") {
+if (rank.method=="spearman") {
 	# transformation into ranks
 	rang <- rank(timeseries)
 	n <- length(timeseries)
@@ -49,21 +46,16 @@ if (method=="spearman") {
 	cn <- sum(i^2)-n*mv^2
 	
 	
-	
-
-	kor <- numeric(maxlag)
-	for (i in 1:maxlag) {
-		kor[i] <- sum((rang[1:(n-i)]-mv)*(rang[(i+1):n]-mv))/cn
-		}
-	kor <- 2*sin(kor*pi/6)
-	return(kor)
+	acv <- acf(rang-mv,lag.max=maxlag,type="cov",plot=FALSE,demean=FALSE)$acf[-1]
+	acv <- 2*sin(acv/cn*n*pi/6)
+	return(acv)
 	}
 
-if (method=="kendall") {
+if (rank.method=="kendall") {
 	corestimation <- function(x,y) {sin(cor(x,y,method="kendall")*pi/2)}
 	}
 
-if (method=="quadrant") {
+if (rank.method=="quadrant") {
 	Median <- median(timeseries)	
 	corestimation <- function(x,y) {
 		x <- sign(x-Median)
@@ -73,12 +65,12 @@ if (method=="quadrant") {
 		return(sin(erg*pi/2))
 		}
 	}
-if (method=="masarotto") {
+if (rank.method=="masarotto") {
 	corestimation <- function(x,y) BurgM(x,y)
 }
 
 
-if (!any(method==c("gaussian","spearman","kendall","quadrant","masarotto"))) {
+if (!any(rank.method==c("gaussian","spearman","kendall","quadrant","masarotto"))) {
 	warning("This is no suitable correlation estimator. Kendalls-Tau is used instead.")
 	corestimation <- function(x,y) {sin(cor(x,y,method="kendall")*pi/2)}
 	}
