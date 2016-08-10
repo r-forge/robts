@@ -10,13 +10,13 @@ Robustly estimates the autocorrelation function of a time series based nonparame
 }
 
 \usage{
-acfrank(timeseries,maxlag,method="gaussian")
+acfrank(timeseries,maxlag,rank.method="gaussian")
 }
 
 \arguments{
 	\item{timeseries}{univariate numeric vector or time series object.}
 	\item{maxlag}{numeric value of maximum lag at which to calculate the acf.}
-	\item{method}{character string indicating the used correlation estimator. Must be one of 'masarotto', 'gaussian','spearman','kendall','quadrant', see details.}
+	\item{rank.method}{character string indicating the used correlation estimator. Must be one of 'masarotto', 'gaussian','spearman','kendall','quadrant', see details.}
 }
 
 \value{
@@ -28,19 +28,19 @@ Numeric vector of estimated autocorrelations.
 The function estimates the acf using rank correlation estimators, which estimate the autocorrelations individually for every lag. The approach works also well for count time series, see Fried et al. (2014). There are several possible rank estimators available
 
 
-	If \code{method="gaussian"} one uses the Gaussian rank correlation which is the usual correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi} the distribution function of the normal distribution, then the transformation is defined as
+	If \code{rank.method="gaussian"} one uses the Gaussian rank correlation which is the usual correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi} the distribution function of the normal distribution, then the transformation is defined as
 
 \deqn{\Phi^{-1}(R(i)/(n+1)).}
 
 This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.
 
-	If \code{method="spearman"} one uses the well known Spearmans rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.
+	If \code{rank.method="spearman"} one uses the well known Spearmans rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.
 
-	If \code{method="kendall"} one uses the well known Kendalls tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendalls tau. Note that Kendalls tau can get rather time consuming for large timeseries (e.g. greater than 10000).
+	If \code{rank.method="kendall"} one uses the well known Kendalls tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendalls tau. Note that Kendalls tau can get rather time consuming for large timeseries (e.g. greater than 10000).
 
-	If \code{method="quadrant"} one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for timeseries with a high amount of outliers.
+	If \code{rank.method="quadrant"} one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for timeseries with a high amount of outliers.
 
-If \code{method="masarotto"} one uses the M estimator proposed by Masarotto (1987). Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK (using the Qn) estimator, new variances and correlations are iteratively computed until convergence using weights which are defined by the following psi function
+If \code{rank.method="masarotto"} one uses the M estimator proposed by Masarotto (1987). Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK (using the Qn) estimator, new variances and correlations are iteratively computed until convergence using weights which are defined by the following psi function
 
 \deqn{\psi(x)=3/(1+x).}
 Note that this is not really a rank or sign based estimator. See Masarotto (1987) for more details.

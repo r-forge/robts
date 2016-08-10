@@ -16,7 +16,7 @@ acfpartrank(timeseries,maxlag,partial.method="spearman")
 \arguments{
 	\item{timeseries}{univariate numeric vector or time series object.}
 	\item{maxlag}{numeric value of maximum lag at which to calculate the acf.}
-	\item{method}{character string indicating the used correlation estimator. Must be one of 'masarotto', 'gaussian','spearman','kendall','quadrant', see details.}
+	\item{partial.method}{character string indicating the used correlation estimator. Must be one of 'masarotto', 'gaussian','spearman','kendall','quadrant', see details.}
 }
 
 \value{
