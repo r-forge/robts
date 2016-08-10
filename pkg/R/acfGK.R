@@ -7,7 +7,7 @@
 # output: autocorrelation function
 ###################
 
-acfGK <- function(timeseries,maxlag,method="Qn",...) {
+acfGK <- function(timeseries,maxlag,GK.method="Qn",...) {
 
 n <- length(timeseries)
 
@@ -15,7 +15,7 @@ n <- length(timeseries)
 
 acfvalues <- numeric(maxlag)
 for (i in 1:maxlag) {
-acfvalues[i] <- GK(timeseries[1:(n-i)],timeseries[(i+1):n],method=method,...)
+acfvalues[i] <- GK(timeseries[1:(n-i)],timeseries[(i+1):n],method=GK.method,...)
 }
 return(acfvalues)
 }
