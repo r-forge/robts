@@ -4,6 +4,7 @@ import(utils)
 import(grDevices)
 import(graphics)
 importFrom("robustbase", "Qn", "covMcd", "lmrob", "ltsReg", "scaleTau2")
+importFrom("quantreg","rq")
 importFrom("rrcov", "CovSde", "CovSest")
 importFrom("ICSNP", "tyler.shape")
 importFrom("SpatialNP", "mvhuberM")
@@ -36,5 +37,9 @@ export(
   pacf2,
   pKS,
   qKS,
-  bestAR
+  bestAR,
+  arBIC
 )
+
+S3method(plot, struc)
+S3method(plot, ar)
