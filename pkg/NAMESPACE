@@ -37,8 +37,7 @@ export(
   pacf2,
   pKS,
   qKS,
-  bestAR,
-  arBIC
+  bestAR
 )
 
 S3method(plot, struc)
