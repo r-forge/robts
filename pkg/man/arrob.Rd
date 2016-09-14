@@ -52,7 +52,7 @@ An object of class \code{"ar"}, see \code{\link{ar}} for details.
 
 Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): Robust Statistics: Theory and Methods, Wiley, chapter 8.
 
-Rousseeuw, P., Croux, C., Todorov, V., Ruckstuhl, A., Salibian-Barrera, M., Verbeke, T., Koller, M. and Maechler, M. (2014): robustbase: Basic Robust Statistics. R package version 0.91-1. URL \url{http://CRAN.R-project.org/package=robustbase}.
+Rousseeuw, P., Croux, C., Todorov, V., Ruckstuhl, A., Salibian-Barrera, M., Verbeke, T., Koller, M. and Maechler, M. (2014): robustbase: Basic Robust Statistics. R package version 0.91-1. URL \url{http://cran.r-project.org/package=robustbase}.
 }
 \author{
 Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens

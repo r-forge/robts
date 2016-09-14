@@ -10,7 +10,8 @@ Computes the long run variance, which is required for change point testing, by a
 }
 
 \usage{
-asymvar.acf(x,obs=c("untransformed","ranks"),cc=1.4,K=3,type=c("bartlett","trapezoid"),...)
+asymvar.acf(x, obs = c("untransformed", "ranks"), cc = 1.4, K = 3,
+            type = c("bartlett", "trapezoid"), ...)
 }
 
 \arguments{
