@@ -100,7 +100,7 @@ static void meddiffneu2(int n, double*x, double*i1, double*i2,double*erg) {
 int i;
 int j;
 int nn=n*(n+1)/2;
-double x1;
+double x1=0;
 int grenze;
 for(j = 0; j < n; j++) {
 	int k = 0;

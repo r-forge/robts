@@ -15,8 +15,8 @@ int compare2(const void *x, const void *y)
 
 double scaleTau(int n, double*x, double c1, double c2, double correc) {
 int i;
-double median;
-double sigma0;
+double median=1;
+double sigma0=1;
 double xbalt[n];
 
 for(i = 0; i < n; i++) {
@@ -103,7 +103,6 @@ for(i = 0; i < n; i++) {
 }
 
 double smoothpsi3(double x, double a, double b, double d, double e, double k, double l) {
-int i;
 double bx;
 	bx =fabs(x);
 	if ((bx>=k)&&(bx<l)) {
@@ -175,7 +174,6 @@ double shat;
 double mhatma[p][p];
 double ugt;
 double fak;
-double speicher[5];
 
 
 memset(Phi, 0, sizeof(double) * p * p);
