@@ -1,32 +1,26 @@
 ###################
-# calculates the acf based on mediancorrelation
+# calculates the acf based on median correlation
 # input
-# timeseries: timeseries without NAs as vector
-# maxlag: maximal lag of interest
+# x: time series without NAs as vector
+# lag.max: maximal lag of interest
 # output: calculated acf
 ###################
 
 
-acfmedian <- function(timeseries,maxlag) {
-
-n <- length(timeseries)
-
-
-# calculating the acf (biased!)
-
-timeseries <- timeseries - median(timeseries)
-acfvalues <- numeric(maxlag)
-for (i in 1:maxlag) {
-	acfvalues[i] <- mediancor(timeseries[1:(n-i)],timeseries[(i+1):n])
-}
-
-# transformation for unbiasedness
-
-AA <- get(load(system.file("extdata", "chack2", package = "robts")))				# loading the simulated expection values for the mediancorrelation
-b <- seq(from=-1,to=1,by=0.01)		# lattice where the mediancorrelation was simulated
-acfvalues2 <- numeric(maxlag)
-for (i in 1:maxlag) {
-	acfvalues2[i] <- linearinterpol(acfvalues[i],AA,b)
-	}
-return(acfvalues2)
+acfmedian <- function(x, lag.max) {
+  n <- length(x)
+  lags <- 1:lag.max
+  
+  # calculating the acf (biased!):
+  x_centered <- x - median(x)
+  acfvalues_biased <- numeric(length(lags))
+  for (i in lags) {
+  	acfvalues_biased[i] <- mediancor(x_centered[1:(n-i)], x_centered[(i+1):n])
+  }
+  
+  # transformation for unbiasedness:
+  load(system.file("extdata", "chack2", package = "robts")) # loading the simulated expected values for the median correlation
+ 	acfvalues <- sapply(acfvalues_biased, linearinterpol, a=expectations, b=values)
+ 	
+  return(acfvalues)
 }

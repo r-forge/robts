@@ -1,21 +1,22 @@
 ###################
 # calculates the acf using the GK approach
 # input
-# timeseries: timeseries (without NA) as vector
-# maxlag: the maximal lag of interest
-# method: which variance estimator to use (Qn, MAD and Tau available)
+# x: time series (without NA) as vector
+# lag.max: the maximal lag of interest
+# scalefn: which variance estimator function to use (Qn, mad, scaleTau2, reweightedQn, ...)
+# ...: passed to function scalefn
 # output: autocorrelation function
 ###################
 
-acfGK <- function(timeseries,maxlag,GK.method="Qn",...) {
-
-n <- length(timeseries)
-
-# calculating the acf
-
-acfvalues <- numeric(maxlag)
-for (i in 1:maxlag) {
-acfvalues[i] <- GK(timeseries[1:(n-i)],timeseries[(i+1):n],method=GK.method,...)
-}
-return(acfvalues)
+acfGK <- function(x, lag.max, scalefn="Qn", ...) {
+  n <- length(x)
+  lags <- 1:lag.max
+  
+  # calculating the acf:
+  acfvalues <- numeric(length(lags))
+  for (i in lags) {
+    acfvalues[i] <- corGK(x[1:(n-i)], x[(i+1):n], scalefn=scalefn, ...)
+  }
+ 
+  return(acfvalues)
 }

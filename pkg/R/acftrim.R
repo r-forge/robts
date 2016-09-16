@@ -57,11 +57,9 @@ gamma0 <- sum((timeseries-Xquer)^2*L)/sum(L)	# time series trimmed variance
 
 acfvalues <- gamma/gamma0
 
-AA <- get(load(system.file("extdata", "trimsimv", package = "robts")))				# loading the simulated expection values for the mediancorrelation
-b <- seq(from=-1,to=1,by=0.01)		# lattice where the mediancorrelation was simulated
-acfvalues2 <- numeric(maxlag)
-for (i in 1:maxlag) {
-	acfvalues2[i] <- linearinterpol(acfvalues[i],AA,b)
-	}
+# transformation for unbiasedness:
+load(system.file("extdata", "trimsimv", package = "robts"))				# loading the simulated expected values
+acfvalues <- sapply(acfvalues_biased, linearinterpol, a=expectations, b=values)
+
 return(acfvalues2)
 }

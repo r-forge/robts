@@ -7,6 +7,6 @@
 ####################
 
  
-mediancor <- function(x,y) {
+mediancor <- function(x, y) {
 	return(median(x*y)/median(x^2))
 }
