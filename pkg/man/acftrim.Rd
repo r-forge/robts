@@ -6,17 +6,17 @@
 Robust Autocorrelation Estimation Based on Trimming
 }
 \description{
-Robustly estimates the autocorrelation function of a time series based on the trimmed timeseries. See \enc{Dürre}{Duerre} et al. (2014) for details.
+Robustly estimates the autocorrelation function of a time series based on the trimmed time series. See \enc{Dürre}{Duerre} et al. (2015) for details.
 }
 
 \usage{
-acftrim(timeseries,maxlag,alpha=0.1)
+acftrim(x, lag.max, alpha = 0.1)
 }
 
 \arguments{
-	\item{timeseries}{univariate numeric vector or time series object.}
-	\item{maxlag}{numeric value of maximum lag at which to calculate the acf.}
-	\item{alpha}{numeric indicating the amount of trimmed values, see details.}
+	\item{x}{univariate numeric vector or time series object.}
+	\item{lag.max}{numeric value of maximum lag at which to calculate the acf.}
+	\item{alpha}{numeric indicating the amount of trimmed values, see Details.}
 }
 
 \value{
@@ -27,7 +27,7 @@ Numeric vector of estimated autocorrelations.
 
 The function basically first trimms the smallest and largest observations of the time series and then calculates the usual sample acf. This procedure was proposed by Chan and Wei (1992).
 
-\code{alpha} determines the quantiles (\eqn{\alpha} and \eqn{1-\alpha}) at which the data is trimmed. Therefore \eqn{2\alpha} of the data is trimmed, see \enc{Dürre}{Duerre} et al. (2014) for details.
+\code{alpha} determines the quantiles (\eqn{\alpha} and \eqn{1-\alpha}) at which the data is trimmed. Therefore \eqn{2\alpha} of the data is trimmed, see \enc{Dürre}{Duerre} et al. (2015) for details.
 
 Since the estimator does not measure the usual autocorrelation, a nonlinear transformation based on simulations is applied, which guarantees consistency under gaussian processes.
 

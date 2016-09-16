@@ -9,18 +9,18 @@ Robust Estimation of Autoregressive Models by GM Estimator
 	Robust fit of an autogression model to a time series by generalized M estimators as described in Maronna et al. (2006).
 }
 \usage{
-bestAR(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),
-    k1=1.37,k2=1,aicpenalty=function(p) {return(2*p)})
+bestAR(x, maxp, maxit = 10^3, delta = 1/2, epsilon = 10^(-4), 
+    k1 = 1.37, k2 = 1, aicpenalty = function(p) {return(2*p)})
 }
 
 \arguments{
-	\item{timeseries}{numeric vector of a univariate time series.}
+	\item{x}{numeric vector of a univariate time series.}
 	\item{maxp}{numeric value indicating the maximum AR model order considered.}
-	\item{maxit}{numeric value indicating the maximal number of iterations to determine the GM estimator, see details.}
-	\item{delta}{numeric value indicating the breakpoint of the GM estimator. Values larger than 0.5 results in an implosion breakpoint of 1-\code{delta}, see details.}
-	\item{epsilon}{numeric value indicating the stopping rule of the iteration algorithm to determine the GM estimator, see details.}
-	\item{k1}{numeric defining the tuning parameter of the huber weights, see details.}
-	\item{k2}{numeric defining the tuning parameter of the bisquare weights of the regressors, see details.}
+	\item{maxit}{numeric value indicating the maximal number of iterations to determine the GM estimator, see Details.}
+	\item{delta}{numeric value indicating the breakpoint of the GM estimator. Values larger than 0.5 results in an implosion breakpoint of 1-\code{delta}, see Details.}
+	\item{epsilon}{numeric value indicating the stopping rule of the iteration algorithm to determine the GM estimator, see Details.}
+	\item{k1}{numeric defining the tuning parameter of the huber weights, see Details.}
+	\item{k2}{numeric defining the tuning parameter of the bisquare weights of the regressors, see Details.}
 	\item{aicpenalty}{function of the model order defining the penalty term of the model selection criteria. The default results in a robust AIC.}
 }
 

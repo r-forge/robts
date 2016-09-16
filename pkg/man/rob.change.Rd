@@ -10,20 +10,20 @@ Robust and non robust tests for changes in location and scale based on U-statist
 }
 
 \usage{
-rob.change(x,property=c("location","scale"),procedure=c("HL","Wilcoxon","Cusum"),
-    conf.level=0.95,alternative=c("two.sided","less","greater"),
-    varmethod=c("window","acf","acfextra"),overlapping=FALSE,shiftcorrect=TRUE,
-    borderN=10,plot=FALSE,...)
+rob.change(x, property = c("location", "scale"), procedure = c("HL", "Wilcoxon", "Cusum"),
+    conf.level = 0.95, alternative = c("two.sided", "less", "greater"),
+    varmethod = c("window", "acf", "acfextra"), overlapping = FALSE, shiftcorrect = TRUE, 
+    borderN = 10, plot = FALSE, ...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
 	\item{property}{character string whether one tests against a change in location or scale}
-	\item{procedure}{character string defining the applied change point test. Possible are the non robust Cusum test, the Wilcoxon test and the Hodges-Lehmann test. See details for more information about the tests.}
+	\item{procedure}{character string defining the applied change point test. Possible are the non robust Cusum test, the Wilcoxon test and the Hodges-Lehmann test. See Details for more information about the tests.}
 	\item{conf.level}{numeric indicating the confidence level of the test.}
 	\item{alternative}{character string which specifies the alternative hypothesis. Must be one of 'two.sided', 'less' or 'greater'.}
-	\item{varmethod}{character string defining the estimator of the long run variance. Must be one of 'window", 'acf' or 'acfextra', see details.}
-	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping. Only relevant if \code{varmethod == "window"}, see details.}
+	\item{varmethod}{character string defining the estimator of the long run variance. Must be one of 'window", 'acf' or 'acfextra', see Details.}
+	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping. Only relevant if \code{varmethod == "window"}, see Details.}
 	\item{shiftcorrect}{logical, if TRUE the estimation of the long run variance considers a change in location by first estimating the changepoint and then subtracting the estimated jump height from the second part of the time series. This should considerably improve the power of the test.}
 	\item{borderN}{numeric, if \code{shiftcorrect == TRUE} the changepoint for the estimation of the log run variance is not searched below the first and last borderN observations.}
 	\item{plot}{logical, if TRUE a plot with the trajectory of the test statistic including confidence bands is drawn.}	
@@ -44,7 +44,7 @@ Object of class \code{"htest"} containing the following values:
 
 \details{
 The cusum type test procedures are originally designed to test for a constant location but are also able to detect changes in scale using the following transformation
-\deqn{\tilde{x}_i=log(|x_i-median(x)|)}
+\deqn{\tilde{x}_i = log(|x_i-median(x)|)}
 of the original time series \eqn{x}. As usual cusum type tests are very powerful if there is one structural break but might suffer in case of multiple changes, especially if they are in different directions. There are three different tests implemented.
 
 If 'procedure' is 'Cusum' the usual Cusum test for a change in location is applied. Because of its sensitivity relative to particular large or small values one should be careful in case of outliers. Furthermore, the test loses a lot of power if the time series is heavy tailed. In both cases one should apply one of the following tests.
@@ -55,7 +55,7 @@ If 'procedure' is 'HL' one basically applies a two sample Hodges-Lehmann test fo
 
 There are several possibilities to estimate the long run variance. Three of them with further variations are implemented.
 
-If 'varmethod' is 'window' one uses a subsampling estimator, which is based on centred absolute moments of block sums. One can either use distinct blocks, which is proposed by Carlstein (1986) and is applied if one sets \code{"overlapping=FALSE"} or overlapping blocks, which is proposed by Peligrad and Shao (1995) and is applied in case of \code{"overlapping=TRUE"}. For more details how to set the blocklength and other tuning possibilities, see the help page of \code{\link{asymvar.window}}.
+If 'varmethod' is 'window' one uses a subsampling estimator, which is based on centred absolute moments of block sums. One can either use distinct blocks, which is proposed by Carlstein (1986) and is applied if one sets \code{"overlapping = FALSE"} or overlapping blocks, which is proposed by Peligrad and Shao (1995) and is applied in case of \code{"overlapping = TRUE"}. For more details how to set the blocklength and other tuning possibilities, see the help page of \code{\link{asymvar.window}}.
 
 if 'varmethod' is 'acf' one uses a kernel estimator, which weights estimated autocovariances. For more details how to set the bandwith and other tuning possibilities, see the help page of \code{\link{asymvar.acf}}.
 

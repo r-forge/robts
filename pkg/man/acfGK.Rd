@@ -10,14 +10,14 @@ Robustly estimates the autocorrelation function of a time series based on GK est
 }
 
 \usage{
-acfGK(timeseries,maxlag,GK.method="Qn",...)
+acfGK(x, lag.max, GK.method = "Qn", ...)
 }
 
 \arguments{
-	\item{timeseries}{univariate numeric vector or time series object.}
-	\item{maxlag}{numeric value of maximum lag at which to calculate the acf.}
-	\item{GK.method}{character string indicating which scale estimator should be used. Default is 'Qn'. Must be one of 'Qn','Tau' or 'MAD', see details.}
-	\item{...}{further arguments passed to the respective internal function. For instance tuning parameter for scale Tau, see details.}
+	\item{x}{univariate numeric vector or time series object.}
+	\item{lag.max}{numeric value of maximum lag at which to calculate the acf.}
+	\item{GK.method}{character string indicating which scale estimator should be used. Default is '\code{Qn}'. Must be one of '\code{Qn}','\code{Tau}' or '\code{MAD}', see Details.}
+	\item{...}{further arguments passed to the respective internal function. For instance tuning parameter for scale Tau, see Details.}
 }
 
 \value{
@@ -26,18 +26,18 @@ Numeric vector of estimated autocorrelations.
 
 \details{
 
-This function estimates the autocorrelation function based on the GK approach, which was proposed by Ma and Genton (2000). The acf is estimated for each lag individually. Let X denote the original timeseries and Y the lagged one, then the autocorrelation is estimated by
+This function estimates the autocorrelation function based on the GK approach, which was proposed by Ma and Genton (2000). The acf is estimated for each lag individually. Let X denote the original time series and Y the lagged one, then the autocorrelation is estimated by
 \deqn{\frac{\hat{\sigma}(X+Y)^2-\hat{\sigma}(X-Y)^2}{\hat{\sigma}(X+Y)^2+\hat{\sigma}(X-Y)^2}.}
 If one uses the standard deviation as scale estimator \eqn{\hat{\sigma}}, one roughly gets the usual empirical acf. For robust estimation different scale estimators are available.
   
 	
-	If \code{GK.method="Qn"} the Qn is used, which was proposed by Rousseeuw and Croux (1993). The estimator is known to be very robust and also rather efficient under normality. See the help of \code{\link{Qn}} in the package \code{robustbase} for details.
+	If \code{GK.method = "Qn"}, the Qn is used, which was proposed by Rousseeuw and Croux (1993). The estimator is known to be very robust and also rather efficient under normality. See the help page of \code{\link{Qn}} in the package \code{robustbase} for details.
 	
-	If \code{GK.method="Tau"} the scale Tau estimator is used, which was proposed by Maronna and Zamar (2002). The estimator is also known to be robust and rather efficient under normality. The estimator includes two tuning-parameters, which are set as in the default of \code{\link{scaleTau2}} but can be changed using the ... argument. See the help of \code{\link{scaleTau2}} in the package \code{robustbase} for more details.
+	If \code{GK.method = "Tau"}, the scale Tau estimator is used, which was proposed by Maronna and Zamar (2002). The estimator is also known to be robust and rather efficient under normality. The estimator includes two tuning-parameters, which are set as in the default of \code{\link{scaleTau2}} but can be changed using the \code{...} argument. See the help page of \code{\link{scaleTau2}} in the package \code{robustbase} for more details.
 	
-	If \code{GK.method="MAD"} one uses the usual median absolute deviation, which is known to be very robust and fast to compute, but not very efficient under normality. For more details see the help of \code{\link{mad}} in the package \code{stats}.
+	If \code{GK.method = "MAD"}, one uses the usual median absolute deviation, which is known to be very robust and fast to compute, but not very efficient under normality. For more details see the help page of \code{\link{mad}} in the package \code{stats}.
 
-	If \code{GK.method="effi"} one uses the the efficient weighted Qn. We should add more details here.
+	If \code{GK.method = "effi"}, one uses the the efficient weighted Qn. We should add more details here.
 }
 
 

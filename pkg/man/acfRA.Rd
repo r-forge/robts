@@ -6,20 +6,20 @@
 Robust Autocorrelation Estimation Based on Residual Autocorrelation
 }
 \description{
-Robustly estimates the autocorrelation function of a time series based on a robustly transformed timeseries. See \enc{Dürre}{Duerre} et al. (2014) for details.
+Robustly estimates the autocorrelation function of a time series based on a robustly transformed time series. See \enc{Dürre}{Duerre} et al. (2015) for details.
 }
 
 \usage{
-acfRA(timeseries,maxlag,Psi="Huber",meanvalue=median,scattervalue=mad,...)
+acfRA(x, lag.max, Psi = "Huber", meanvalue = median, scattervalue = mad, ...)
 }
 
 \arguments{
-	\item{timeseries}{univariate numeric vector or time series object.}
-	\item{maxlag}{numeric value of maximum lag at which to calculate the acf.}
+	\item{x}{univariate numeric vector or time series object.}
+	\item{lag.max}{numeric value of maximum lag at which to calculate the acf.}
 	\item{Psi}{character string indicating the used psi function. Must be either 'Huber' or 'Tukey', see details.}
 	\item{meanvalue}{function which estimates the location of the timeseries.}
 	\item{scattervalue}{function which estimates the scale of the timeseries.}
-	\item{...}{tuning parameters for Huber or Tukey psi function, see details.}
+	\item{...}{tuning parameters for Huber or Tukey psi function, see Details.}
 }
 
 \value{
@@ -28,7 +28,7 @@ Numeric vector of estimated autocorrelations.
 
 \details{
 
-The function estimates the residual autocovariance, which is the usual acf of the robustly transformed timeseries. Using an estimator for location and scale which can be set using the arguments \code{meanvalue} and \code{scattervalue} the timeseries is transformed by applying a psi function, only Huber and Tukey are possible. The tuning parameter for the Huber function is \code{k=1.37} and for Tukey \code{k=4.68} but both can be changed using the ... argument. For the meaning of the parameters, see \enc{Dürre}{Duerre} et al. (2014).
+The function estimates the residual autocovariance, which is the usual acf of the robustly transformed time series. Using an estimator for location and scale which can be set using the arguments \code{meanvalue} and \code{scattervalue} the timeseries is transformed by applying a psi function, only Huber and Tukey are possible. The tuning parameter for the Huber function is \code{k = 1.37} and for Tukey \code{k = 4.68} but both can be changed using the ... argument. For the meaning of the parameters, see \enc{Dürre}{Duerre} et al. (2015).
 
 There is a simulation based consistency correction implemented for Gaussian timeseries and the preset tuning parameters.
 }  

@@ -10,12 +10,12 @@ Robustly estimates the autocorrelation function of a time series based on the me
 }
 
 \usage{
-acfmedian(timeseries,maxlag)
+acfmedian(x, lag.max)
 }
 
 \arguments{
-	\item{timeseries}{univariate numeric vector or time series object.}
-	\item{maxlag}{numeric value of maximum lag at which to calculate the acf.}
+	\item{x}{univariate numeric vector or time series object.}
+	\item{lag.max}{numeric value of maximum lag at which to calculate the acf.}
 }
 
 \value{
@@ -24,9 +24,9 @@ Numeric vector of estimated autocorrelations.
 
 \details{
 
-This function estimates the autocorrelation function based on the median correlation, which is proposed by Chakhchoukh (2010). The acf is estimated for each lag individually. Let X denote the original timeseries and Y the lagged one, then the autocorrelation is estimated by
+This function estimates the autocorrelation function based on the median correlation, which is proposed by Chakhchoukh (2010). The acf is estimated for each lag individually. Let X denote the original time series and Y the lagged one, then the autocorrelation is estimated by
 \deqn{median(XY)/median(X^2).}
-The resulting value does not measure the usual autocorrelation. Therefore a nonlinear transformation based on a Monte Carlo simulation is applied, which is only valid under Gaussian processes.
+The resulting value does not measure the usual autocorrelation. Therefore a nonlinear transformation based on a Monte Carlo simulation is applied, which is only valid for Gaussian processes.
 }  
 
 \references{

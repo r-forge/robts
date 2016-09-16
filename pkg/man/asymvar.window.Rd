@@ -16,9 +16,9 @@ asymvar.window(x=x,overlapping=FALSE,obs=c("untransformed","ranks"),
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping, see details.}
+	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping, see Details.}
 	\item{obs}{character string indicating whether the long run variance of a cusum statistic or a Wilcoxon statistic is calculated.}
-	\item{dd}{character string indicating how the blocklength should be determined. Must be one of 'independent', 'carlstein-cor' or 'carlstein-Qn', see details.}
+	\item{dd}{character string indicating how the blocklength should be determined. Must be one of 'independent', 'carlstein-cor' or 'carlstein-Qn', see Details.}
 	\item{momentp}{numeric indicating what absolute centered mean is used to estimate the long run variance.}
 	\item{...}{further arguments passed to the respective internal functions.}
 }
@@ -40,7 +40,7 @@ if 'dd' is 'carlstein-cor' one uses Carlstein's rule for an optimal blocklength.
 
 if 'dd' is 'carlstein-Qn' one basically applies Carlstein-rule with a robust estimation of the AR(1) coefficient. More in detail, it is estimated by the autocorrelation of the first lag using \code{\link{acfGK}} .
 
-if 'dd' is 'independent' one uses a thumb rule only based on the timeseries length \eqn{n}:
+if 'dd' is 'independent' one uses a thumb rule only based on the time series length \eqn{n}:
 \deqn{round((3N)^{1/3}+1).}
 
 }

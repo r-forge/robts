@@ -4,7 +4,7 @@
 D-string of acoustic guitar
 }
 \description{
-Timeseries of a an oscillating nylon D-string of a 3/4 acoustic guitar. 
+Time series of a an oscillating nylon D-string of a 3/4 acoustic guitar. 
 }
 \usage{
 guitar

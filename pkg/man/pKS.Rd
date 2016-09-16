@@ -35,5 +35,5 @@ R Core Team and Alexander \enc{Dürre}{Duerre}
 }
 
 \examples{
-curve(pKS,from=0,to=2)
+curve(pKS,from = 0,to = 2)
 }

@@ -16,8 +16,8 @@ strucchange.cusum(x,varmethod=c("window","acf","acfextra"),
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{varmethod}{character string defining the estimator of the long run variance. Must be one of 'window', 'acf' or 'acfextra', see details.}
-	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping. Only relevant if \code{varmethod == "window"}, see details.}
+	\item{varmethod}{character string defining the estimator of the long run variance. Must be one of 'window', 'acf' or 'acfextra', see Details.}
+	\item{overlapping}{logical indicating whether blocksums should be distinct or overlapping. Only relevant if \code{varmethod == "window"}, see Details.}
 	\item{shiftcorrect}{logical, if TRUE the estimation of the long run variance considers a change in location by first estimating the changepoint and then subtracting the estimated jump height from the second part of the time series.}
 	\item{borderN}{numeric, if \code{shiftcorrect == TRUE} the changepoint for the estimation of the long run variance is not searched below the first and last borderN observations.}
 	\item{...}{further arguments passed to the respective internal functions.}

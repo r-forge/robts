@@ -21,7 +21,7 @@ arrob(x, aic = TRUE, order.max = NULL, method =
 	\item{x}{numeric vector of a univariate time series.}
 	\item{aic}{logical whether the AR model order is to be optimized.}
 	\item{order.max}{numeric value: if \code{aic == TRUE}, the maximum AR model order considered; if \code{aic == FALSE}, the given order.}
-	\item{method}{character string naming the computation method used, see details.}
+	\item{method}{character string naming the computation method used, see Details.}
 	\item{na.action}{function to be called to handle missing values.}
 	\item{series}{the time series name.}
 	\item{...}{further arguments to be passed to internal functions called.}
@@ -33,9 +33,9 @@ arrob(x, aic = TRUE, order.max = NULL, method =
 
 There are many possibilities for robust estimation of AR models.
 
-One approach is to use a roust estimation of the autocorrelation function. The corresponding AR coefficients can be then either computed by solving the Yule-Walker equations \code{method == "yule-walker"} or by using the Durbin-Levinson algorithm \code{method == "durbin-levinson"}. The acf estimator can be determined by \code{acf.fun}. See the help of \code{\link{acfrob}} for an overview of implemented procedures.
+One approach is to use a roust estimation of the autocorrelation function. The corresponding AR coefficients can be then either computed by solving the Yule-Walker equations \code{method == "yule-walker"} or by using the Durbin-Levinson algorithm \code{method == "durbin-levinson"}. The acf estimator can be determined by \code{acf.fun}. See the help page of \code{\link{acfrob}} for an overview of implemented procedures.
 
-For \code{method == "robustregression"}, the AR coefficients are computed by a robust regression. Here the dependent variable is the timeseries and the \code{p} independent variables are the lagged timeserieses. The regression is done by MM estimator \code{\link{lmrob}}, see Rousseeuw et al. (2014).
+For \code{method == "robustregression"}, the AR coefficients are computed by a robust regression. Here the dependent variable is the time series and the \code{p} independent variables are the lagged time serieses. The regression is done by MM estimator \code{\link{lmrob}}, see Rousseeuw et al. (2014).
 
 For \code{method == "gm"}, generalized M estimates are used for the AR fit as described in Maronna et al. (2006), see the help page of \code{\link{bestAR}} for details and further arguments.
 

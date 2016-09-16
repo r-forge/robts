@@ -6,12 +6,12 @@
 Robust Estimation of the pacf Using Signs and Ranks
 }
 \description{
-Robustly estimates the partial autocorrelation function of a time series based on signs and ranks. See \enc{Dürre}{Duerre} et al. (2014) for details.
+Robustly estimates the partial autocorrelation function of a time series based on signs and ranks. See \enc{Dürre}{Duerre} et al. (2015) for details.
 }
 
 \usage{
 pacf2(x, lag.max = NULL, method = c("spearman", "gaussian",
-    "kendall", "quadrant", "masarotto"),na.action = na.fail)
+    "kendall", "quadrant", "masarotto"), na.action = na.fail)
 }
 
 \arguments{
@@ -29,23 +29,23 @@ Numeric vector of estimated autocorrelations.
 
 This function estimates the partial autocorrelations. To estimate the pacf, the estimation prodedure described in \enc{Möttönen}{Moettoennen} et al. (1999) is used. It depends on successive correlation estimations of forward and backward residuals. There are many possibilities to estimate these correlations.
 
-	If \code{method="masarotto"} one follows the original proposal of Masarotto (1987), which is a kind of M estimator. Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK estimator using the Qn, new variances and correlations are iteratively computed until convergence, using weights which are defined by the following psi function
+	If \code{method = "masarotto"}, one follows the original proposal of Masarotto (1987), which is a kind of M estimator. Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK estimator using the Qn, new variances and correlations are iteratively computed until convergence, using weights which are defined by the following psi function
 
-\deqn{\psi(x)=3/(1+x).}
+\deqn{\psi(x) = 3/(1+x).}
 See Masarotto (1987) for more details.
 
 
-	If \code{method="gaussian"} one uses the Gaussian rank correlation which is the usual correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi} the distribution function of the normal distribution, then the transformation is defined as
+	If \code{method = "gaussian"}, one uses the Gaussian rank correlation which is the usual correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi} the distribution function of the normal distribution, then the transformation is defined as
 
 \deqn{\Phi^{-1}(R(i)/(n+1)).}
 
 This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.
 
-	If \code{method="spearman"} one uses the well known Spearman's rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.
+	If \code{method = "spearman"}, one uses the well known Spearman's rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.
 
-	If \code{method="kendall"} one uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for large time series (e.g. larger than 10000).
+	If \code{method = "kendall"}, one uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for large time series (e.g. larger than 10000).
 
-	If \code{method="quadrant"} one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers or with very heavy tails.
+	If \code{method = "quadrant"}, one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers or with very heavy tails.
 
 }  
 

@@ -10,17 +10,17 @@ Estimates the density of the difference of two samples at 0. This is necessary f
 }
 
 \usage{
-densdiff(x,y,type2=c("all","within","between"),adjust=1,
-    kernelused=c("gaussian", "epanechnikov", "rectangular",
-    "triangular", "biweight","cosine", "optcosine"),...)
+densdiff(x, y, type2 = c("all", "within", "between"), adjust = 1, 
+    kernelused = c("gaussian", "epanechnikov", "rectangular", 
+    "triangular", "biweight","cosine", "optcosine"), ...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector representing the first sample.}
 	\item{y}{univariate numeric vector representing the second sample.}
-	\item{type2}{character string indicating which differences should be used, to estimate the density. Must be one of 'all', 'within' and 'between', see details.}
-	\item{adjust}{numeric which determines the used bandwith, see the help of \code{\link{density}} for details.}
-	\item{kernelused}{character string indicating the used kernel, see the help of \code{\link{density}} for details.}
+	\item{type2}{character string indicating which differences should be used, to estimate the density. Must be one of 'all', 'within' and 'between', see Details.}
+	\item{adjust}{numeric which determines the used bandwith, see the help of \code{\link{density}} for Details.}
+	\item{kernelused}{character string indicating the used kernel, see the help of \code{\link{density}} for Details.}
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 

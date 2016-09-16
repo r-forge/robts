@@ -23,19 +23,19 @@ robspectrum(x, method = c("pgram", "acf"), psifunc = smoothpsi,
 \details{
 There are two general methods to compute a robust spectrum.
 
-If \code{method == "pgram"} the pre-whitening method as described in chapter 8.14 of Maronna et al. (2006) is applied. The method contains two spectrum estimations. First one fits an AR model robustly. See the help of \code{\link{arrob}} for an overview of possible methods which can be choosen by the argument \code{arrob.method}. Afterwards residuals are calculated and transformed by a given psi function \code{psifunc}, which should project exceptional large values to 0. The usual spectrum of this residuals is then combined with the theoretic spectrum of the AR fit, see Maronna et al. (2006) for details.
+If \code{method == "pgram"} the pre-whitening method as described in chapter 8.14 of Maronna et al. (2006) is applied. The method contains two spectrum estimations. First one fits an AR model robustly. See the help page of \code{\link{arrob}} for an overview of possible methods which can be choosen by the argument \code{arrob.method}. Afterwards residuals are calculated and transformed by a given psi function \code{psifunc}, which should project exceptional large values to 0. The usual spectrum of this residuals is then combined with the theoretic spectrum of the AR fit, see Maronna et al. (2006) for details.
 
 If \code{method == "ar"}, the sprectrum is calculated directly from acf using the well-known relationship between acf and spectrum. Here are also all methods of \code{\link{acfrob}} possible and can be choosen by \code{acf.fun}, see the help page of \code{\link{acfrob}} for more details and additional arguments. Because of computational reasons, it is usually not possible to estimate the whole acf up to lag \eqn{n-1}. Truncating the acf will always yield a smoothed estimate, which is in most applications also desired.
 
-Since the autocorrelation does not contain informations about the scale of the timeseries, one can only derive the spectral density, which integrates to 1. If one is interested in the classical spectrum, one has to set \code{var1=FALSE}. In this case the estimated spectral density is transformed to a spectrum using a scale estimator which can be choosen using the argument \code{sdestim}.
+Since the autocorrelation does not contain informations about the scale of the time series, one can only derive the spectral density, which integrates to 1. If one is interested in the classical spectrum, one has to set \code{var1=FALSE}. In this case the estimated spectral density is transformed to a spectrum using a scale estimator which can be choosen using the argument \code{sdestim}.
 
 The degree of smoothing can be either determined by setting a bandwith \code{bandwith} or a maximal lag of the acf \code{truncation}.
 }
 
 \arguments{
 \item{x}{numeric vector containing the time series.}
-\item{method}{character string naming the calculation method used: \code{"pgram"} for the pre-whitening method, \code{"acf"} for calculation from the acf, see details}
-\item{psifunc}{psi function for filtering of residuals if \code{method == "pgram"}, see details.}
+\item{method}{character string naming the calculation method used: \code{"pgram"} for the pre-whitening method, \code{"acf"} for calculation from the acf, see Details}
+\item{psifunc}{psi function for filtering of residuals if \code{method == "pgram"}, see Details.}
 \item{truncation}{numeric indicating the truncation of the acf for spectrum estimation via fourier transform of acf. Otherwise this number is converted into the equivalent bandwidth.}
 \item{bandwidth}{logical, if FALSE the bandwidth is determined by the truncation. Otherwise the stated number is used and converted into the truncation if necessary. A bandwidth of 0 prevent smoothing or at least tries to minimize smoothing if the method is "acf".}
 \item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{"\link{acfrob}"} for details.  Do not use \code{"acfrobfil"}.}

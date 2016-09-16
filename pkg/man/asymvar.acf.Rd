@@ -17,9 +17,9 @@ asymvar.acf(x, obs = c("untransformed", "ranks"), cc = 1.4, K = 3,
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
 	\item{obs}{character string indicating whether the lon run variance of a cusum statistic or a Wilcoxon statistic is calculated.}
-	\item{cc}{numeric which determines the choosen bandwith, see details.}
-	\item{K}{numeric which determines the choosen bandwith, see details.}
-	\item{type}{character string determining the used kernel. Must be either '"bartlett"' or '"trapezoid"', see details.}
+	\item{cc}{numeric which determines the choosen bandwith, see Details.}
+	\item{K}{numeric which determines the choosen bandwith, see Details.}
+	\item{type}{character string determining the used kernel. Must be either '"bartlett"' or '"trapezoid"', see Details.}
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 

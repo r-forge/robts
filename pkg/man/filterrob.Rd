@@ -10,7 +10,7 @@ Filters a given time series robustly. The filtered series can be applied to impr
 }
 \usage{
 filterrob(x, filter = NULL, method = c("direct", "ar"), 
-    p = 0, na.action = na.fail, psi.l=2,psi.0=3)
+    p = 0, na.action = na.fail, psi.l = 2, psi.0 = 3)
 }
 
 \arguments{
@@ -24,7 +24,7 @@ filterrob(x, filter = NULL, method = c("direct", "ar"),
 }
 
 \details{
-This function filters a time series in respect of outliers. It is assumed that the time series follows an AR-process with gaussian innovations. If one knows the model, one can determine the AR coefficients by the argument \code{filter} and set \code{method="ar"}. If one does not know the coefficients, but at least the model order \code{p}, one has to set \code{method="direct"}. In this case the parameter are estimated by the robust filter algorithm, see the help of \code{\link{ARfilter}} for details. If one does not know the order, one should use the function \code{arrob} which determines the model order by an AIC criterion.
+This function filters a time series in respect of outliers. It is assumed that the time series follows an AR-process with gaussian innovations. If one knows the model, one can determine the AR coefficients by the argument \code{filter} and set \code{method="ar"}. If one does not know the coefficients, but at least the model order \code{p}, one has to set \code{method="direct"}. In this case the parameter are estimated by the robust filter algorithm, see the help page of \code{\link{ARfilter}} for details. If one does not know the order, one should use the function \code{arrob} which determines the model order by an AIC criterion.
 
 Based on the model, residuals are calculated and smoothed by a psi-function, which is the identity for absolute values smaller than \code{psi.l} and 0 for absolute values larger than \code{psi.0}. See \enc{Dürre}{Duerre} et al. (2014) for a formal definition of the psi function. 
 
