@@ -1,25 +1,3 @@
-################################
-# auxiliary function: calculates Huber-weights
-# input: 
-# x: centered and standardized observations (as vector)
-# k: tuning parameter k=1.37 results in efficiency of 0.95 under normal distribution
-# output: weights (as vector) based on Huber weight function
-################################
-
-whuber <- function(x,k=1.37) return(apply(cbind(1,k/abs(x)),1,min))
-
-################################
-# auxiliary function: calculates bisquare-weights
-# input:
-# x: centered and standardized observations (as vector)
-# k: tuning parameter
-# output: weights (as vector) based on bisquare weight function
-################################
-
-wbi <- function(x,k=1) return(apply(cbind((3*k^4-3*x^2*k^2+x^4)/k^6,1/x^2),1,min))
-
-
-
 offdiag <- function (A, at = 0) {
     if (is.matrix(A)) {
         y <- A[row(A) == col(A) - at]
@@ -71,10 +49,10 @@ for (i in (1:maxit)) {
         	return(c(meanv,sigv))
 		}
 	resi <- (x-meanv)/sigv
-	we <- whuber(resi,k1)		# Huberweights for location
+	we <- M_wgt(resi, type="huber", k=k1)		# Huberweights for location
 	meanvn <- sum(we*x)/sum(we)
 	resi <- resi/1.54764
-	we <- wbi(resi,1)		# bisquareweights for scale
+	we <- M_wgt(resi, psi="bisquare", k=1)		# bisquareweights for scale
 	sigvn <- sqrt(sigv^2/n/delta*sum(resi^2*we))
 	if((abs(meanvn-meanv)<epsilon*sigv)&(abs(sigvn/sigv-1)<epsilon)) break	# stopping rule
 	sigv <- sigvn
@@ -125,10 +103,10 @@ for (i in (1:maxit)) {
         	return(c(beta,sigv))
 		}
 	resi <- (y-x*beta)/sigv
-	weightres <- whuber(resi,k1)	# Huberweights for Regression
+	weightres <- M_wgt(resi, psi="huber", k=k1)	# Huberweights for Regression
 	beta <- sum(weightres*weightx*x*y)/sum(weightres*weightx*x^2)	# Mallows-Type
 	resit <- resi/1.54764
-	we <- wbi(resit,1)			# bisquareweights for scale
+	we <- M_wgt(resit, psi="bisquare", k=1)			# bisquareweights for scale
 	sigvn <- sqrt(sigv^2/n/delta*sum(resit^2*we))
 	resi2 <- (y-x*beta)/sigvn
 if(max(abs(resi-resi2))<epsilon) break	# stopping rule
@@ -188,7 +166,7 @@ aicv[1] <- log(sd.pred[1]^2)+aicpenalty(1)/n
 timeseries <- timeseries-x.mean	# centering
 
 # AR 1 process
-weightx <- wbi(timeseries[-n]/sd.pred[1],k2)	# weights for Mallows-estimation (x dimension)
+weightx <- M_wgt(timeseries[-n]/sd.pred[1], psi="bisquare", k=k2)	# weights for Mallows-estimation (x dimension)
 erg <- simul3(timeseries[-1],timeseries[-n],weightx=weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 sd.pred[2] <- erg$est.sig
 phima[1,1] <- erg$beta
@@ -239,7 +217,7 @@ if (sum(dt<0)>0) {
 	names(aicv) <- paste("AR(",0:maxp,")",sep="")
 	return(list(phimatrix=phima,aic=aicv,var.pred=sd.pred^2,x.mean=x.mean,residuals=residuals))	
 	}
-weightx <- wbi(sqrt(dt),k2)
+weightx <- M_wgt(sqrt(dt), psi="bisquare", k=k2)
 erg <- simul3(y,x,weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 beta <- erg$beta
 sd.pred[p+1] <- erg$est.sig
