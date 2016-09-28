@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfrobfil(x, lag.max, p, robfil.method = c("filtered", "ar"), aic = TRUE, psi.l = 2, psi.0 = 3)
+acfrobfil(x, lag.max, p, robfil.method = c("filtered", "ar"), aic = TRUE, psi.l = 2, psi.0 = 3, partial = FALSE)
 }
 
 \arguments{
@@ -24,7 +24,7 @@ acfrobfil(x, lag.max, p, robfil.method = c("filtered", "ar"), aic = TRUE, psi.l 
 	\item{psi.0}{numeric value determining the used psi function, see details.}
 	\item{robfil.method}{character string indicating whether the acf is calculated based on the empirical acf using robustly filtered values (\code{robfil.method = "filtered"}) or based on an AR fit (\code{robfil.method = "ar"}). }
 	\item{aic}{logical indicating wether the AR order should be estimated by robust AIC criteria considering orders up to \code{p} or should be equal to \code{p}.}
-	
+	\item{partial}{logical indicating whether the function should return the partial acf instead of the acf.}
 }
 
 \value{

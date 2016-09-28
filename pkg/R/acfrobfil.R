@@ -11,7 +11,7 @@
 ##################
 
 
-acfrobfil <- function(x, lag.max, p = lag.max, robfil.method = c("filtered", "ar"), aic = TRUE, psi.l = 2, psi.0 = 3) {
+acfrobfil <- function(x, lag.max, p = lag.max, robfil.method = c("filtered", "ar"), aic = TRUE, psi.l = 2, psi.0 = 3, partial = FALSE) {
   n <- length(x)
   robfil.method <- match.arg(robfil.method)
   
@@ -26,16 +26,20 @@ acfrobfil <- function(x, lag.max, p = lag.max, robfil.method = c("filtered", "ar
   #estimating acf using robustly filtered values:
   if (robfil.method=="filtered"){
  	  robfiltered <- estimate[[5]][, p]
-  	acfvalues <- try(acf(robfiltered, plot=FALSE, lag.max=lag.max)$acf[-1], silent=TRUE)
+  	acfvalues <- try(acf(robfiltered, plot=FALSE, lag.max=lag.max)$acf[-1], silent=TRUE, type=ifelse(partial, "partial", "correlation"))
   	if (inherits(acfvalues, "try-error")){
-  		stop("Calculation of the acf failed.")
+  		stop("Calculation of the (p)acf failed.")
  		}
  	}
   
   # estimate acf using AR fit:
   if (robfil.method=="ar") {
+    if (partial) {
+      pacfvalues <- estimate[[1]]
+      return(pacfvalues)
+    } 
   	acfvalues <- ARMAacf(ar=estimate[[6]][, p], lag.max=lag.max)[-1]
-  	}
+ 	}
   	
   return(acfvalues)
 }

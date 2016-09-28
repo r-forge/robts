@@ -3,7 +3,7 @@ import(stats)
 import(utils)
 import(grDevices)
 import(graphics)
-importFrom("robustbase", "Qn", "covMcd", "lmrob", "ltsReg", "scaleTau2")
+importFrom("robustbase", "Qn", "covMcd", "lmrob", "ltsReg", "scaleTau2", "Sn")
 importFrom("quantreg","rq")
 importFrom("rrcov", "CovSde", "CovSest")
 importFrom("ICSNP", "tyler.shape")
@@ -24,7 +24,7 @@ export(
   strucchange.wilcox,
   strucchange.cusum,
   densdiff,
-  acfposmaker,
+  make_acf_psd,
   acftrim,
   acfrank,
   ARfilter,
@@ -34,7 +34,6 @@ export(
   acfmedian,
   acfGK,
   acfmulti,
-  pacf2,
   pKS,
   qKS,
   bestAR

@@ -2,8 +2,6 @@
 ## Projection onto Toeplitz matrices
 ## input: symmetric matrix
 ## output: symmetrix Toeplitz matrix
-
-
 toep <- function(mat){
   #Returns projection of a symmetric matrix mat on the subspace of Toeplitz matrices
   d <- ncol(mat)
@@ -16,7 +14,6 @@ toep <- function(mat){
 ## Projection onto positive semidefinit matrices
 ## input: symmetric matrix
 ## output: positiv semidefinit matrix
-
 psd <- function(mat){
   #Returns projection of a symmetric matrix mat on the subspace of positive semidefinite matrices
   specdecomp <- eigen(mat, symmetric=TRUE)
@@ -35,9 +32,8 @@ is_psd <- function(mat) all(eigen(mat, symmetric=TRUE, only.values=TRUE)$values>
 ## output: 
 # projection: positive semidefinite Toeplitz matrix
 # original: input matrix
-# frobenius: frobeniusdistance between in put and output matrix
+# frobenius: frobenius distance between in put and output matrix
 # iteration: number of iterationsteps
-
 psd_toep <- function(mat, maxit=100, tol=1e-8){
   #Returns projection of matrix mat on the subspace of positive semidefinite Toeplitz matrices applying Algorithm 2.2 in Al-Homidan (2006)
     #maxit: Integer. Maximal number of iterations.
@@ -53,12 +49,12 @@ psd_toep <- function(mat, maxit=100, tol=1e-8){
   return(result)
 }
 
-## searches the nearest positive semidefinite autocorrelation function (in terms of the frobenius norm of the associated correlation matrix)
+## Searches the nearest positive semidefinite autocorrelation function (in terms of the frobenius norm of the associated correlation matrix)
 ## input: autocorrelation function
 ## output: positive definite autocorrelation function
-acfposmaker <- function(acfv,...) {
-mat <- toeplitz(c(1,acfv))
-pdmat <- psd_toep(mat,...)$projection
-acfv <- pdmat[1,-1]
-return(acfv)
+make_acf_psd <- function(acfvalues, ...) {
+  mat <- toeplitz(c(1, acfvalues))
+  pdmat <- psd_toep(mat, ...)$projection
+  acfvalues_psd <- pdmat[1, -1]
+  return(acfvalues_psd)
 }
