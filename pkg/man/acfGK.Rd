@@ -3,21 +3,24 @@
 \alias{acfGK}
 
 \title{
-Robust Autocorrelation Estimation Based on GK Approach
+Robust Autocorrelation Estimation Based on the Gnanadesikan Kettenring Approach
 }
+
 \description{
-Robustly estimates the autocorrelation function of a time series based on GK estimators. See Ma and Genton (2000) for details.
+Robustly estimates the autocorrelation function (acf) of a time series based on Gnanadesikan Kettenring (GK) estimators. See Ma and Genton (2000) for details.
+
+This function is intended for internal usage only. Users should rather use the wrapper function \code{\link{acfrob}} with argument \code{approach = "acfGK"}.
 }
 
 \usage{
-acfGK(x, lag.max, GK.method = "Qn", ...)
+acfGK(x, lag.max, scalefn = "Qn", ...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{lag.max}{numeric value of maximum lag at which to calculate the acf.}
-	\item{GK.method}{character string indicating which scale estimator should be used. Default is '\code{Qn}'. Must be one of '\code{Qn}','\code{Tau}' or '\code{MAD}', see Details.}
-	\item{...}{further arguments passed to the respective internal function. For instance tuning parameter for scale Tau, see Details.}
+	\item{lag.max}{integer value giving the maximum lag at which to calculate the acf.}
+	\item{scalefn}{function which calculates a scale estimator. Its first argument must be a vector of the data. One could for example use one of the functions \code{\link{Qn}} (the default), \code{\link{Sn}}, \code{\link{scaleTau2}} (all from the package \code{robustbase}), \code{\link{mad}} or (not robust) \code{\link{sd}}.}
+	\item{...}{further arguments passed to the function \code{scalefn}.}
 }
 
 \value{
@@ -25,19 +28,18 @@ Numeric vector of estimated autocorrelations.
 }
 
 \details{
-
-This function estimates the autocorrelation function based on the GK approach, which was proposed by Ma and Genton (2000). The acf is estimated for each lag individually. Let X denote the original time series and Y the lagged one, then the autocorrelation is estimated by
+This function estimates the autocorrelation function based on the GK approach, which was proposed by Ma and Genton (2000). The acf is estimated for each lag individually. Let \eqn{X} denote the original time series and \eqn{Y} the lagged one, then the autocorrelation is estimated by
 \deqn{\frac{\hat{\sigma}(X+Y)^2-\hat{\sigma}(X-Y)^2}{\hat{\sigma}(X+Y)^2+\hat{\sigma}(X-Y)^2}.}
-If one uses the standard deviation as scale estimator \eqn{\hat{\sigma}}, one roughly gets the usual empirical acf. For robust estimation different scale estimators are available.
+If one uses the empirical standard deviation as the scale estimator \eqn{\hat{\sigma}}, one roughly gets the usual empirical acf. For robust estimation different scale estimators are available.
   
 	
-	If \code{GK.method = "Qn"}, the Qn is used, which was proposed by Rousseeuw and Croux (1993). The estimator is known to be very robust and also rather efficient under normality. See the help page of \code{\link{Qn}} in the package \code{robustbase} for details.
+	If \code{scalefn = Qn}, the Qn is used, which was proposed by Rousseeuw and Croux (1993). The estimator is known to be very robust and also rather efficient under normality. See the help page of \code{\link{Qn}} in the package \code{robustbase} for details.
 	
-	If \code{GK.method = "Tau"}, the scale Tau estimator is used, which was proposed by Maronna and Zamar (2002). The estimator is also known to be robust and rather efficient under normality. The estimator includes two tuning-parameters, which are set as in the default of \code{\link{scaleTau2}} but can be changed using the \code{...} argument. See the help page of \code{\link{scaleTau2}} in the package \code{robustbase} for more details.
+	If \code{scalefn = scaleTau2}, the \eqn{\tau} estimator of scale is used, which was proposed by Maronna and Zamar (2002). The estimator is also known to be robust and rather efficient under normality. The estimator includes two tuning parameters, which can be changed using the \code{...} argument. See the help page of \code{\link{scaleTau2}} in the package \code{robustbase} for more details.
 	
-	If \code{GK.method = "MAD"}, one uses the usual median absolute deviation, which is known to be very robust and fast to compute, but not very efficient under normality. For more details see the help page of \code{\link{mad}} in the package \code{stats}.
+	If \code{scalefn = MAD}, one uses the usual median absolute deviation, which is known to be very robust and fast to compute, but not very efficient under normality. For more details see the help page of \code{\link{mad}} in the package \code{stats}.
 
-	If \code{GK.method = "effi"}, one uses the the efficient weighted Qn. We should add more details here.
+	If \code{scalefn = reweightedQn}, one uses an efficiently reweighted Qn. ADD MORE DETAILS HERE OR LINK TO THE RESPECTIVE HELP PAGE.
 }
 
 
@@ -56,13 +58,10 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 The wrapper function \code{\link{acfrob}}.
 
 Alternative acf subroutines: \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
-
-Robust scale estimators: \code{\link{mad}}, \code{\link{Qn}}, \code{\link{scaleTau2}}.
-
 }
 
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfGK(tss,7)
+acfrob(tss, approach = "acfGK")
 }

@@ -10,13 +10,14 @@
 ## Return value: object of class acf
 
 acfrob <- function(x, lag.max = NULL,
-  type = c("correlation", "partial"),
+  type = c("correlation", "covariance", "partial"),
   approach = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA",
   "acfrank", "acfrobfil", "acftrim","acfregression"),
   plot = TRUE, na.action = na.fail,
-  p = NULL, posdef = TRUE, ...) {
+  partialtype = c("ranks", "durbin-levinson", "filter"),
+  #p = NULL,
+  posdef = TRUE, ...) {
 				#	robfiltype = c("filtered","ar"),
-				#	partialtype = c("ranks", "durbin-levinson", "filter"),
   n <- length(x)
   
   # protective measures:
@@ -35,20 +36,8 @@ acfrob <- function(x, lag.max = NULL,
 	funname <- approach
 		
 	if (type == "correlation" | (type == "partial" & partialtype == "durbin-levinson")) {
-	
-		if (approach == "acfrobfil") {
-			if (is.null(p)) {
-				p <- lag.max
-			}
-			if (!any(robfiltype == c("filtered", "ar"))) {
-				warning("No valid type of robust filtering given.")
-				return(NA)
-			}
-			acorf <- acfrobfil(timeseries = x, maxlag = lag.max, p = p, ...)
-		} else {
 			approach <- get(approach)
-			acorf <- approach(timeseries = x, maxlag = lag.max, ...)
-		}
+			acorf <- approach(x, lag.max = lag.max, ...)
 		
 		if (type == "partial") {
 			acorf <- DurbinLev(acorf)$phis[[lag.max]]
@@ -67,8 +56,8 @@ acfrob <- function(x, lag.max = NULL,
 	
 	if (type=="correlation") {
 		if (posdef) {
-			acorf2 <- try(acfposmaker(acorf),silent=TRUE)
-			if (inherits(acorf2,"try-error")){
+			acorf2 <- try(acfposmaker(acorf), silent=TRUE)
+			if (inherits(acorf2, "try-error")){
 				warning("Transformation to a positiv definit acf failed.")
 				} else {acorf <- acorf2}
 		}

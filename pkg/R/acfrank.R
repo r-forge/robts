@@ -8,28 +8,27 @@
 ##################
 
 
-acfrank <- function(x, lag.max, rank.method=c("gaussian", "spearman", "kendall", "quadrant", "masarotto")) {
+acfrank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", "quadrant", "masarotto"), biascorr = TRUE) {
   n <- length(x)
   lags <- 1:lag.max
-  rank.method <- match.arg(rank.method)
+  cor.method <- match.arg(cor.method)
   
-  # centering x for masarotto approach:  
-  if (rank.method=="masarotto") x <- x - median(x)
+  # centering time series for Masarotto approach:  
+  if (cor.method=="masarotto") x <- x - median(x)
     
-  # choosing the right estimator
-  
-    if (rank.method=="gaussian") {
+  # choosing the right estimator:  
+    if (cor.method=="gaussian") {
   	# transformation into normal scores:
   	x_transformed <- qnorm(rank(x)/(n+1))
   
   	# calculating the consistency factor:
   	cn <- sum(qnorm((1:n)/(n+1))^2)
   	
-  	acv <- acf(x_transformed, lag.max=lag.max, plot=FALSE, type="cov")$acf[-1]
-  	return(acv/cn*n)
+  	acfvalues <- acf(x_transformed, lag.max=lag.max, plot=FALSE, type="cov")$acf[-1]/cn*n
+  	return(acfvalues)
   	}
   
-  if (rank.method=="spearman") {
+  if (cor.method=="spearman") {
   	# transformation into centred ranks:
   	meanrank <- (n+1)/2 # mean rank
   	x_transformed <- rank(x) - meanrank
@@ -37,34 +36,40 @@ acfrank <- function(x, lag.max, rank.method=c("gaussian", "spearman", "kendall",
   	# calculating the consistency factor:
   	cn <- sum((1:n)^2) - n*meanrank^2
    	
-  	acv <- acf(x_transformed, lag.max=lag.max, type="cov", plot=FALSE, demean=FALSE)$acf[-1]
-  	return(2*sin(acv/cn*n*pi/6))
+  	acfvalues_biased <- acf(x_transformed, lag.max=lag.max, type="cov", plot=FALSE, demean=FALSE)$acf[-1]/cn*n
+  	if(!biascorr) return(acfvalues_biased)
+    
+    acfvalues <- 2*sin(acfvalues_biased*pi/6)
+    return(acfvalues)
   	}
   
   # for the other methods a function corestimation ist defined and applied to the time series in a second step:
   
-  if (rank.method=="kendall") {
-  	corestimation <- function(x, y) {sin(cor(x, y, method="kendall")*pi/2)}
+  if (cor.method=="kendall")  {
+   	correlation <- function(x, y, biascorr) {
+ 	    corvalue_biased <- cor(x, y, method = "kendall")
+ 	    if(!biascorr) return(corvalue_biased)
+      corvalue <- sin(corvalue_biased*pi/2)
+      return(corvalue)
+      }
   	}
-  
-  if (rank.method=="quadrant") {
+  if (cor.method=="quadrant") {
   	globalmedian <- median(x)	
-  	corestimation <- function(x, y) {
+  	correlation <- function(x, y, biascorr) {
   		x <- sign(x-globalmedian)
   		y <- sign(y-globalmedian)
   		n <- length(x)
-  		erg <- (t(x)%*%y)/n
-  		return(sin(erg*pi/2))
+  		corvalue_biased <- (t(x)%*%y)/n
+  		if(!biascorr) return(corvalue_biased)
+  		corvalue <- sin(corvalue_biased*pi/2)
+  		return(corvalue)
   		}
   	}
-  if (rank.method=="masarotto") {
-  	corestimation <- function(x, y) BurgM(x, y)
-  }
   
   # calculation of the acf:  
   acfvalues <- numeric(length(lags))
   for (i in lags) {
-  	acfvalues[i] <- corestimation(x[1:(n-i)], x[(i+1):n])
+  	acfvalues[i] <- correlation(x[1:(n-i)], x[(i+1):n], biascorr=biascorr)
  	}
   return(acfvalues)
 }

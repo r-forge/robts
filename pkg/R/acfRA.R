@@ -10,7 +10,7 @@
 # output: acf
 #####################
 
-acfRA <- function(x, lag.max, psi="huber", locfn=median, scalefn=mad, ...) {
+acfRA <- function(x, lag.max, psi = "huber", locfn = median, scalefn = mad, ...) {
   n <- length(x)
   lags <- 1:lag.max
   
@@ -30,25 +30,31 @@ acfRA <- function(x, lag.max, psi="huber", locfn=median, scalefn=mad, ...) {
   	warning("Something went wrong with the mean estimation")
   	return(NA)
  	}
-  scaleval <- scalefn(x)
+  scaleval <- try(scalefn(x), silent=TRUE)
   if (inherits(scaleval, "try-error")) {
   	warning("Something went wrong with the scale estimation")
   	return(NA)
  	}
   
-  # Transformation of values:
+  # transformation of values:
   x_transformed <- M_psi((x-locval)/scaleval, psi=psi, ...)
   # calculation of acf (biased!): 
   acfvalues_biased <- acf(x_transformed, demean=FALSE, plot=FALSE, lag.max=lag.max)$acf[-1]
-
+  if(!biascorr) return(acfvalues_biased)
+  
   # transformation for unbiasedness:
-  if (psi=="huber") load(system.file("extdata", "rahusimv", package = "robts")) # loading the simulated expected values
-  if (psi=="bisquare") load(system.file("extdata", "ratusimv", package = "robts")) # loading the simulated expected values
+  if (psi=="huber") {
+    if(!missing(k) && k!=1.37) warning("The automatic bias correction is only valid for k=1.37")
+    load(system.file("extdata", "rahusimv", package = "robts")) # loading the simulated expected values
+  }
+  if (psi=="bisquare") {
+    if(!missing(k) && k!=4.68) warning("The automatic bias correction is only valid for k=1.37")
+    load(system.file("extdata", "ratusimv", package = "robts")) # loading the simulated expected values
+  }
   if (psi %in% c("huber", "bisquare")) {
     acfvalues <- sapply(acfvalues_biased, linearinterpol, a=expectations, b=values)
   }else{
     warning("No bias correction has been made. The estimation could be slightly biased")
- 	}
- 	
+ 	} 	
   return(acfvalues)
 }

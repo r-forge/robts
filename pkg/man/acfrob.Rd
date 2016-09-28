@@ -5,6 +5,7 @@
 \title{
 Robust (Partial) Autocorrelation Function Estimation
 }
+
 \description{
 Robustly estimates the (partial) autocorrelation function of a time series. This is a wrapper function calling an internal (partial) autocorrelation function. See \enc{Dürre}{Duerre} et al. (2015) for details.
 }
@@ -22,7 +23,7 @@ acfrob(x, lag.max = NULL,
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{lag.max}{integer value of maximum lag at which to calculate the acf. Default ist \code{10 * log(length(x), 10)}.}
+	\item{lag.max}{integer value giving the maximum lag at which to calculate the acf. Default ist \code{10 * log(length(x), 10)}.}
 	\item{type}{character string whether the partial autocorrelation is calculated.}
 	\item{fun}{character string naming the function used for computation, see Details.}
 	\item{plot}{logical.  If \code{TRUE} (the default) the acf is plotted.}
@@ -76,7 +77,6 @@ The partial autocorrelation could be either computed by first estimating the acf
 \author{
 Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 }
-
 
 \seealso{
 Classical, nonrobust estimation is provided by the function \code{\link{acf}}.

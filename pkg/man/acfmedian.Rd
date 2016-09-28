@@ -5,17 +5,21 @@
 \title{
 Robust Autocorrelation Estimation Based on Median Correlation
 }
+
 \description{
 Robustly estimates the autocorrelation function of a time series based on the median correlation. See Chakhchoukh (2010) for details.
+
+This function is intended for internal usage only. Users should rather use the wrapper function \code{\link{acfrob}} with argument \code{approach = "acfmedian"}.
 }
 
 \usage{
-acfmedian(x, lag.max)
+acfmedian(x, lag.max, biascorr = TRUE)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{lag.max}{numeric value of maximum lag at which to calculate the acf.}
+	\item{lag.max}{integer value giving the maximum lag at which to calculate the acf.}
+	\item{biascorr}{logical indicating whether a bias correction of the result should be done. Note that this bias correction is only valid for Gaussian processes.}
 }
 
 \value{
@@ -23,8 +27,7 @@ Numeric vector of estimated autocorrelations.
 }
 
 \details{
-
-This function estimates the autocorrelation function based on the median correlation, which is proposed by Chakhchoukh (2010). The acf is estimated for each lag individually. Let X denote the original time series and Y the lagged one, then the autocorrelation is estimated by
+This function estimates the autocorrelation function based on the median correlation, which is proposed by Chakhchoukh (2010). The acf is estimated for each lag individually. Let \eqn{X} denote the original time series and \eqn{Y} the lagged one, then the autocorrelation is estimated by
 \deqn{median(XY)/median(X^2).}
 The resulting value does not measure the usual autocorrelation. Therefore a nonlinear transformation based on a Monte Carlo simulation is applied, which is only valid for Gaussian processes.
 }  
@@ -42,11 +45,10 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 The wrapper function \code{\link{acfrob}}.
 
 Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
-
 }
 
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfmedian(tss,7)
+acfrob(tss, approach = "acfmedian")
 }

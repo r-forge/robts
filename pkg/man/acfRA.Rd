@@ -5,21 +5,25 @@
 \title{
 Robust Autocorrelation Estimation Based on Residual Autocorrelation
 }
+
 \description{
 Robustly estimates the autocorrelation function of a time series based on a robustly transformed time series. See \enc{Dürre}{Duerre} et al. (2015) for details.
+
+This function is intended for internal usage only. Users should rather use the wrapper function \code{\link{acfrob}} with argument \code{approach = "acfRA"}.
 }
 
 \usage{
-acfRA(x, lag.max, Psi = "Huber", meanvalue = median, scattervalue = mad, ...)
+acfRA(x, lag.max, psi = "huber", locfn = median, scalefn = mad, biascorr = TRUE, ...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{lag.max}{numeric value of maximum lag at which to calculate the acf.}
-	\item{Psi}{character string indicating the used psi function. Must be either 'Huber' or 'Tukey', see details.}
-	\item{meanvalue}{function which estimates the location of the timeseries.}
-	\item{scattervalue}{function which estimates the scale of the timeseries.}
-	\item{...}{tuning parameters for Huber or Tukey psi function, see Details.}
+	\item{lag.max}{integer value giving the maximum lag at which to calculate the acf.}
+	\item{psi}{character string indicating the \eqn{\Psi} function to be used. Must be either \code{'huber'} for Huber's function or \code{'bisquare'} for Tukey's function, see Details.}
+	\item{locfn}{function which calculates a location estimator. Its argument must be a vector of the data.}
+	\item{scalefn}{function which calculates a scale estimator. Its argument must be a vector of the data. One could for example use one of the functions \code{\link{Qn}} (the default), \code{\link{Sn}}, \code{\link{scaleTau2}} (all from the package \code{robustbase}), \code{\link{mad}} or (not robust) \code{\link{sd}}.}
+	\item{biascorr}{logical indicating whether a bias correction of the result should be done. Note that this bias correction is only valid for Gaussian processes.}
+	\item{...}{tuning parameters for Huber's or Tukey's \eqn{\Psi} function, see Details.}
 }
 
 \value{
@@ -28,9 +32,9 @@ Numeric vector of estimated autocorrelations.
 
 \details{
 
-The function estimates the residual autocovariance, which is the usual acf of the robustly transformed time series. Using an estimator for location and scale which can be set using the arguments \code{meanvalue} and \code{scattervalue} the timeseries is transformed by applying a psi function, only Huber and Tukey are possible. The tuning parameter for the Huber function is \code{k = 1.37} and for Tukey \code{k = 4.68} but both can be changed using the ... argument. For the meaning of the parameters, see \enc{Dürre}{Duerre} et al. (2015).
+The function estimates the residual autocovariance, which is the usual acf of the robustly transformed time series. Using estimators for location and scale, which can be chosen by using the arguments \code{locfn} and \code{scalefn}, the time series is transformed by applying a psi function (currently only Huber and Tukey are possible). The tuning parameter for Huber's function is \code{k = 1.37} and for Tukey's function \code{k = 4.68} but both can be changed using the \code{...} argument. For the meaning of the tuning parameters, see e.g. \enc{Dürre}{Duerre} et al. (2015).
 
-There is a simulation based consistency correction implemented for Gaussian timeseries and the preset tuning parameters.
+There is a simulation based consistency correction implemented for Gaussian time series and the preset tuning parameters.
 }  
 
 \references{
@@ -48,11 +52,10 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 The wrapper function \code{\link{acfrob}}.
 
 Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
-
 }
 
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfRA(tss,7)
+acfrob(tss, approach = "acfRA")
 }

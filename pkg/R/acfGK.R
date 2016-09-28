@@ -8,7 +8,7 @@
 # output: autocorrelation function
 ###################
 
-acfGK <- function(x, lag.max, scalefn="Qn", ...) {
+acfGK <- function(x, lag.max, scalefn = Qn, ...) {
   n <- length(x)
   lags <- 1:lag.max
   

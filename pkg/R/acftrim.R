@@ -7,7 +7,7 @@
 # output: autocorrelation function
 #####################
 
-acftrim <- function(x, lag.max, trim=0.1) {
+acftrim <- function(x, lag.max, trim=0.1, biascorr = TRUE) {
   n <- length(x)
   lags <- 1:lag.max
   
@@ -46,6 +46,7 @@ acftrim <- function(x, lag.max, trim=0.1) {
  	}
   gamma0 <- sum((x-Xquer)^2*L)/sum(L)	# time series trimmed variance
   acfvalues_biased <- gamma/gamma0
+  if(!biascorr) return(acfvalues_biased)
   
   # transformation for unbiasedness:
   load(system.file("extdata", "trimsimv", package = "robts"))	# loading the simulated expected values

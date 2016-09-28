@@ -9,7 +9,7 @@
 ###############
   
   
-corGK <- function(x, y, scalefn=Qn, ...) {
+corGK <- function(x, y, scalefn = Qn, ...) {
   #see the related function 'covGK' from package 'robustbase'
   
   # calculating necessary variances:  

@@ -11,7 +11,7 @@
 ##################
 
 
-acfrobfil <- function(x, p, lag.max, robfil.method=c("filtered", "ar"), aic=TRUE, psi.l=2, psi.0=3) {
+acfrobfil <- function(x, lag.max, p = lag.max, robfil.method = c("filtered", "ar"), aic = TRUE, psi.l = 2, psi.0 = 3) {
   n <- length(x)
   robfil.method <- match.arg(robfil.method)
   

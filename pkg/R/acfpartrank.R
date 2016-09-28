@@ -8,17 +8,16 @@
 ##################
 
 
-acfpartrank <- function(x, lag.max, partial.method=c("gaussian", "spearman", "kendall", "quadrant", "masarotto")) {
-  partial.method <- match.arg(partial.method)
-  timeseries <- x
-  n <- length(timeseries)
+acfpartrank <- function(x, lag.max, cor.method=c("spearman", "kendall", "quadrant", "gaussian", "masarotto"), biascorr = TRUE, partial = FALSE) {
+  n <- length(x)
+  cor.method <- match.arg(cor.method)
  
-  # centering timeseries for Masarotto approach:
-  if (partial.method=="masarotto") timeseries <- timeseries - median(timeseries)
+  # centering time series for Masarotto approach:
+  if (cor.method=="masarotto") x <- x - median(x)
   
   # choosing the right estimator:  
-  if (partial.method=="gaussian") {
-  	correlation <- function(x, y) {
+  if (cor.method=="gaussian") {
+  	correlation <- function(x, y, biascorr) {
   		n <- length(x)
   		
   		# calculating the consistency factor:  
@@ -26,30 +25,42 @@ acfpartrank <- function(x, lag.max, partial.method=c("gaussian", "spearman", "ke
   		cn <- 1/sum(qnorm(i/(n+1))^2)
   
   		# calculating the correlation:  	
-  		xRang <- rank(x)
-  		yRang <- rank(y)
-  		Kor <- cn * qnorm(xRang/(n+1)) %*% qnorm(yRang/(n+1))
-  		return(Kor)
+  		xRank <- rank(x)
+  		yRank <- rank(y)
+  		result <- cn * qnorm(xRank/(n+1)) %*% qnorm(yRank/(n+1))
+  		return(result)
 		}
 	}
-  if (partial.method=="spearman")  {
-  	correlation <- function(x, y) {2*sin(cor(x,y,method="spearman")/6*pi)}
+  if (cor.method=="spearman")  {
+  	correlation <- function(x, y, biascorr {
+ 	    corvalue_biased <- cor(x, y, method = "spearman")
+ 	    if(!biascorr) return(corvalue_biased)
+      corvalue <- 2*sin(corvalue_biased/6*pi)
+      return(corvalue)
+      }
   	}
-  if (partial.method=="kendall")  {
-  	correlation <- function(x, y) {sin(cor(x,y,method="kendall")*pi/2)}
+  if (cor.method=="kendall")  {
+   	correlation <- function(x, y, biascorr) {
+ 	    corvalue_biased <- cor(x, y, method = "kendall")
+ 	    if(!biascorr) return(corvalue_biased)
+      corvalue <- sin(corvalue_biased*pi/2)
+      return(corvalue)
+      }
   	}
-  if (partial.method=="quadrant") {
-  	Median <- median(timeseries)	
-  	correlation <- function(x, y) {
-  		x <- sign(x-Median)
-  		y <- sign(y-Median)
+  if (cor.method=="quadrant") {
+  	globalmedian <- median(x)	
+  	correlation <- function(x, y, biascorr) {
+  		x <- sign(x-globalmedian)
+  		y <- sign(y-globalmedian)
   		n <- length(x)
-  		erg <- (t(x)%*%y)/n
-  		return(sin(erg*pi/2))
+  		corvalue_biased <- (t(x)%*%y)/n
+  		if(!biascorr) return(corvalue_biased)
+  		corvalue <- sin(corvalue_biased*pi/2)
+  		return(corvalue)
   		}
   	}
-  if (partial.method=="masarotto") {
-  	correlation <- function(x,y) BurgM(x, y)
+  if (cor.method=="masarotto") {
+  	correlation <- function(x, y, biascorr) BurgM(x, y)
   } 
   
   # calculating partial autocorrelations:  
@@ -58,7 +69,7 @@ acfpartrank <- function(x, lag.max, partial.method=c("gaussian", "spearman", "ke
   rho <- numeric(lag.max)	# autocorrelations
   
   # starting the recursion:  
-  a[1,1] <- correlation(timeseries[-1], timeseries[-n])	
+  a[1,1] <- correlation(timeseries[-1], timeseries[-n], biascorr=biascorr)	
   phi[1] <- a[1,1]
   rho[1] <- a[1,1]
   
@@ -66,19 +77,20 @@ acfpartrank <- function(x, lag.max, partial.method=c("gaussian", "spearman", "ke
   for (H in 2:lag.max) {
   	uH <- timeseries[(H+1):n]	# foreward residuals
   	for (i in 1:(H-1)) {
-  		uH <- uH - a[H-1, i] * timeseries[(H+1-i):(n-i)]
+  		uH <- uH - a[H-1, i] * x[(H+1-i):(n-i)]
   		}
   	vH <- timeseries[1:(n-H)]	# backward residuals
   	for (i in 1:(H-1)) {
-  		vH <- vH - a[H-1, i] * timeseries[(1+i):(n-H+i)]
+  		vH <- vH - a[H-1, i] * x[(1+i):(n-H+i)]
   		}
-  	phi[H] <- correlation(uH, vH) # partial autocorrelation
+  	phi[H] <- correlation(uH, vH, biascorr=biascorr) # partial autocorrelation
   	a[H,H] <- phi[H]
   	for (i in 1:(H-1))    {
   		a[H,i] <- a[H-1, i] - phi[H] * a[H-1, (H-i)] # updating parameters
   		}  
   	rho[H] <- a[H-1, 1:(H-1)] %*% rho[(H-1):1] + phi[H] * (1-a[H-1, 1:(H-1)] %*% rho[1:(H-1)])	# calculating the autocorrelation
  	}
-
-  return(rho)
+ 	pacfvalues <- phi
+  acfvalues <- rho
+  if(partial) return(pacfvalues) else return(acfvalues)
 }

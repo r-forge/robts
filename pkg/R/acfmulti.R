@@ -14,17 +14,17 @@ acfmulti <- function(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel
   lags <- 1:lag.max
   
   # choosing the multivariate estimator:
-  if (multi.method=="weightedMCD") corest <- function(y) covMcd(y)$cov
-  if (multi.method=="rawMCD") corest <- function(y) covMcd(y)$raw.cov
-  if (multi.method=="Stahel-Donoho") corest <- function(y) CovSde(y)@cov
-  if (multi.method=="S") corest <- function(y) CovSest(y, ...)@cov
-  if (multi.method=="M") corest <- function(y) mvhuberM(y, ...)$scatter
-  if (multi.method=="reweight") corest <- function(y) Corefw(y, ...)
-  if (multi.method=="Tyler") corest <- function(y) tyler.shape(y, location = rep(median(x), lag.max + 1))
-  if (multi.method=="sscor") corest <- function(y) sscor(y, location=rep(median(x), lag.max+1), standardized=FALSE, pdim=TRUE)
+  if (multi.method=="weightedMCD") covfn <- function(y) covMcd(y)$cov
+  if (multi.method=="rawMCD") covfn <- function(y) covMcd(y)$raw.cov
+  if (multi.method=="Stahel-Donoho") covfn <- function(y) CovSde(y)@cov
+  if (multi.method=="S") covfn <- function(y) CovSest(y, ...)@cov
+  if (multi.method=="M") covfn <- function(y) mvhuberM(y, ...)$scatter
+  if (multi.method=="reweight") covfn <- function(y) Corefw(y, ...)
+  if (multi.method=="Tyler") covfn <- function(y) tyler.shape(y, location = rep(median(x), lag.max + 1))
+  if (multi.method=="sscor") covfn <- function(y) sscor(y, location=rep(median(x), lag.max+1), standardized=FALSE, pdim=TRUE)
   
-  corestimator <- function(y) {
-  	A <- try(corest(y), silent = TRUE)
+  covestimator <- function(y) {
+  	A <- try(covfn(y), silent = TRUE)
   	if (inherits(A, "try-error")) {
   		stop("Calculation of the estimator failed.")
   	}
@@ -40,7 +40,7 @@ acfmulti <- function(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel
   
   # calculating the acf:
   acfvalues <- numeric(length(lags))
-  covmatrix <- corestimator(A)
+  covmatrix <- covestimator(A)
   if(length(covmatrix)==1) return(NA) # if something has failed before
   cormatrix <- cov2cor(covmatrix)
   for (i in lags) {
