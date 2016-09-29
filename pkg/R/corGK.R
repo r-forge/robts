@@ -16,7 +16,7 @@ corGK <- function(x, y, scalefn = Qn, ...) {
   varsum <- scalefn(x+y, ...)^2
   vardif <- scalefn(x-y, ...)^2
   
-  if(varsum+vardif==0){
+  if(varsum + vardif == 0){
     warning("Something is wrong since variance estimation is 0.")
   	return(NA)	
  	}

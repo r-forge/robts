@@ -53,48 +53,6 @@ int compare(const void *x, const void *y)
   return 0;
 }
 
-double meddiff2(int n1, int n2, double*x, double*y) {
-int i,j;
-double diff[n1*n2];
-
-    for(i = 1; i < n1; i++) {
-	for(j = 1; i < n2; j++) {
-		diff[i*n2+j]=x[i]-y[j];
-		}
-	}
-    qsort(diff,n1*n2,sizeof(double),compare);
-    if (n1*n2 % 2==0) { 
-	return diff[n1*n2/2];
-	}
-    if (n1*n2 % 2==0) { 
-	return (diff[(n1*n2-1)/2]+diff[(n1*n2+1)/2])/2;
-	}
-}
-double meddiff3(int n1, int n2, double*x, double*y) {
-int i,j;
-double diff[n1*n2];
-
-    for(i = 0; i < n1; i++) {
-	for(j = 0; j < n2; j++) {
-		diff[i*n2+j]=x[i]-y[j];
-		}
-	}
-	
-qsort(diff,n1*n2,sizeof(double),compare);
-return diff[n1*n2/2];
-    }
-
-
-
-SEXP meddiff(SEXP x, SEXP y)
-{
-double a;
-    int n1 = LENGTH(x);
-    int n2 = LENGTH(y);
-	a=meddiff3(n1,n2,REAL(x),REAL(y));
-	return ScalarReal(a);
-}
-
 
 static void meddiffneu2(int n, double*x, double*i1, double*i2,double*erg) {
 int i;

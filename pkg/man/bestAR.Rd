@@ -9,12 +9,12 @@ Robust Estimation of Autoregressive Models by GM Estimator
 	Robust fit of an autogression model to a time series by generalized M estimators as described in Maronna et al. (2006).
 }
 \usage{
-bestAR(x, maxp, maxit = 10^3, delta = 1/2, epsilon = 10^(-4), 
+bestAR(timeseries, maxp, maxit = 10^3, delta = 1/2, epsilon = 10^(-4), 
     k1 = 1.37, k2 = 1, aicpenalty = function(p) {return(2*p)})
 }
 
 \arguments{
-	\item{x}{numeric vector of a univariate time series.}
+	\item{timeseries}{numeric vector of a univariate time series.}
 	\item{maxp}{numeric value indicating the maximum AR model order considered.}
 	\item{maxit}{numeric value indicating the maximal number of iterations to determine the GM estimator, see Details.}
 	\item{delta}{numeric value indicating the breakpoint of the GM estimator. Values larger than 0.5 results in an implosion breakpoint of 1-\code{delta}, see Details.}

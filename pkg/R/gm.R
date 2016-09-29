@@ -52,7 +52,7 @@ for (i in (1:maxit)) {
 	we <- M_wgt(resi, type="huber", k=k1)		# Huberweights for location
 	meanvn <- sum(we*x)/sum(we)
 	resi <- resi/1.54764
-	we <- M_wgt(resi, psi="bisquare", k=1)		# bisquareweights for scale
+	we <- M_wgt(resi, type="bisquare", k=1)		# bisquareweights for scale
 	sigvn <- sqrt(sigv^2/n/delta*sum(resi^2*we))
 	if((abs(meanvn-meanv)<epsilon*sigv)&(abs(sigvn/sigv-1)<epsilon)) break	# stopping rule
 	sigv <- sigvn
@@ -103,10 +103,10 @@ for (i in (1:maxit)) {
         	return(c(beta,sigv))
 		}
 	resi <- (y-x*beta)/sigv
-	weightres <- M_wgt(resi, psi="huber", k=k1)	# Huberweights for Regression
+	weightres <- M_wgt(resi, type="huber", k=k1)	# Huberweights for Regression
 	beta <- sum(weightres*weightx*x*y)/sum(weightres*weightx*x^2)	# Mallows-Type
 	resit <- resi/1.54764
-	we <- M_wgt(resit, psi="bisquare", k=1)			# bisquareweights for scale
+	we <- M_wgt(resit, type="bisquare", k=1)			# bisquareweights for scale
 	sigvn <- sqrt(sigv^2/n/delta*sum(resit^2*we))
 	resi2 <- (y-x*beta)/sigvn
 if(max(abs(resi-resi2))<epsilon) break	# stopping rule
@@ -134,7 +134,7 @@ return(erg)
 #	smallest value in first element => white noise
 #####################################
 
-bestAR <- function(timeseries,maxp,maxit=10^3,delta=1/2,epsilon=10^(-4),k1=1.37,k2=1,aicpenalty=function(p) {return(2*p)}) {
+bestAR <- function(timeseries, maxp,maxit=10^3, delta=1/2, epsilon=10^(-4), k1=1.37, k2=1,aicpenalty=function(p) {return(2*p)}) {
 n <- length(timeseries)
 
 # is delta valid?
@@ -166,7 +166,7 @@ aicv[1] <- log(sd.pred[1]^2)+aicpenalty(1)/n
 timeseries <- timeseries-x.mean	# centering
 
 # AR 1 process
-weightx <- M_wgt(timeseries[-n]/sd.pred[1], psi="bisquare", k=k2)	# weights for Mallows-estimation (x dimension)
+weightx <- M_wgt(timeseries[-n]/sd.pred[1], type="bisquare", k=k2)	# weights for Mallows-estimation (x dimension)
 erg <- simul3(timeseries[-1],timeseries[-n],weightx=weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 sd.pred[2] <- erg$est.sig
 phima[1,1] <- erg$beta
@@ -217,7 +217,7 @@ if (sum(dt<0)>0) {
 	names(aicv) <- paste("AR(",0:maxp,")",sep="")
 	return(list(phimatrix=phima,aic=aicv,var.pred=sd.pred^2,x.mean=x.mean,residuals=residuals))	
 	}
-weightx <- M_wgt(sqrt(dt), psi="bisquare", k=k2)
+weightx <- M_wgt(sqrt(dt), type="bisquare", k=k2)
 erg <- simul3(y,x,weightx,delta=delta,maxit=maxit,epsilon=epsilon,k1=k1,kon)
 beta <- erg$beta
 sd.pred[p+1] <- erg$est.sig

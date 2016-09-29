@@ -8,8 +8,8 @@
 
 M_psi <- function(x, type=c("huber", "bisquare"), k){
   type <- match.arg(type)
-  if(missing(k)) switch(type, huber=1.37, bisquare=4.68)
-  if(type=="huber){
+  if(missing(k)) k <- switch(type, huber=1.37, bisquare=4.68)
+  if(type=="huber"){
     inner <- abs(x) <= k  # observation small enough to stay as it is?
     return(x*inner+k*sign(x)*(1-inner)) # norm of larger values set to k 
   } 
@@ -21,7 +21,7 @@ M_psi <- function(x, type=c("huber", "bisquare"), k){
 M_wgt <- function(x, type=c("huber", "bisquare"), k){
   type <- match.arg(type)
   if(missing(k)) switch(type, huber=1.37, bisquare=4.68)
-  if(type=="huber){
+  if(type=="huber"){
     return(apply(cbind(1, k/abs(x)), 1, min))
   } 
   if(type=="bisquare"){

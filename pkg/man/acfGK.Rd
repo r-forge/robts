@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfGK(x, lag.max, scalefn = "Qn", ...)
+acfGK(x, lag.max, scalefn = Qn, ...)
 }
 
 \arguments{

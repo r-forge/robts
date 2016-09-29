@@ -5,7 +5,7 @@
 ##		psifunc: a robust Psi-Function
 ## Output: order of optimal AR model
 
-ARopt.filter <- function(tss, pmax = NULL,aicpenalty=function(p) {return(2*p)},psi.l=2,psi.0=3) {
+ARopt.filter <- function(tss, pmax = NULL, aicpenalty=function(p) {2*p}, psi.l=2, psi.0=3) {
 	tmax <- length(tss)
 	if (!is.null(pmax)) if (pmax >= floor((tmax - 1) / 2)) {
 		warning("Too less data for chosen pmax, corrected to greatest possible value.")
@@ -23,7 +23,7 @@ ARopt.filter <- function(tss, pmax = NULL,aicpenalty=function(p) {return(2*p)},p
 		if (p == 0) stop("No successful computation for any p.")
 	}
 	# null model:
-	locandscale <- scaleTau2(tss,mu.too=TRUE)
+	locandscale <- scaleTau2(tss, mu.too=TRUE)
 	RAICs <- c(log(locandscale[2]^2)+aicpenalty(1)/tmax, RAICs)
 	popt <- which.min(RAICs)[1] - 1
 	if (popt==0) {	coeff <- NULL

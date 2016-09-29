@@ -26,7 +26,7 @@ acfrobfil <- function(x, lag.max, p = lag.max, robfil.method = c("filtered", "ar
   #estimating acf using robustly filtered values:
   if (robfil.method=="filtered"){
  	  robfiltered <- estimate[[5]][, p]
-  	acfvalues <- try(acf(robfiltered, plot=FALSE, lag.max=lag.max)$acf[-1], silent=TRUE, type=ifelse(partial, "partial", "correlation"))
+  	acfvalues <- try(acf(robfiltered, plot=FALSE, lag.max=lag.max, type=ifelse(partial, "partial", "correlation"))$acf[-1], silent=TRUE)
   	if (inherits(acfvalues, "try-error")){
   		stop("Calculation of the (p)acf failed.")
  		}

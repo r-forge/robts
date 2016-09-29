@@ -13,17 +13,19 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfRA(x, lag.max, psi = "huber", locfn = median, scalefn = mad, biascorr = TRUE, ...)
+acfRA(x, lag.max, psi = c("huber", "bisquare"), k, locfn = median, scalefn = mad,
+      biascorr = TRUE, ...)
 }
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
 	\item{lag.max}{integer value giving the maximum lag at which to calculate the acf.}
 	\item{psi}{character string indicating the \eqn{\Psi} function to be used. Must be either \code{'huber'} for Huber's function or \code{'bisquare'} for Tukey's function, see Details.}
+  \item{k}{numeric tuning parameter determining the \eqn{\Psi} function. If missing, the function chooses \code{k = 1.37} (for Huber's function) or \code{k = 4.68} (for Tukey's function).}
 	\item{locfn}{function which calculates a location estimator. Its argument must be a vector of the data.}
 	\item{scalefn}{function which calculates a scale estimator. Its argument must be a vector of the data. One could for example use one of the functions \code{\link{Qn}} (the default), \code{\link{Sn}}, \code{\link{scaleTau2}} (all from the package \code{robustbase}), \code{\link{mad}} or (not robust) \code{\link{sd}}.}
 	\item{biascorr}{logical indicating whether a bias correction of the result should be done. Note that this bias correction is only valid for Gaussian processes.}
-	\item{...}{tuning parameters for Huber's or Tukey's \eqn{\Psi} function, see Details.}
+	\item{...}{further arguments passed to the function \code{scalefn}.}
 }
 
 \value{

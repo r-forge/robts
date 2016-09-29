@@ -13,9 +13,9 @@ Robustly estimates (and by default plots) the autocorrelation function (acf), th
 \usage{
 acfrob(x, lag.max = NULL, type = c("correlation", "covariance", "partial"),
   approach = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA",
-  "acfrank", "acfrobfil", "acftrim", "acfregression"), plot = TRUE,
+  "acfrank", "acfrobfil", "acftrim", "acfregression"), ..., plot = TRUE,
   na.action = na.fail, psd = TRUE, scalefn = Qn,
-  partial.method = c("automatic", "durbin-levinson"), ...)
+  partial.method = c("automatic", "durbin-levinson"))
 }
 
 \arguments{
@@ -23,12 +23,12 @@ acfrob(x, lag.max = NULL, type = c("correlation", "covariance", "partial"),
 	\item{lag.max}{integer value giving the maximum lag at which to calculate the acf. Default ist \code{10 * log(length(x), 10)}.}
 	\item{type}{character string giving the type of acf to be computed. Allowed values are \code{"correlation"} (the default), \code{"covariance"} or \code{"partial"}.}
 	\item{approach}{character string naming the approach used for computation, see Details.}
+	\item{...}{further arguments passed to the internal function of the respective estimation approach.}
 	\item{plot}{logical. If \code{TRUE} (the default) the acf is plotted.}
 	\item{na.action}{function to be called to handle missing values.}
 	\item{scalefn}{function which calculates a scale estimator. Its argument must be a vector of the data. One could for example use one of the functions \code{\link{Qn}} (the default), \code{\link{Sn}}, \code{\link{scaleTau2}} (all from the package \code{robustbase}), \code{\link{mad}} or (not robust) \code{\link{sd}}.}
 	\item{partial.method}{character string giving the method employed for calculation of the acf in case \code{type == "partial"}, see Details.}
 	\item{psd}{logical. If \code{TRUE} the autocorrelation is enforced to be positive semidefinite, see Details.}
-	\item{...}{further arguments passed to the internal function of the respective estimation approach.}
 }
 
 \details{

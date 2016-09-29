@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acftrim(x, lag.max, trim=0.1, biascorr = TRUE)
+acftrim(x, lag.max, trim = 0.1, biascorr = TRUE)
 }
 
 \arguments{

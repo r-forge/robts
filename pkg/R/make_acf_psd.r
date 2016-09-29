@@ -22,7 +22,7 @@ psd <- function(mat){
   return(result)
 }
 
-is_psd <- function(mat) all(eigen(mat, symmetric=TRUE, only.values=TRUE)$values>=0) #Is a symmetric matrix mat positive semidefinite?
+#is_psd <- function(mat) all(eigen(mat, symmetric=TRUE, only.values=TRUE)$values>=0) #Is a symmetric matrix mat positive semidefinite?
 
 ## Projection onto positive semidefnit Toeplitz matrices (Algorithm 2.2 of Al Homidan, 2006)
 ## input:

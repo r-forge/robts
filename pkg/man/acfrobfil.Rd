@@ -13,7 +13,8 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfrobfil(x, lag.max, p, robfil.method = c("filtered", "ar"), aic = TRUE, psi.l = 2, psi.0 = 3, partial = FALSE)
+acfrobfil(x, lag.max, p, robfil.method = c("filtered", "ar"), aic = TRUE,
+          psi.l = 2, psi.0 = 3, partial = FALSE)
 }
 
 \arguments{
@@ -66,5 +67,5 @@ The subroutine \code{\link{ARfilter}}.
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfrob(tss, approach = "robfil", p = 5)
+acfrob(tss, approach = "acfrobfil", p = 5)
 }

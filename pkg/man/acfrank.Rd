@@ -13,7 +13,8 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfrank(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", "quadrant", "masarotto"), biascorr = TRUE)
+acfrank(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", "quadrant",
+        "masarotto"), biascorr = TRUE)
 }
 
 \arguments{

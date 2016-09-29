@@ -13,11 +13,8 @@ acfrank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", 
   lags <- 1:lag.max
   cor.method <- match.arg(cor.method)
   
-  # centering time series for Masarotto approach:  
-  if (cor.method=="masarotto") x <- x - median(x)
-    
   # choosing the right estimator:  
-    if (cor.method=="gaussian") {
+  if (cor.method=="gaussian") {
   	# transformation into normal scores:
   	x_transformed <- qnorm(rank(x)/(n+1))
   
@@ -26,7 +23,7 @@ acfrank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", 
   	
   	acfvalues <- acf(x_transformed, lag.max=lag.max, plot=FALSE, type="cov")$acf[-1]/cn*n
   	return(acfvalues)
-  	}
+ 	}
   
   if (cor.method=="spearman") {
   	# transformation into centred ranks:
@@ -41,7 +38,7 @@ acfrank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", 
     
     acfvalues <- 2*sin(acfvalues_biased*pi/6)
     return(acfvalues)
-  	}
+ 	}
   
   # for the other methods a function corestimation ist defined and applied to the time series in a second step:
   
@@ -52,7 +49,7 @@ acfrank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", 
       corvalue <- sin(corvalue_biased*pi/2)
       return(corvalue)
       }
-  	}
+ 	}
   if (cor.method=="quadrant") {
   	globalmedian <- median(x)	
   	correlation <- function(x, y, biascorr) {
@@ -63,8 +60,12 @@ acfrank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", 
   		if(!biascorr) return(corvalue_biased)
   		corvalue <- sin(corvalue_biased*pi/2)
   		return(corvalue)
-  		}
-  	}
+ 		}
+ 	}
+  if (cor.method=="masarotto") {
+    x <- x - median(x) # centering time series
+  	correlation <- function(x, y, biascorr) BurgM(x, y)
+  }
   
   # calculation of the acf:  
   acfvalues <- numeric(length(lags))

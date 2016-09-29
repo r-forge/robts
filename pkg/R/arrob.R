@@ -1,20 +1,17 @@
 arrob <- function(x, aic = TRUE, order.max = NULL,
 	method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),
 	na.action = na.fail, series = deparse(substitute(x)), ...,
-	acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim","acfrobfil","acfregression"),aicpenalty=function(p) {return(2*p)}) {
+	acf.approach = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim", "acfrobfil", "acfregression"), aicpenalty=function(p) {2*p}) {
 	
 	method <- match.arg(method)
-	if (!any(method == c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm","filter2"))) stop("No valid method chosen.")
-	acf.fun = match.arg(acf.fun)
-	if (!any(acf.fun == c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim","acfrobfil","acfregression"))) stop("No valid acf function chosen.")
+	acf.approach = match.arg(acf.approach)
 	
-	x <- na.action(x)
-	x <- ts(x)
+	x <- na.action(as.ts(x))
 	n <- length(x)
 	if (is.null(order.max)) order.max <- min(c((n - 1) / 4, 10 * log(n, 10)))
 	if (aic) {
 		if (method == "yule-walker") {
-			re <- ARopt.YW(x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty,...)
+			re <- ARopt.YW(x, pmax = order.max, acf.approach = acf.approach,aicpenalty=aicpenalty,...)
 			if (sum(is.na(re))>0) {
 				warning("Calculation failed")
 				return(NA)
@@ -27,7 +24,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			x.mean <- re$x.mean
 		}
 		if (method == "durbin-levinson") {
-			re <- ARopt.acf(tss = x, pmax = order.max, acf.fun = acf.fun,aicpenalty=aicpenalty,...)
+			re <- ARopt.acf(tss = x, pmax = order.max, acf.approach = acf.approach,aicpenalty=aicpenalty,...)
 			if (sum(is.na(re))>0) {
 				warning("Calculation failed")
 				return(NA)
@@ -70,7 +67,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		}
 	} else {
 		if (method == "yule-walker") {
-			acorf <- as.numeric(acfrob(x, fun = acf.fun, lag.max=order.max,plot = FALSE, ...)$acf)
+			acorf <- as.numeric(acfrob(x, approach = acf.approach, lag.max=order.max,plot = FALSE, ...)$acf)
 			ph <- solveYW(acorf, p = order.max)
 			x.mean <- median(x)
 			D <- matrix(nrow = n - order.max, ncol = order.max)
@@ -82,7 +79,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 			partialacf <- ARMAacf(ar=ph,lag.max=order.max,pacf=TRUE)
 		}
 		if (method == "durbin-levinson") {
-			acorf <- as.numeric(acfrob(x, fun = acf.fun, lag.max=order.max,plot = FALSE, ...)$acf)
+			acorf <- as.numeric(acfrob(x, approach = acf.approach, lag.max=order.max,plot = FALSE, ...)$acf)
 			ph <- DurbinLev(acorf)[[1]][[order.max]]
 			x.mean <- median(x)
 			D <- matrix(nrow = n - order.max, ncol = order.max)

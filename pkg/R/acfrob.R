@@ -4,17 +4,21 @@
 acfrob <- function(x, lag.max = NULL,
   type = c("correlation", "covariance", "partial"),
   approach = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA",
-  "acfrank", "acfrobfil", "acftrim", "acfregression"),
+  "acfrank", "acfrobfil", "acftrim", "acfregression"), ...,
   plot = TRUE, na.action = na.fail, psd = TRUE, scalefn = Qn,
-  partial.method = c("automatic", "durbin-levinson"), ...) {
-  n <- length(x)
+  partial.method = c("automatic", "durbin-levinson")) {
   
-  # protective measures:
+  # checks and preparations:
   type <- match.arg(type)	
 	approach <- match.arg(approach)
+	acffn <- get(approach)
 	partial.method <- match.arg(partial.method)
+	series <- deparse(substitute(x))
+	x <- na.action(as.ts(x)) # handling of missing values
+	if (!is.numeric(x)) stop("'x' must be numeric")
+  n <- length(x)
   if (is.null(lag.max)) lag.max <- floor(10 * log(n, base = 10))
-	x <- na.action(x) # handling of missing values
+  if (is.na(lag.max) || lag.max < 0) stop("'lag.max' must be at least 0")
 	if (n < 2 + lag.max) {
 		warning("It is only possible to compute estimations lags up to n-2. Larger lags are not considered")
 		lag.max <- n - 2
@@ -23,8 +27,7 @@ acfrob <- function(x, lag.max = NULL,
 		warning("Brockwell and Davis (2006) suggest to calculate only lags less n/4. Nevertheless, we will calculate all lags you want but you should be aware that the estimated acf for higher lags could be unreasonable.")
 	}
   
-	acffn <- get(approach)
-
+  # actual calculations:
   if (type == "partial") {	
   	if (approach %in% c("acfrobfil", "acfpartrank") & partial.method == "automatic") {
       pacfvalues <- acffn(x, lag.max = lag.max, partial = TRUE, ...)
@@ -54,16 +57,16 @@ acfrob <- function(x, lag.max = NULL,
 	
 	# output:
 	acf.out <- list(
-    lag = array(data = 1:lag.max, dim = c(lag.max, 1, 1)),
-    acf = array(data = acorf, dim = c(lag.max, 1, 1)),
+    acf = array(data = c(1, acfvalues), dim = c(lag.max+1, 1, 1)),
     type = type,
     n.used = n,
-    series = deparse(substitute(x)),
+    lag = array(data = 0:lag.max, dim = c(lag.max+1, 1, 1)),
+    series = series,
     snames = NULL
 	)
 	class(acf.out) <- "acf"
 	if (plot) {
-		confint <- confband(approach=funname, n=n,...)
+		confint <- confband(approach=approach, n=n,...)
 		plot(acf.out, ci=0)
 		if (length(confint==2)) {
 			abline(h=confint[1], col="blue", lty="dashed")

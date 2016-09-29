@@ -50,7 +50,7 @@ acftrim <- function(x, lag.max, trim=0.1, biascorr = TRUE) {
   
   # transformation for unbiasedness:
   load(system.file("extdata", "trimsimv", package = "robts"))	# loading the simulated expected values
-  acfvalues <- sapply(acfvalues_biased, linearinterpol, a=expectations, b=values)
+  acfvalues <- sapply(acfvalues_biased, linearinterpol, a=get("expectations"), b=get("values"))
   
   return(acfvalues)
 }

@@ -21,7 +21,7 @@ acfmedian <- function(x, lag.max, biascorr = TRUE) {
   
   # transformation for unbiasedness:
   load(system.file("extdata", "chack2", package = "robts")) # loading the simulated expected values for the median correlation
- 	acfvalues <- sapply(acfvalues_biased, linearinterpol, a=expectations, b=values)
+ 	acfvalues <- sapply(acfvalues_biased, linearinterpol, a=get("expectations"), b=get("values"))
  	
   return(acfvalues)
 }

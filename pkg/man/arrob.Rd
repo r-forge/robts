@@ -12,9 +12,9 @@ Robust Estimation of Autoregressive Models
 arrob(x, aic = TRUE, order.max = NULL, method =
     c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),
     na.action = na.fail, series = deparse(substitute(x)), ...,
-    acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
+    acf.approach = c("acfGK", "acfmedian", "acfmulti", "acfpartrank",
         "acfRA", "acfrank", "acftrim","acfrobfil","acfregression"), 
-    aicpenalty = function(p) {return(2 * p)})
+    aicpenalty = function(p) {2*p})
 }
 
 \arguments{
@@ -25,7 +25,7 @@ arrob(x, aic = TRUE, order.max = NULL, method =
 	\item{na.action}{function to be called to handle missing values.}
 	\item{series}{the time series name.}
 	\item{...}{further arguments to be passed to internal functions called.}
-	\item{acf.fun}{character string naming the function to calculate the autocorrelation function.  See \code{\link{acfrob}} for details.  Do not use \code{"acfrobfil"} since one can get an AR-fit more directly by the method \code{filter}.}
+	\item{acf.approach}{character string naming the function to calculate the autocorrelation function.  See \code{\link{acfrob}} for details.  Do not use \code{"acfrobfil"} since one can get an AR-fit more directly by the method \code{filter}.}
 	\item{aicpenalty}{function of the model order defining the penalty term of the model selection criteria. The default results in a robust AIC.}
 }
 

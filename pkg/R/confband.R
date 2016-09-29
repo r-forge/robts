@@ -1,15 +1,15 @@
 #### function calculates asymptotic confidence bounds for acf/pacf under white noise ####
 ## input:
-# fun: what estimator is used
+# approach: what estimator is used
 # n: sample size
 # ci: covering probability
 ## output:
 # lower an upper bound as vector
 
-confband <- function(fun, n, ci=0.95, ...) {
+confband <- function(approach, n, ci=0.95, ...) {
   quan <- qnorm(1-(1-ci)/2)
   dotdotdot <- list(...)
-  if (fun=="acfGK") {
+  if (approach=="acfGK") {
   index <- which(names(dotdotdot)%in%"method")
   if (length(index)==0) {
   gr <- quan*sqrt(1/n*1/0.8227)
@@ -29,7 +29,7 @@ confband <- function(fun, n, ci=0.95, ...) {
   return(c(-gr,gr))
   }
   }
-  if (fun=="acfrank") {
+  if (approach=="acfrank") {
   index <- which(names(dotdotdot)%in%"method")
   if (length(index)==0) {
   gr <- quan*sqrt(1/n*1)

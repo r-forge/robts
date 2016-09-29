@@ -13,7 +13,8 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfpartrank(x, lag.max, cor.method=c("spearman", "kendall", "quadrant", "gaussian", "masarotto"), biascorr = TRUE, partial = TRUE)
+acfpartrank(x, lag.max, cor.method = c("spearman", "kendall", "quadrant", "gaussian",
+            "masarotto"), biascorr = TRUE, partial = FALSE)
 }
 
 \arguments{

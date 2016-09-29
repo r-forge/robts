@@ -11,10 +11,7 @@
 acfpartrank <- function(x, lag.max, cor.method=c("spearman", "kendall", "quadrant", "gaussian", "masarotto"), biascorr = TRUE, partial = FALSE) {
   n <- length(x)
   cor.method <- match.arg(cor.method)
- 
-  # centering time series for Masarotto approach:
-  if (cor.method=="masarotto") x <- x - median(x)
-  
+
   # choosing the right estimator:  
   if (cor.method=="gaussian") {
   	correlation <- function(x, y, biascorr) {
@@ -32,21 +29,21 @@ acfpartrank <- function(x, lag.max, cor.method=c("spearman", "kendall", "quadran
 		}
 	}
   if (cor.method=="spearman")  {
-  	correlation <- function(x, y, biascorr {
+  	correlation <- function(x, y, biascorr) {
  	    corvalue_biased <- cor(x, y, method = "spearman")
  	    if(!biascorr) return(corvalue_biased)
       corvalue <- 2*sin(corvalue_biased/6*pi)
       return(corvalue)
-      }
-  	}
+    }
+ 	}
   if (cor.method=="kendall")  {
    	correlation <- function(x, y, biascorr) {
  	    corvalue_biased <- cor(x, y, method = "kendall")
  	    if(!biascorr) return(corvalue_biased)
       corvalue <- sin(corvalue_biased*pi/2)
       return(corvalue)
-      }
-  	}
+    }
+ 	}
   if (cor.method=="quadrant") {
   	globalmedian <- median(x)	
   	correlation <- function(x, y, biascorr) {
@@ -57,9 +54,10 @@ acfpartrank <- function(x, lag.max, cor.method=c("spearman", "kendall", "quadran
   		if(!biascorr) return(corvalue_biased)
   		corvalue <- sin(corvalue_biased*pi/2)
   		return(corvalue)
-  		}
-  	}
+ 		}
+ 	}
   if (cor.method=="masarotto") {
+    x <- x - median(x) # centering time series
   	correlation <- function(x, y, biascorr) BurgM(x, y)
   } 
   
@@ -69,17 +67,17 @@ acfpartrank <- function(x, lag.max, cor.method=c("spearman", "kendall", "quadran
   rho <- numeric(lag.max)	# autocorrelations
   
   # starting the recursion:  
-  a[1,1] <- correlation(timeseries[-1], timeseries[-n], biascorr=biascorr)	
+  a[1,1] <- correlation(x[-1], x[-n], biascorr=biascorr)	
   phi[1] <- a[1,1]
   rho[1] <- a[1,1]
   
   # higher autocorrelations:  
   for (H in 2:lag.max) {
-  	uH <- timeseries[(H+1):n]	# foreward residuals
+  	uH <- x[(H+1):n]	# foreward residuals
   	for (i in 1:(H-1)) {
   		uH <- uH - a[H-1, i] * x[(H+1-i):(n-i)]
   		}
-  	vH <- timeseries[1:(n-H)]	# backward residuals
+  	vH <- x[1:(n-H)]	# backward residuals
   	for (i in 1:(H-1)) {
   		vH <- vH - a[H-1, i] * x[(1+i):(n-H+i)]
   		}

@@ -2,16 +2,14 @@
 ## Input:
 ##		ts: time series
 ##		pmax: maximum AR order considered
-##		acf.fun: function for acf calculation
+##		acf.approach: function for acf calculation
 ## Output: coefficients vector of optimal AR model 
 ##
 ##
 
 
-ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim","acfrobfil","acfregression"),aicpenalty=function(p) {return(2*p)},...) {
-	acf.fun <- match.arg(acf.fun)
-	posfuns <- c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim","acfrobfil","acfregression")
-	if (!any(acf.fun == posfuns)) stop("No valid ACF function.")
+ARopt.acf <- function(tss, pmax = NULL, acf.approach = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim","acfrobfil","acfregression"),aicpenalty=function(p) {return(2*p)},...) {
+	acf.approach <- match.arg(acf.approach)
 	tmax <- length(tss)
 	lmax <- floor(tmax / 4)
 	if (!is.null(pmax)) if (pmax > lmax) {
@@ -20,7 +18,7 @@ ARopt.acf <- function(tss, pmax = NULL, acf.fun = c("acfGK", "acfmedian", "acfmu
 	}
 	if (is.null(pmax)) pmax <- floor(min(c((tmax - 1) / 4, 10 * log(tmax, base = 10))))
 	if (pmax < 1) stop("Too less data for reasonable model comparison. Try p = 1.")
-	acorf <- as.numeric(acfrob(tss, lag.max = pmax, fun = acf.fun, plot = FALSE,...)$acf)
+	acorf <- as.numeric(acfrob(tss, lag.max = pmax, approach = acf.approach, plot = FALSE,...)$acf)
 	if (sum(is.na(acorf))>0) {
 	return(NA)
 	}

@@ -13,7 +13,8 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfmulti(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel-Donoho", "S", "reweight", "Tyler", "M", "sscor"), ...)
+acfmulti(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel-Donoho", "S",
+         "reweight", "Tyler", "M", "sscor"), ...)
 }
 
 \arguments{

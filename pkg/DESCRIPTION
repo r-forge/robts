@@ -2,14 +2,15 @@ Package: robts
 Type: Package
 Title: Robust Time Series Analysis
 Version: 0.2.0
-Date: 2016-09-28
+Date: 2016-09-29
 Authors@R: c(
   person("Alexander", "Duerre", role=c("aut", "cre"), email="alexander.duerre@tu-dortmund.de"),
   person("Roland", "Fried", role=c("aut"), email="fried@statistik.tu-dortmund.de"),
   person("Tobias", "Liboschik", role=c("aut"), email="liboschik@statistik.tu-dortmund.de"),
   person("Jonathan", "Rathjens", role=c("aut"), email="rathjens@statistik.tu-dortmund.de"),
   person("R Core Team", role = c("ctb"), comment="for source file ks.c/ routines 'pKS2' and 'pKolmogorov2x'"))
-Imports: robustbase, rrcov, SpatialNP, ICSNP, sscor, quantreg
+Depends: robustbase
+Imports: rrcov, SpatialNP, ICSNP, sscor, quantreg
 Description: Collection of functions for robust time series analysis. This includes various approaches for robust estimation of (partial) autocorrelation, robust filtering and robust fitting of AR(p) processes as well as robust change point detection.
 License: GPL-2 | GPL-3
 URL: http://robts.r-forge.r-project.org

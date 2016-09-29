@@ -6,7 +6,7 @@ BurgM <- function(ut, vt, eps=10^(-3), maxit=100) {
   	return(NA)
   	}
   w <- function(x) 3/(1+x)
-  fn <- GK(ut,vt)
+  fn <- corGK(ut,vt)
   fnal <- fn+1
   i <- 1
   while(abs(fn-fnal)>eps){
