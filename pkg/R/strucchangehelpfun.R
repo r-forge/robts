@@ -47,22 +47,3 @@ return(c(.Call("pKS2",x,tol=10^(-6))))
 }
 
 
-
-alter2 <- function(x) {
-n <- length(x)
-meddiffw <- numeric(n-1)
-diffi <- outer(x,x,"-")
-index <- upper.tri(diag(n))
-zeilennummer <- matrix(1:n,ncol=n,nrow=n)
-spaltennummer <- t(zeilennummer)
-
-diffi <- diffi[index]
-zeilennummer <- zeilennummer[index]
-spaltennummer <- spaltennummer[index]
-
-diffi <- rbind(diffi,zeilennummer,spaltennummer)
-index <- order(diffi[1,])
-diffi <- diffi[,index]
-bwq <- .Call("meddiffneu",diffi[1,],diffi[2,],diffi[3,],rep(0,length(x)-1))
-return(bwq)
-}
