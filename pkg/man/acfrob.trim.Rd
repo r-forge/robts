@@ -1,6 +1,6 @@
 \encoding{utf8}
-\name{acftrim}
-\alias{acftrim}
+\name{acfrob.trim}
+\alias{acfrob.trim}
 
 \title{
 Robust Autocorrelation Estimation Based on Trimming
@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acftrim(x, lag.max, trim = 0.1, biascorr = TRUE)
+acfrob.trim(x, lag.max, trim = 0.1, biascorr = TRUE)
 }
 
 \arguments{
@@ -48,11 +48,11 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \seealso{
 The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrobfil}}, \code{\link{acfrank}}.
+Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}}, \code{\link{acfrob.multi}}, \code{\link{acfrob.partrank}}, \code{\link{acfrob.RA}}, \code{\link{acfrob.rank}}, \code{\link{acfrob.regression}}.
 }
 
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfrob(tss, approach = "acftrim")
+acfrob(tss, approach = "trim")
 }

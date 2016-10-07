@@ -3,15 +3,15 @@
 
 acfrob <- function(x, lag.max = NULL,
   type = c("correlation", "covariance", "partial"),
-  approach = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA",
-  "acfrank", "acfrobfil", "acftrim", "acfregression"), ...,
+  approach = c("GK", "median", "multi", "partrank", "RA",
+  "rank", "filter", "trim", "regression"), ...,
   plot = TRUE, na.action = na.fail, psd = TRUE, scalefn = Qn,
   partial.method = c("automatic", "durbin-levinson")) {
   
   # checks and preparations:
   type <- match.arg(type)	
 	approach <- match.arg(approach)
-	acffn <- get(approach)
+	acffn <- get(paste("acfrob", approach, sep="."))
 	partial.method <- match.arg(partial.method)
 	series <- deparse(substitute(x))
 	x <- na.action(as.ts(x)) # handling of missing values
@@ -29,7 +29,7 @@ acfrob <- function(x, lag.max = NULL,
   
   # actual calculations:
   if (type == "partial") {	
-  	if (approach %in% c("acfrobfil", "acfpartrank") & partial.method == "automatic") {
+  	if (approach %in% c("filter", "partrank") & partial.method == "automatic") {
       pacfvalues <- acffn(x, lag.max = lag.max, partial = TRUE, ...)
     } else {
       acfvalues <- acffn(x, lag.max = lag.max, ...)

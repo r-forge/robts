@@ -1,6 +1,6 @@
 \encoding{utf8}
-\name{acfmulti}
-\alias{acfmulti}
+\name{acfrob.multi}
+\alias{acfrob.multi}
 
 \title{
 Robust Autocorrelation Estimation Based on Correlation Matrices 
@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfmulti(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel-Donoho", "S",
+acfrob.multi(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel-Donoho", "S",
          "reweight", "Tyler", "M", "sscor"), ...)
 }
 
@@ -61,7 +61,7 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \seealso{
 The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
+Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}}, \code{\link{acfrob.partrank}}, \code{\link{acfrob.RA}}, \code{\link{acfrob.rank}}, \code{\link{acfrob.regression}}, \code{\link{acfrob.trim}}.
 
 Robust multivariate scatter estimators: \code{\link{covMcd}}, \code{\link{Corefw}}, \code{\link{CovSde}}, \code{\link{CovSest}}, \code{\link{mvhuberM}}, \code{\link{tyler.shape}}.
 
@@ -70,5 +70,5 @@ Robust multivariate scatter estimators: \code{\link{covMcd}}, \code{\link{Corefw
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfrob(tss, approach = "acfmulti")
+acfrob(tss, approach = "multi")
 }

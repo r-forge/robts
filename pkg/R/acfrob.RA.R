@@ -10,7 +10,7 @@
 # output: acf
 #####################
 
-acfRA <- function(x, lag.max, psi = c("huber", "bisquare"), k, locfn = median, scalefn = mad, biascorr = TRUE, ...) {
+acfrob.RA <- function(x, lag.max, psi = c("huber", "bisquare"), k, locfn = median, scalefn = mad, biascorr = TRUE, ...) {
   psi <- match.arg(psi)
   n <- length(x)
   lags <- 1:lag.max
@@ -46,11 +46,11 @@ acfRA <- function(x, lag.max, psi = c("huber", "bisquare"), k, locfn = median, s
   # transformation for unbiasedness:
   if (psi=="huber") {
     if(!missing(k) && k!=1.37) warning("The automatic bias correction is only valid for k=1.37")
-    load(system.file("extdata", "rahusimv", package = "robts")) # loading the simulated expected values
+    load(system.file("extdata", "acfbiascorr_RAhuber", package = "robts")) # loading the simulated expected values
   }
   if (psi=="bisquare") {
     if(!missing(k) && k!=4.68) warning("The automatic bias correction is only valid for k=4.68")
-    load(system.file("extdata", "ratusimv", package = "robts")) # loading the simulated expected values
+    load(system.file("extdata", "acfbiascorr_RAbisquare", package = "robts")) # loading the simulated expected values
   }
   if (psi %in% c("huber", "bisquare")) {
     acfvalues <- sapply(acfvalues_biased, linearinterpol, a=get("expectations"), b=get("values"))

@@ -7,7 +7,7 @@
 # output: autocorrelation function
 #####################
 
-acftrim <- function(x, lag.max, trim=0.1, biascorr = TRUE) {
+acfrob.trim <- function(x, lag.max, trim=0.1, biascorr = TRUE) {
   n <- length(x)
   lags <- 1:lag.max
   
@@ -49,7 +49,7 @@ acftrim <- function(x, lag.max, trim=0.1, biascorr = TRUE) {
   if(!biascorr) return(acfvalues_biased)
   
   # transformation for unbiasedness:
-  load(system.file("extdata", "trimsimv", package = "robts"))	# loading the simulated expected values
+  load(system.file("extdata", "acfbiascorr_trim", package = "robts"))	# loading the simulated expected values
   acfvalues <- sapply(acfvalues_biased, linearinterpol, a=get("expectations"), b=get("values"))
   
   return(acfvalues)

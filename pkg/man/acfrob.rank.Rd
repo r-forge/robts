@@ -1,6 +1,6 @@
 \encoding{utf8}
-\name{acfrank}
-\alias{acfrank}
+\name{acfrob.rank}
+\alias{acfrob.rank}
 
 \title{
 Robust Autocorrelation Estimation Based on Signs and Ranks 
@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfrank(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", "quadrant",
+acfrob.rank(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", "quadrant",
         "masarotto"), biascorr = TRUE)
 }
 
@@ -66,11 +66,11 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \seealso{
 The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
+Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}}, \code{\link{acfrob.multi}}, \code{\link{acfrob.partrank}}, \code{\link{acfrob.RA}}, \code{\link{acfrob.regression}}, \code{\link{acfrob.trim}}.
 }
 
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfrob(tss, approach = "acfrank")
+acfrob(tss, approach = "rank")
 }

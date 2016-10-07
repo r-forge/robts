@@ -5,7 +5,7 @@ filterrob <- function(x, filter = NULL, method = c("direct", "ar"), p = 0, na.ac
 	
 	if (method == "direct") {
 		if (!any(p == 1:length(x))) stop("No valid order of AR model given.")
-		tss <- ts.robfilter(ts = x, p = p, psi.l=psi.l, psi.0=psi.0)
+		tss <- ARfilter(timeseries = x, p = p, psi.l=psi.l,psi.0=psi.0)[[5]][,p]
 		resid <- NULL
 	}
 	

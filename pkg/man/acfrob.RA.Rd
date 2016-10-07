@@ -1,6 +1,6 @@
 \encoding{utf8}
-\name{acfRA}
-\alias{acfRA}
+\name{acfrob.RA}
+\alias{acfrob.RA}
 
 \title{
 Robust Autocorrelation Estimation Based on Residual Autocorrelation
@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfRA(x, lag.max, psi = c("huber", "bisquare"), k, locfn = median, scalefn = mad,
+acfrob.RA(x, lag.max, psi = c("huber", "bisquare"), k, locfn = median, scalefn = mad,
       biascorr = TRUE, ...)
 }
 
@@ -53,11 +53,11 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \seealso{
 The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
+Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}}, \code{\link{acfrob.multi}}, \code{\link{acfrob.partrank}}, \code{\link{acfrob.rank}}, \code{\link{acfrob.regression}}, \code{\link{acfrob.trim}}.
 }
 
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfrob(tss, approach = "acfRA")
+acfrob(tss, approach = "RA")
 }

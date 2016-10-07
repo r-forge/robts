@@ -1,6 +1,6 @@
 \encoding{utf8}
-\name{acfrobfil}
-\alias{acfrobfil}
+\name{acfrob.filter}
+\alias{acfrob.filter}
 
 \title{
 Robust Autocorrelation Estimation Based on Robust Filtering
@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfrobfil(x, lag.max, p, robfil.method = c("filtered", "ar"), aic = TRUE,
+acfrob.filter(x, lag.max, p, robfil.method = c("filtered", "ar"), aic = TRUE,
           psi.l = 2, psi.0 = 3, partial = FALSE)
 }
 
@@ -59,7 +59,7 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \seealso{
 The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfpartrank}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acftrim}}.
+Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.multi}}, \code{\link{acfrob.partrank}}, \code{\link{acfrob.RA}}, \code{\link{acfrob.rank}}, \code{\link{acfrob.regression}}, \code{\link{acfrob.trim}}.
 
 The subroutine \code{\link{ARfilter}}.
 }
@@ -67,5 +67,5 @@ The subroutine \code{\link{ARfilter}}.
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfrob(tss, approach = "acfrobfil", p = 5)
+acfrob(tss, approach = "filter", p = 5)
 }

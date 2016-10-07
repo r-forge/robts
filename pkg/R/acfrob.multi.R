@@ -8,7 +8,7 @@
 #################
  
 
-acfmulti <- function(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel-Donoho", "S", "reweight", "Tyler", "M", "sscor"), ...) {
+acfrob.multi <- function(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel-Donoho", "S", "reweight", "Tyler", "M", "sscor"), ...) {
   multi.method <- match.arg(multi.method)
   n <- length(x)
   lags <- 1:lag.max

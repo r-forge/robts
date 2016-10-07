@@ -8,7 +8,7 @@
 ##################
 
 
-acfrank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", "quadrant", "masarotto"), biascorr = TRUE) {
+acrob.frank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", "quadrant", "masarotto"), biascorr = TRUE) {
   n <- length(x)
   lags <- 1:lag.max
   cor.method <- match.arg(cor.method)

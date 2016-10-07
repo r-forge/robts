@@ -1,6 +1,6 @@
 \encoding{utf8}
-\name{acfpartrank}
-\alias{acfpartrank}
+\name{acfrob.partrank}
+\alias{acfrob.partrank}
 
 \title{
 Robust Autocorrelation Estimation Based on Partial Autocorrelations 
@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfpartrank(x, lag.max, cor.method = c("spearman", "kendall", "quadrant", "gaussian",
+acfrob.partrank(x, lag.max, cor.method = c("spearman", "kendall", "quadrant", "gaussian",
             "masarotto"), biascorr = TRUE, partial = FALSE)
 }
 
@@ -67,11 +67,11 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \seealso{
 The wrapper function \code{\link{acfrob}}.
 
-Alternative acf subroutines: \code{\link{acfGK}}, \code{\link{acfmedian}}, \code{\link{acfmulti}}, \code{\link{acfRA}}, \code{\link{acfrank}}, \code{\link{acfrobfil}}, \code{\link{acftrim}}.
+Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}}, \code{\link{acfrob.multi}}, \code{\link{acfrob.RA}}, \code{\link{acfrob.rank}}, \code{\link{acfrob.regression}}, \code{\link{acfrob.trim}}.
 }
 
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfrob(tss, approach = "acfpartrank")
+acfrob(tss, approach = "partrank")
 }

@@ -8,7 +8,7 @@
 ##################
 
 
-acfpartrank <- function(x, lag.max, cor.method=c("spearman", "kendall", "quadrant", "gaussian", "masarotto"), biascorr = TRUE, partial = FALSE) {
+acfrob.partrank <- function(x, lag.max, cor.method=c("spearman", "kendall", "quadrant", "gaussian", "masarotto"), biascorr = TRUE, partial = FALSE) {
   n <- length(x)
   cor.method <- match.arg(cor.method)
 
