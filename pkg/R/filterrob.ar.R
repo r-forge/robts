@@ -1,5 +1,5 @@
 #####################
-# robfilterAR: calculates a robustly filtered timeseries
+# filterrob.ar : calculates a robustly filtered timeseries
 # input:
 #	 timeseries: timeseries without NA as vector
 #	 phi: coefficients of AR model fitted
@@ -10,7 +10,7 @@
 #####################
 
 
-robfilterAR <- function(timeseries, phi, psifn) {
+filterrob.ar <- function(timeseries, phi, psifn) {
   if(missing(psifn)) psifn <- function(x) M_psi(x, type="smooth")
 
   n <- length(timeseries)

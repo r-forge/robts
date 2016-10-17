@@ -1,9 +1,9 @@
 \encoding{utf8}
-\name{acfrob.regression}
-\alias{acfrob.regression}
+\name{acfrob.bireg}
+\alias{acfrob.bireg}
 
 \title{
-Robust Autocorrelation Estimation Based on Residual Autocorrelation
+Robust Autocorrelation Estimation Based on ...
 }
 
 \description{
@@ -13,7 +13,7 @@ This function is intended for internal usage only. Users should rather use the w
 }
 
 \usage{
-acfrob.regression(x, lag.max, regression.method = c("MM", "LTS", "L1"))
+acfrob.bireg(x, lag.max, regression.method = c("MM", "LTS", "L1"))
 }
 
 \arguments{

@@ -40,7 +40,7 @@ lmrobARopt <- function(ts, interc = TRUE, singular.ok = FALSE, pmax = NULL,aicpe
 				     }
 			
 	for (p in 1:pmax) {
-		fit <- suppressWarnings(lmrobAR(ts = ts, p = p, interc = interc,
+		fit <- suppressWarnings(ARlmrob(ts = ts, p = p, interc = interc,
 			singular.ok = singular.ok, ...)$model)
 		if (fit$converged) {
 			RAIC[p+1] <- log(fit$scale^2) + aicpenalty(p+interc)/(tmax-p)

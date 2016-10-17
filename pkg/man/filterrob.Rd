@@ -1,6 +1,8 @@
 \encoding{utf8}
-\name{filterrob}
-\alias{filterrob}
+\name{arfilterrob}
+\alias{arfilterrob}
+\alias{arfilterrob.fitted}
+\alias{arfilterrob.given}
 
 \title{
 Robustly Filtered Time Series
@@ -19,8 +21,8 @@ filterrob(x, filter = NULL, method = c("direct", "ar"),
 	\item{method}{character string whether the filtering is performed directly or using model coefficients calculated previously.}
 	\item{p}{order of AR model if \code{method == "direct"}.}
 	\item{na.action}{function to be called to handle missing values.}
-	\item{psi.l}{numeric determining the used psi function, see details.}
-	\item{psi.0}{numeric determining the used psi function, see details.}
+	\item{psi.l}{numeric value determining the used psi function, see details.}
+	\item{psi.0}{numeric value determining the used psi function, see details.}
 }
 
 \details{

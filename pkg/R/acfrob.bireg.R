@@ -1,4 +1,4 @@
-acfrob.regression <- function(x, lag.max, regression.method = c("MM", "LTS", "L1")) {
+acfrob.bireg <- function(x, lag.max, regression.method = c("MM", "LTS", "L1")) {
   regression.method <- match.arg(regression.method)
   acfvalues <- numeric(lag.max)
   n <- length(x)

@@ -13,7 +13,7 @@ Robustly estimates (and by default plots) the autocorrelation function (acf), th
 \usage{
 acfrob(x, lag.max = NULL, type = c("correlation", "covariance", "partial"),
   approach = c("GK", "median", "multi", "partrank", "RA", "rank", "filter",
-  "trim", "regression"), ..., plot = TRUE, na.action = na.fail, psd = TRUE,
+  "trim", "bireg"), ..., plot = TRUE, na.action = na.fail, psd = TRUE,
   scalefn = Qn, partial.method = c("automatic", "durbin-levinson"))
 }
 
@@ -49,7 +49,7 @@ There are many approaches for robust autocorrelation estimation. They are descri
 	
 	If \code{fun = "trim"}, one applies a trimmed correlation, which calculates the acf for every lag individually. This estimator basically substitutes the mean by a trimmed mean in the definition of the empirical correlation. See the help page of \code{\link{acfrob.trim}} for more details and further arguments.
 
-	If \code{fun = "regression"}, one applies a method proposed by Politis. WE NEED MORE DETAILS HERE.
+	If \code{fun = "bireg"}, one applies a method proposed by Politis. WE NEED MORE DETAILS HERE. See the help page of \code{\link{acfrob.bireg}} for more details and further arguments.
 	
 For obtaining the robust autocovariance estimation (\code{type = "covariance"}), the acf is multiplied with a robust estimation of the marginal variance of the time series. This estimation is obtained by the squared scale estimator \code{scalefn}, which is by default \code{\link{Qn}} from the package \code{robustbase}.
 	
@@ -74,7 +74,7 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \seealso{
 Classical, nonrobust estimation is provided by the function \code{\link{acf}}.
 
-The subroutines which actually estimate the acf: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}}, \code{\link{acfrob.median}}, \code{\link{acfrob.multi}}, \code{\link{acfrob.partrank}}, \code{\link{acfrob.RA}}, \code{\link{acfrob.rank}}, \code{\link{acfrob.regression}}, \code{\link{acfrob.trim}}.
+The subroutines which actually estimate the acf: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}}, \code{\link{acfrob.median}}, \code{\link{acfrob.multi}}, \code{\link{acfrob.partrank}}, \code{\link{acfrob.RA}}, \code{\link{acfrob.rank}}, \code{\link{acfrob.bireg}}, \code{\link{acfrob.trim}}.
 }
 
 \examples{

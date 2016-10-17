@@ -2,8 +2,10 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 	method = c("yule-walker", "durbin-levinson", "robustregression", "filter", "gm"),
 	na.action = na.fail, series = deparse(substitute(x)), ...,
 	acf.approach = c("acfGK", "acfmedian", "acfmulti", "acfpartrank", "acfRA", "acfrank", "acftrim", "acfrobfil", "acfregression"), aicpenalty=function(p) {2*p}) {
-	
+	cl <- match.call()
 	method <- match.arg(method)
+	x <- na.action(as.ts(x))
+	
 	acf.approach = match.arg(acf.approach)
 	
 	x <- na.action(as.ts(x))
@@ -135,7 +137,7 @@ arrob <- function(x, aic = TRUE, order.max = NULL,
 		method = method,
 		series = series,
 		frequency = frequency(x),
-		call = NULL,
+		call = cl,
 		asy.var.coef = NULL
 	)
 	class(res) <- "ar"

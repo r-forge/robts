@@ -4,7 +4,7 @@
 acfrob <- function(x, lag.max = NULL,
   type = c("correlation", "covariance", "partial"),
   approach = c("GK", "median", "multi", "partrank", "RA",
-  "rank", "filter", "trim", "regression"), ...,
+  "rank", "filter", "trim", "bireg"), ...,
   plot = TRUE, na.action = na.fail, psd = TRUE, scalefn = Qn,
   partial.method = c("automatic", "durbin-levinson")) {
   
