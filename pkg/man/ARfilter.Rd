@@ -13,15 +13,15 @@ This is a workhorse function which is called by several other functions in this 
 }
 
 \usage{
-ARfilter(timeseries, p, aicpenalty = function(p) {2*p}, psi.l=2, psi.0=3)
+ARfilter(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, psi.0 = 3)
 }
 
 \arguments{
-	\item{timeseries}{univariate numeric vector or time series object.}
-	\item{p}{numeric determining the order of the AR fit.}
-	\item{psi.l}{numeric determining the used psi function, see Details.}
-	\item{psi.0}{numeric determining the used psi function, see Details.}
-	\item{aicpenalty}{function of p, indicating the penalty for a larger model, see Details.}
+	\item{x}{univariate numeric vector or time series object.}
+	\item{order.max}{integer value determining the maximum order of the AR fit.}
+	\item{psi.l}{numeric value determining the used psi function. See Details.}
+	\item{psi.0}{numeric value determining the used psi function. See Details.}
+	\item{aicpenalty}{function of the model order, indicating the penalty for a larger model. See Details.}
 	}
 
 \details{
@@ -33,12 +33,12 @@ Following Maronna et al. (2006), the psi function should fulfill two properties.
 \value{
 List containing the following values:
 
-\item{partial autocorrelations}{numeric matrix representing the successive estimated partial correlations of the model. In the first column are the partial correlations of the AR model of order 1, in the second one the partial correlations of order 2 and so on.}
-\item{variance of innovations}{numeric vector containing the estimations of the residual scale for AR models of order 1,...,\code{p}.}
-\item{autocorrelation}{numeric vector of estimated autocorrelations at lags 1,...,\code{p}.}
-\item{aic}{numeric vector of aic values of AR models of order 1,...,\code{p}.}
-\item{robustly filtered time series}{numeric matrix containing the robustly filtered time series of AR models of different orders. The first column corresponds to the AR(1) model and so on.}
-\item{AR-coefficients}{numeric matrix containing the estimated AR coefficients of AR models of different orders. The first column corresponds to the AR(1) model and the first row to the first AR coefficient and so on.}
+\item{partial}{numeric vector representing the successivly estimated partial correlations of the model.}
+\item{var}{numeric vector containing the estimations of the residual scale for AR models of order 0,...,\code{p}.}
+\item{acf}{numeric vector of estimated autocorrelations of a model of order \code{order.max} at lags 1,...,\code{p}.}
+\item{aic}{numeric vector of aic values of AR models of order 0,...,\code{p}.}
+\item{filtered}{numeric matrix containing the robustly filtered time series of AR models of different orders. The first column corresponds to the AR(0) model, the second to the AR(1) model and so on.}
+\item{ar}{list containing the estimated AR coefficients of AR models of different orders. The first list element corresponds to the AR(0) model, the second to the AR(1) model and so on.}
 }
 
 \references{
@@ -53,11 +53,11 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 
 
 \seealso{
-\code{\link{arrob}} for robust fitting of AR models, \code{\link{acfrob.filter}} for robust estimation of the autocorrelation function and \code{\link{filterrob}} for robust filtering of time series.
+\code{\link{arrob.filter}} for robust fitting of AR models, \code{\link{acfrob.filter}} for robust estimation of the autocorrelation function and \code{\link{filterrob}} for robust filtering of time series.
 }
 
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-ARfilter(tss, p = 5)
+ARfilter(tss, order.max = 5)
 }

@@ -20,13 +20,19 @@ export(
   acfrob.multi,
   acfrob.trim,
   acfrob.rank,
+  acfrob.bireg,
   make_acf_psd,
   reweightedQn,
   corGK,
   ARfilter,
   arrob,
-  Corefw,
+  arrob.yw,
+  arrob.filter,
+  arrob.regression,
+  arrob.gm,
   filterrob,
+  filterrob.given,
+  Corefw,
   robspectrum,
   asymvar.acf,
   asymvar.acfextra,
@@ -36,9 +42,10 @@ export(
   strucchange.wilcox,
   strucchange.cusum,
   densdiff,
+  M_psi,
+  M_wgt,
   pKS,
-  qKS,
-  bestAR
+  qKS
 )
 
 S3method(plot, struc)

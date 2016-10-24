@@ -10,11 +10,12 @@
 ## output:
 # estimator of difference between first and second sample
 
-meddiff<-function(y,z,cor=0){
-dif=rep(y,each=length(z))
-dif=dif-z
-med=median(dif)
-return(med-cor)
+meddiff <- function(y, z, cor=0){
+  dif <- rep(y, each=length(z))
+  dif <- dif - z
+  med <- median(dif)
+  res <- med - cor
+  return(res)
 }
 
 
@@ -23,12 +24,7 @@ return(med-cor)
 # y: sample
 ## output:
 # erg: empirical distribution function at sample values
-edf <- function(y) {
-  T <- length(y)
-  erg <- rank(y)/T
-return(erg)
-}
-
+edf <- function(y) rank(y)/length(y)
 
 
 ### quantileKS
@@ -37,13 +33,10 @@ return(erg)
 # output: q(x)
 
 qKS <- function(x) {
-pKSm <- function(y) return(pKS(y)-x)
-quan <- uniroot(pKSm,lower=0.2,upper=3)
-return(quan$root)
+  pKSm <- function(y) return(pKS(y)-x)
+  quan <- uniroot(pKSm, lower=0.2, upper=3)
+  res <- quan$root
+  return(res)
 }
 
-pKS <- function(x) {
-return(c(.Call("pKS2",x,tol=10^(-6))))
-}
-
-
+pKS <- function(x) c(.Call("pKS2", x, tol=10^(-6)))

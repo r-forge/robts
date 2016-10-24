@@ -1,4 +1,4 @@
-arrob.filter <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) {2*p}, na.action = na.fail, series = deparse(substitute(x)), psi.l = 2, psi.0 = 3) {
+arrob.filter <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p, na.action = na.fail, series = deparse(substitute(x)), psi.l = 2, psi.0 = 3) {
   if (is.null(series)) series <- deparse(substitute(x))
   ists <- is.ts(x)
   if (!is.null(dim(x))) stop("Only implemented for univariate series")
@@ -19,57 +19,33 @@ arrob.filter <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p)
 		order.max <- floor((n - 1) / 2) - 1
 	}
 	if (is.null(order.max)) order.max <- floor(min(c((n - 1) / 4, 10 * log(n, base = 10))))
-	if (order.max < 1) stop("Model order 'order.max' must be greater than zero. Try for example order.max = 1.")
-	p_maxvalid <- order.max
-	# Find the largest model order for which ARfilter can be applied:
-	repeat {
-		fits <- ARfilter(timeseries = x, p = p_maxvalid, aicpenalty=aicpenalty, psi.l=psi.l, psi.0=psi.0)
-		if (is.list(fits)) {
-			RAICs <- fits[[4]]
-			break
-		} else {
-      p_maxvalid <- p_maxvalid - 1
-    }
-    if (p_maxvalid < order.max) warning("Could not fit models of order 'order.max'. Used largest value of p for which the model could be fitted instead.")
-		if (p_maxvalid == 0) stop("No successful computation for any model order greater than zero.")
-	}
-	locandscale <- scaleTau2(x, mu.too=TRUE) # null model with p=0
-	RAICs <- c(log(locandscale[2]^2)+aicpenalty(1)/n, RAICs, rep(NA, order.max-p_maxvalid)) # include the null model
+	if (order.max < 1) stop("Model order 'order.max' must be greater than zero.")
+	fits <- ARfilter(x, order.max=order.max, aicpenalty=aicpenalty, psi.l=psi.l, psi.0=psi.0)
+	RAICs <- fits$aic # includes the null model
 	names(RAICs) <- 0L:order.max
-	if(aic){
-  	p_opt <- which.min(RAICs)[[1]] - 1	
-	} else {
-     p_opt <- p_maxvalid 
+	order_selected <- if(aic) which.min(RAICs)[[1]] - 1 else max(which(!is.na(RAICs)))-1	
+  coeff <- fits$ar[[order_selected+1]]
+  var.pred <- fits$var[order_selected+1]
+  x.mean <- scaleTau2(fits$filtered[, order_selected+1], mu.too=TRUE)[1]
+  partialacf <- fits$pacf
+  xfilteredcen <- matrix(ncol=order_selected+1, nrow=n-order_selected)
+  for (i in 0:order_selected) {
+    xfilteredcen[, i+1] <- (fits$filtered[, order_selected+1]-x.mean)[(order_selected-i+1):(n-i)]
   }
- 	if (p_opt==0) {
-    coeff <- NULL
-    var.pred <- locandscale[2]^2
-    x.mean <- locandscale[1]
-    resid <- x-x.mean
-    partialacf <- rep(0, p_opt)
- 	} else {
-    coeff <- fits[[6]][p_opt,1:p_opt]
-    var.pred <- fits[[2]][p_opt]^2
-    x.mean <- scaleTau2(fits[[5]][, p_opt], mu.too=TRUE)[1]
-    partialacf <- fits[[1]]
-    xfilteredcen <- fits[[5]][, p_opt]-x.mean
-    xfilteredcenma <- matrix(ncol=p_opt ,nrow=n-p_opt)
-    for (i in 1:p_opt) {xfilteredcenma[, i] <- xfilteredcen[(p_opt-i+1):(n-i)]}
-    resid <- c(rep(NA, p_opt), as.numeric(x[(p_opt+1):n]-x.mean-xfilteredcenma%*%coeff))	
- 	}
+  resid <- c(rep(NA, order_selected), as.numeric(x[(order_selected+1):n] - x.mean - if(order_selected>0){xfilteredcen[, -1, drop=FALSE]%*%coeff}else{0}))
   if (ists) {
-        attr(resid, "tsp") <- xtsp
-        attr(resid, "class") <- "ts"
-    }
+    attr(resid, "tsp") <- xtsp
+    attr(resid, "class") <- "ts"
+  }
   res <- list(
-		order = p_opt,
+		order = order_selected,
 		ar = coeff,
 		var.pred = var.pred,
 		x.mean = x.mean,
 		x.intercept = NULL,
 		aic = RAICs, #the function ar returns the difference of the AIC values with the lowest one 
 		n.used = n,
-		order.max = p_maxvalid, #may be lower than the argument order.max in some cases 
+		order.max = order.max,
 		partialacf = array(partialacf, dim=c(length(partialacf), 1, 1)),
 		resid = resid,
 		method = "filter",

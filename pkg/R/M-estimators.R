@@ -8,7 +8,7 @@
 
 M_psi <- function(x, type=c("huber", "bisquare", "smooth"), k){
   type <- match.arg(type)
-  if(missing(k)) k <- switch(type, huber=1.37, bisquare=4.68)
+  if(missing(k)) k <- switch(type, huber=1.37, bisquare=4.68, smooth=c(2,3))
   if(type=="huber"){
     inner <- abs(x) <= k  # observation small enough to stay as it is?
     return(x*inner+k*sign(x)*(1-inner)) # norm of larger values set to k 
@@ -37,5 +37,6 @@ smoothpsi <- function(x, k=c(2, 3)) {
   b <- -(k[2]^3+k[1]*k[2]^2+4*k[1]^2*k[2])/(k[1]-k[2])^3
   d <- (2*k[2]^2+2*k[1]*k[2]+2*k[1]^2)/(k[1]-k[2])^3
   e <- -(k[2]+k[1])/(k[1]-k[2])^3
-  return(x*(abs(x)<=k[1])+sign(x)*(a+b*abs(x)+d*x^2+e*abs(x)^3)*((abs(x)>k[1])&(abs(x)<=k[2])))  # super-weights
+  res <- x*(abs(x)<=k[1])+sign(x)*(a+b*abs(x)+d*x^2+e*abs(x)^3)*((abs(x)>k[1])&(abs(x)<=k[2])) # super-weights
+  return(res)  
 }

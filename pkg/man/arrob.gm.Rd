@@ -1,31 +1,34 @@
 \encoding{utf8}
-\name{bestAR}
-\alias{bestAR}
+\name{arrob.gm}
+\alias{arrob.gm}
 
 \title{
 Robust Estimation of Autoregressive Models by GM Estimator
 }
 \description{
-	Robust fit of an autogression model to a time series by generalized M estimators as described in Maronna et al. (2006).
+Robust fit of an autogression model to a time series by generalized M estimators as described in Maronna et al. (2006).
 }
 \usage{
-bestAR(timeseries, maxp, maxit = 10^3, delta = 1/2, epsilon = 10^(-4), 
-    k1 = 1.37, k2 = 1, aicpenalty = function(p) {return(2*p)})
+arrob.gm(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p,
+    na.action = na.fail, series = deparse(substitute(x)), maxit=10^3,
+    delta=1/2, epsilon=10^(-4), k1=1.37, k2=1)        
 }
 
 \arguments{
-	\item{timeseries}{numeric vector of a univariate time series.}
-	\item{maxp}{numeric value indicating the maximum AR model order considered.}
-	\item{maxit}{numeric value indicating the maximal number of iterations to determine the GM estimator, see Details.}
-	\item{delta}{numeric value indicating the breakpoint of the GM estimator. Values larger than 0.5 results in an implosion breakpoint of 1-\code{delta}, see Details.}
-	\item{epsilon}{numeric value indicating the stopping rule of the iteration algorithm to determine the GM estimator, see Details.}
-	\item{k1}{numeric defining the tuning parameter of the huber weights, see Details.}
-	\item{k2}{numeric defining the tuning parameter of the bisquare weights of the regressors, see Details.}
+	\item{x}{numeric vector of a univariate time series.}
+	\item{aic}{logical indicating wether the AR order should be estimated by robust AIC criteria considering orders up to \code{order.max} or should be equal to \code{order.max}.}
+	\item{order.max}{integer value determining the (maximal) order of the AR fit.}
+	\item{na.action}{function to be called to handle missing values.}
+	\item{series}{the time series name.}
 	\item{aicpenalty}{function of the model order defining the penalty term of the model selection criteria. The default results in a robust AIC.}
+  \item{maxit}{}
+  \item{delta}{}
+  \item{epsilon}{}
+  \item{k1}{}
+  \item{k2}{}
 }
 
 \details{
-
 This procedure fits an AR model to a time series. The AR coefficients are determined by robust regression, using the time series as dependent variable and the lagged time series as independent one. So if there are outliers in the time series, they are also in the regressors. That is why generalized M estimators are proposed which downweight also the explanatory variables. To minimize the complexity of the problem, the Durbin-Levinson algorithm is applied, fitting a sequence of AR processes of increasing order, which break the estimation down to \code{maxp} regressions with one prediction variable instead of one regression with \code{maxp} predictors.
 
 The GM estimator is of Mallows type with a Huber function for the regression residuals and a bisquare function for the regressors. Both can be tuned by \code{k1} respectively \code{k2}. The weights \eqn{v_i} of the regressors are based on Malahanobis distances with the covariance matrix build of autocovariances derived by the so far estimated AR parameters, see Maronna et al. (2006) chapter 8.5 for details. 
@@ -37,7 +40,6 @@ and the scale estimate
 where \eqn{\delta} determines the breakdown point of the scale estimator. For \eqn{\delta<1/2} it is equivalent to the breakpoint (in fact the explosion breakdown point) and for \eqn{\delta>1/2} the (implosion) breakdown point equals \eqn{1-\delta}.
 
 The iteration stops if either the maximal change of the residuals is smaller than \code{epsilon} or the maximal number of iterations \code{maxit} is reached. Subsequently the scale estimate is transformed to be consistent under normality.
-
 }
 
 \value{

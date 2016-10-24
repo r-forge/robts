@@ -1,4 +1,4 @@
-arrob.yw <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) {2*p}, na.action = na.fail, series = deparse(substitute(x)), acf.approach = c("GK", "median", "multi", "partrank", "RA", "rank", "filter", "trim", "regression"), scalefn = Qn, ...) {
+arrob.yw <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p, na.action = na.fail, series = deparse(substitute(x)), acf.approach = c("GK", "median", "multi", "partrank", "RA", "rank", "filter", "trim", "bireg"), locfn = median, scalefn = Qn, ...) {
   cl <- match.call()
   if (is.null(series)) series <- deparse(substitute(x))
   ists <- is.ts(x)
@@ -18,16 +18,16 @@ arrob.yw <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) {2*
 		order.max <- floor((n - 1) / 2) - 1
 	}
 	if (is.null(order.max)) order.max <- floor(min(c((n - 1) / 4, 10 * log(n, base = 10))))
-	#if (order.max < 1) stop("Model order 'order.max' must be greater than zero. Try for example order.max = 1.")
+	if (order.max < 1) stop("Model order 'order.max' must be greater than zero.")
 	acf.approach <- match.arg(acf.approach)
 	
   RAICs <- rep(NA, order.max+1)
   names(RAICs) <- 0L:order.max
 	xacf <- as.numeric(acfrob(x, lag.max = order.max, approach = acf.approach, plot = FALSE, ...)$acf)
-	x.mean <- median(x)
+	x.mean <- locfn(x)
 
 	# null model:
-	p_opt <- 0
+	order_selected <- 0
   resid <- resid_opt <- x - x.mean
 	var.pred <- scalefn(resid)^2
 	RAICs[1] <- log(var.pred) + aicpenalty(1)/n

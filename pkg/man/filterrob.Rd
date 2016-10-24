@@ -1,7 +1,6 @@
 \encoding{utf8}
 \name{arfilterrob}
 \alias{arfilterrob}
-\alias{arfilterrob.fitted}
 \alias{arfilterrob.given}
 
 \title{
@@ -11,32 +10,37 @@ Robustly Filtered Time Series
 Filters a given time series robustly. The filtered series can be applied to improve estimations. Optionally, the coefficients of a fitted AR model can be used.  See chapter 8.6 of Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2014) for details.
 }
 \usage{
-filterrob(x, filter = NULL, method = c("direct", "ar"), 
-    p = 0, na.action = na.fail, psi.l = 2, psi.0 = 3)
+filterrob(x, ar = NULL, method = c("fit", "given"), psifn, locfn, scalefn, na.action = na.fail, ...)
+filterrob.given(x, ar, psifn, locfn, scalefn, na.action = na.fail)
 }
 
 \arguments{
 	\item{x}{numeric vector of a univariate time series.}
-	\item{filter}{numeric vector AR coefficients if \code{method == "ar"}.}
-	\item{method}{character string whether the filtering is performed directly or using model coefficients calculated previously.}
-	\item{p}{order of AR model if \code{method == "direct"}.}
+	\item{ar}{numeric vector AR coefficients if \code{method == "ar"}.}
+	\item{method}{character string whether the filtering is performed using the AR coefficients given in argument \code{ar} or if the AR coefficients are fitted previously by the function \code{arrob.filter}.}
 	\item{na.action}{function to be called to handle missing values.}
-	\item{psi.l}{numeric value determining the used psi function, see details.}
-	\item{psi.0}{numeric value determining the used psi function, see details.}
+	\item{psifunc}{XXX}
+	\item{locfunc}{XXX}
+	\item{scalefunc}{XXX}
+	\item{...}{additional arguments passed to function \code{arrob.filter}. This is only appliccable if \code{method = "fit"}.}
 }
 
 \details{
-This function filters a time series in respect of outliers. It is assumed that the time series follows an AR-process with gaussian innovations. If one knows the model, one can determine the AR coefficients by the argument \code{filter} and set \code{method="ar"}. If one does not know the coefficients, but at least the model order \code{p}, one has to set \code{method="direct"}. In this case the parameter are estimated by the robust filter algorithm, see the help page of \code{\link{ARfilter}} for details. If one does not know the order, one should use the function \code{arrob} which determines the model order by an AIC criterion.
+This function filters a time series in respect of outliers. It is assumed that the time series follows an AR process with Gaussian innovations.
 
-Based on the model, residuals are calculated and smoothed by a psi-function, which is the identity for absolute values smaller than \code{psi.l} and 0 for absolute values larger than \code{psi.0}. See \enc{Dürre}{Duerre} et al. (2014) for a formal definition of the psi function. 
+If the model coefficients are known or have been previously estimated, one can set \code{method = "given"} and provide the vector of AR coefficients by the argument \code{ar}. Note that this argument has the value \code{NULL} by default, which corresponds to an AR model of order zero (assuming independent innovations).
 
-Note that this function can be also used to handle missing values. If one replaces missing values with unusual high ones, the algorithm will replace them by the best linear prediction. 
+If the coefficients are not available, they can be estimated by setting \code{method = "fit"}. Estimation is done by the function \code{arrob.filter} for which further arguments can be provided by the \code{...} argument. In this case no additional information on the model fit is returned, e.g. the estimated parameters. It is difficult to assess the quality of the fit. For this reason it is reccommended to fit the model in a separate step before calling this funtion und then use \code{method = "given"}..
+
+Based on the model, residuals are calculated and smoothed by a \eqn{\Psi} function which is given by the argument \code{psifunc}. By default this is \code{\link{M_psi}(x, type="smooth")}, a smooth function which is the identity for absolute values smaller than 2 and zero for absolute values larger than 3. See \enc{Dürre}{Duerre} et al. (2014) for a formal definition of this \eqn{\Psi} function. 
+
+Note that this function can be also used to handle missing values. If one replaces missing values with unusually large ones, the algorithm will replace them by best linear predictions. 
 }
 
 \value{
-	Named list of 2:
-	\item{ts}{time series: the robustly filtered version of \code{x}.}
-	\item{residuals}{residuals of the fitted AR model if \code{method == "ar"}.}
+	Named list of the following elements:
+	\item{filtered}{numeric vector with the robustly filtered version of \code{x}.}
+	\item{residuals}{residuals of the fitted AR model.}
 }
 
 \references{
@@ -46,7 +50,7 @@ Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): \emph{Robust Statistics:
 }
 
 \seealso{
-The function \code{\link{ARfilter}} estimates an AR model using the robust filter algorithm.
+The function \code{\link{arrob.filter}} estimates an AR model using the robust filter algorithm.
 }
 
 \author{
@@ -56,7 +60,6 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-filterrob(tss, p = 6)
 phis <- arrob(tss, aic = FALSE, order.max = 3)$ar
-filterrob(tss, filter = phis, method = "ar")
+filterrob(tss, ar = phis, method = "ar")
 }

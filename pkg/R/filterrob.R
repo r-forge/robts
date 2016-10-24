@@ -1,21 +1,12 @@
-filterrob <- function(x, filter = NULL, method = c("direct", "ar"), p = 0, na.action = na.fail, psi.l=2, psi.0=3) {
-	method <- match.arg(method)
-	if (!any(method == c("direct", "ar"))) stop("No valid method given.")
-	x <- na.action(x)
+filterrob <- function(x, ar = NULL, method = c("fit", "given"), psifn, locfn, scalefn, na.action = na.fail, ...) {
+  method <- match.arg(method)
+  if (!is.null(dim(x))) stop("Only implemented for univariate series")
+  if(missing(psifn)) psifn <- function(x) M_psi(x, type="smooth")
 	
-	if (method == "direct") {
-		if (!any(p == 1:length(x))) stop("No valid order of AR model given.")
-		tss <- ARfilter(timeseries = x, p = p, psi.l=psi.l,psi.0=psi.0)[[5]][,p]
-		resid <- NULL
+	if (method == "fit") {
+		ar <- arrob.filtered(x, na.action = na.action, ...)$ar
 	}
 	
-	if (method == "ar") {
-		if (!is.numeric(filter)) stop("No valid vector of AR coefficients given.")
-		res <- robfilterAR(timeseries = x, phi = filter, psi.l=psi.l, psi.0=psi.0)
-		tss <- res$filtered.ts
-		resid <- res$residuals
-	}
-	
-	tss <- ts(tss)
-	return(list(ts = tss, residuals = resid))
+	res <- filterrob.given(x, ar = ar, psifn = psifn, locfn = locfn, scalefn = scalefn, na.action = na.action)
+	return(res)
 }

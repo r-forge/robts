@@ -9,6 +9,3 @@ acfrob.bireg <- function(x, lag.max, regression.method = c("MM", "LTS", "L1")) {
   }
   return(acfvalues)
 }
-
-
-
