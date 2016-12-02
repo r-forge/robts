@@ -1,3 +1,5 @@
+set.seed(1114)
+
 ## Creating some test data:
 depmodel <- list(ar=0.5, ma=0.3)
 depdata <- arima.sim(model = depmodel, n = 100)

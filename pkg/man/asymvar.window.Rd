@@ -38,7 +38,7 @@ There are three different methods to determine a working blocklength  \eqn{l}:
 
 if 'dd' is 'carlstein-cor' one uses Carlstein's rule for an optimal blocklength. Therefore it is assumed that the time series follows an AR(1) model. See Carlstein (1986) for more Information.
 
-if 'dd' is 'carlstein-Qn' one basically applies Carlstein-rule with a robust estimation of the AR(1) coefficient. More in detail, it is estimated by the autocorrelation of the first lag using \code{\link{acfGK}} .
+if 'dd' is 'carlstein-Qn' one basically applies Carlstein-rule with a robust estimation of the AR(1) coefficient. More in detail, it is estimated by the autocorrelation of the first lag using \code{\link{acfrob.GK}} .
 
 if 'dd' is 'independent' one uses a thumb rule only based on the time series length \eqn{n}:
 \deqn{round((3N)^{1/3}+1).}
@@ -63,7 +63,7 @@ Roland Fried and Alexander \enc{Dürre}{Duerre}
 
 The long run variance can be also estimated by \code{\link{asymvar.acf}} and \code{\link{asymvar.acfextra}}.
 
-The robust estimation of the AR(1) coefficient is performed by \code{\link{acfGK}}.
+The robust estimation of the AR(1) coefficient is performed by \code{\link{acfrob.GK}}.
 
 }
 

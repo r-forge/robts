@@ -1,3 +1,5 @@
+set.seed(1654)
+
 library(robts)
 x <- arima.sim(n=200, model=list(ar=c(0.6,0.3)))
 

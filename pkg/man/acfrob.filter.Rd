@@ -35,7 +35,7 @@ Numeric vector of estimated autocorrelations.
 }
 
 \details{
-The function estimates the acf using the robust filter algorithm, which is a kind of robust Kalman filter, as described in chapter 8 of Maronna et al. (2006). The method fits AR models of increasing order by a robust version of the Durbin Levinson algorithm. The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filtering process depends on the \eqn{\Psi} function and respects the estimated dependence structue of the time series. The order of the AR process can be determined by the argument \code{order.max} if one chooses \code{aic = FALSE} or estimated by a robust AIC criterion if \code{aic = TRUE}. In this case \code{order.max} represents the maximal possible AR order.
+The function estimates the acf using the robust filter algorithm, which is a kind of robust Kalman filter, as described in chapter 8 of Maronna et al. (2006). The method fits AR models of increasing order by a robust version of the Durbin Levinson algorithm. The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filtering process depends on the psi function and respects the estimated dependence structue of the time series. The order of the AR process can be determined by the argument \code{order.max} if one chooses \code{aic = FALSE} or estimated by a robust AIC criterion if \code{aic = TRUE}. In this case \code{order.max} represents the maximal possible AR order.
 
 There are two possibilities to derive an acf estimation:
 
@@ -43,7 +43,7 @@ If \code{robfil.method = "filtered"}, one calculates the usual empirical acf fro
 
 If \code{robfil.method = "ar"}, one calculates the acf by the estimated AR coefficients using the function \code{\link{ARMAacf}}.
 
-A \eqn{\Psi} function which is two times continuous differentiable is used here, see \enc{Dürre}{Duerre} et al. (2015) for a formal definition. The form depends on the tuning parameters \code{psi.l} and \code{psi.0}, see the help page of \code{\link{ARfilter}} for more details.
+A psi function which is two times continuous differentiable is used here, see \enc{Dürre}{Duerre} et al. (2015) for a formal definition. The form depends on the tuning parameters \code{psi.l} and \code{psi.0}, see the help page of \code{\link{ARfilter}} for more details.
 
 More details can be found in Maronna et al. (2006), \enc{Dürre}{Duerre} et al. ( 2015) and the help page of the subroutine \code{\link{ARfilter}}.
 }

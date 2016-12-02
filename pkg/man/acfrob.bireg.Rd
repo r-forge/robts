@@ -3,7 +3,7 @@
 \alias{acfrob.bireg}
 
 \title{
-Robust Autocorrelation Estimation Based on ...
+Robust Autocorrelation Estimation Based on Bivariate Regression
 }
 
 \description{
@@ -50,5 +50,5 @@ Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-acfrob(tss, approach = "regression")
+acfrob(tss, approach = "bireg")
 }

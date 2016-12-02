@@ -25,7 +25,7 @@ asymvar.window=function(x=x,overlapping=FALSE,obs=c("untransformed","ranks"),dd=
  if (dd=="carlstein-cor"){rho=cor(x[1:(N-1)],x[2:N])
    l=max(ceiling((N*(2*rho/(1-rho*rho))**2)**(1/3)),1)
  }
- if (dd=="carlstein-Qn"){rho=acfGK(x,maxlag=1)
+ if (dd=="carlstein-Qn"){rho=acfrob.GK(x, lag.max=1)
    l=max(ceiling((N*(2*rho/(1-rho*rho))**2)**(1/3)),1)
  }
  if (sum(dd==c("carlstein-cor","carlstein-Qn","independent"))==0)

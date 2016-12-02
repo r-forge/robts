@@ -43,29 +43,27 @@ The iteration stops if either the maximal change of the residuals is smaller tha
 }
 
 \value{
-List containing the following values
+An object of class \code{"ar"}, see \code{\link{ar}} for details.
 
-\item{phima}{matrix representing the successive estimated AR coefficients of the model. In the first column are the coefficients of the AR model or order 1 and so on.}
-\item{aic}{numeric of aic values of successive AR modells.}
-\item{var.pred}{numeric containing the successive variance estimations of the residuals of the successive AR models. The first entry is for the AR(0) model and so on.}
-\item{x.mean}{numeric of estimated location of the time series.}
-\item{residuals}{matrix containing the residuals of successive AR models. The first column corresponds to the AR(1) model and so on.}
+Note that list element \code{aic} gives the value of the robust information criterion and not its difference with the lowest information criterion of all considered models, as it is returned by the function \code{\link{ar}}.
 }
 
 \references{
-
 Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): Robust Statistics: Theory and Methods, Wiley, chapter 8.
-
 }
+
 \author{
 Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 }
 
 \seealso{
 The wrapper function \code{\link{arrob}}.
+
+Classical, nonrobust fitting is provided by the function \code{\link{ar}}.
 }
+
 \examples{
 set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
-bestAR(tss, maxp=5)
+arrob(tss, method="gm")
 }

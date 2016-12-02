@@ -16,19 +16,25 @@ acfrob.filter <- function(x, lag.max, order.max = lag.max, robfil.method = c("fi
   robfil.method <- match.arg(robfil.method)
   
   # estimating the partial autocorrelation and robustly filtered values:
-    estimate <- try(ARfilter(x, order.max=order.max, aicpenalty=aicpenalty, psi.l=psi.l, psi.0=psi.0), silent=TRUE)
+    estimate <- suppressWarnings(try(ARfilter(x, order.max=order.max, aicpenalty=aicpenalty, psi.l=psi.l, psi.0=psi.0), silent=TRUE))
   if (inherits(estimate, "try-error") || length(estimate)==1){
-  	stop("Calculation of the acf failed.")
+  	stop("Filtering of the time series failed.")
  	}
   
-  order_selected <- if (aic) which.min(estimate$aic)-1 else order.max
+  #selecting the order of the AR model:
+  if (aic) {
+    order_selected <- which.min(estimate$aic)-1
+  } else {
+    order_selected <- max(which(!is.na(estimate$aic)))-1
+    if (order_selected < order.max) warning(paste("It was not possible to fit an AR model of the desired order ", order.max, ". Instead an\nAR model of the highest possible order ", order_selected, " was used for filtering the time series.", sep=""))
+  }
   
-  #estimating acf using robustly filtered values:
+  #estimating acf of the residuals using robustly filtered values:
   if (robfil.method=="filtered"){
  	  robfiltered <- estimate$filtered[, order_selected+1]
   	acfvalues <- try(acf(robfiltered, plot=FALSE, lag.max=lag.max, type=ifelse(partial, "partial", "correlation"))$acf[-1], silent=TRUE)
   	if (inherits(acfvalues, "try-error")){
-  		stop("Calculation of the (p)acf failed.")
+  		stop("Calculation of the (p)acf of the filtered values failed.")
  		}
  	}
   

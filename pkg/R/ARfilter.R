@@ -37,8 +37,8 @@ ARfilter <- function(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, ps
   # AR(p) for p>0:
   if (order.max > 0) {
     segam <- function(z) .Call("filterinit2", c(x,0), z, a, b, d, e, k, l, 4.5, 3, conscorr())[n+1]
-    op <- try(optimize(segam, c(-1,1)), silent=TRUE)
-    if (inherits(op, "try-error")){
+    op <- suppressWarnings(try(optimize(segam, c(-1,1)), silent=TRUE))
+    if (inherits(op, "try-error") || is.nan(op$objective)){
     	warning("Optimization failed for a model of order zero")  	
    		res <- list(pacf=partial, var=scale_vector^2, acf=rep(NA, order.max), aic=aic_vector, filtered=filtcent_matrix+mu, ar=ar_list)
    		return(res)
@@ -55,9 +55,9 @@ ARfilter <- function(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, ps
   
   if (order.max > 1) {
     for (p in 2:order.max) {
-    	segam <- function(z) .Call("filter2", c(x,0), z, scale_vector[p+1-1], phi_temp, a, b, d, e,k, l, 4.5, 3, conscorr(), varest*acfvalues[1:(p-1)])[n+1]
-    	op <- try(optimize(segam, c(-1,1)), silent=TRUE)
-    	if (inherits(op, "try-error")){
+    	segam <- function(z)  .Call("filter2", c(x,0), z, scale_vector[p+1-1], phi_temp, a, b, d, e, k, l, 4.5, 3, conscorr(), varest*acfvalues[1:(p-1)])[n+1]
+    	op <- suppressWarnings(try(optimize(segam, c(-1,1)), silent=TRUE))
+    	if (inherits(op, "try-error") || is.nan(op$objective)){
     		warning(paste("Optimization failed for a model of order", p))
     		res <- list(pacf=partial, var=scale_vector^2, acf=rep(NA, order.max), aic=aic_vector, filtered=filtcent_matrix+mu, ar=ar_list)
     		return(res)

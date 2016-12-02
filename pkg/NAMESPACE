@@ -33,7 +33,7 @@ export(
   filterrob,
   filterrob.given,
   Corefw,
-  robspectrum,
+  spectrumrob,
   asymvar.acf,
   asymvar.acfextra,
   asymvar.window,
