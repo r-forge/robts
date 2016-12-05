@@ -37,9 +37,9 @@ The function estimates the acf using rank correlation estimators, which estimate
 \deqn{\Phi^{-1}(R(i)/(n+1)).}
 This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.
 
-	If \code{rank.method = "spearman"}, one uses the well known Spearmans rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.
+	If \code{rank.method = "spearman"}, one uses the well known Spearman's rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.
 
-	If \code{rank.method = "kendall"}, one uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendalls tau can get rather time consuming for large time series (e.g. greater than 10000).
+	If \code{rank.method = "kendall"}, one uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for large time series (e.g. greater than 10000).
 
 	If \code{rank.method = "quadrant"}, one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers.
 

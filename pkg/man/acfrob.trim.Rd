@@ -32,7 +32,7 @@ The function basically first trims the smallest and largest observations of the 
 
 \code{trim} determines the quantiles (\eqn{\alpha} and \eqn{1-\alpha}) at which the data is trimmed. Therefore \eqn{2\alpha} of the data is trimmed, see \enc{Dürre}{Duerre} et al. (2015) for details.
 
-Since the estimator does not measure the usual autocorrelation, a nonlinear transformation based on simulations is applied, which guarantees consistency under gaussian processes.
+Since the estimator does not measure the usual autocorrelation, a nonlinear transformation based on simulations is applied, which guarantees consistency under Gaussian processes.
 }
 
 \references{

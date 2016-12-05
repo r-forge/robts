@@ -39,14 +39,14 @@ If one uses the empirical standard deviation as the scale estimator \eqn{\hat{\s
 	
 	If \code{scalefn = MAD}, one uses the usual median absolute deviation, which is known to be very robust and fast to compute, but not very efficient under normality. For more details see the help page of \code{\link{mad}} in the package \code{stats}.
 
-	If \code{scalefn = reweightedQn}, one uses an efficiently reweighted Qn. MORE DETAILS TO BE INCLUDED HERE OR A LINK TO THE RESPECTIVE HELP PAGE.
+	If \code{scalefn = reweightedQn}, one uses an efficiently reweighted Qn. For more details see the help page of \code{\link{reweightedQn}}.
 }
 
 
 \references{
 Ma, Y. and Genton M. (2000): Highly robust estimation of the autocovariance function, \emph{Journal of time series analysis}, vol. 21, 663--684.
 
-Maronna, R. and Zamar, R. (2002): Robust estimates of location and dispersion for high-dimensional datasets, \emph{Technometrics}, vol. 44, 307--317.
+Maronna, R. and Zamar, R. (2002): Robust estimates of location and dispersion for high-dimensional data sets, \emph{Technometrics}, vol. 44, 307--317.
 }
 
 \author{

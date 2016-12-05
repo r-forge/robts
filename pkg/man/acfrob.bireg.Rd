@@ -7,7 +7,7 @@ Robust Autocorrelation Estimation Based on Bivariate Regression
 }
 
 \description{
-Robustly estimates the autocorrelation function of a time series based on... TO BE INCLUDED. See \enc{Dürre}{Duerre} et al. (2015) for details.
+Robustly estimates the autocorrelation function of a time series based on robust regression of covariates with the lagged observations. See \enc{Dürre}{Duerre} et al. (2015) for details.
 
 This function is intended for internal usage only. Users should rather use the wrapper function \code{\link{acfrob}} with argument \code{approach = "acfregression"}.
 }
@@ -27,7 +27,7 @@ Numeric vector of estimated autocorrelations.
 }
 
 \details{
-TO BE INCLUDED.
+TO BE INCLUDED. MENTION AND CITE POLITIS.
 }  
 
 \references{

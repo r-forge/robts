@@ -25,18 +25,18 @@ ARfilter(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, psi.0 = 3)
 	}
 
 \details{
-The function fits AR models of increasing order by a robust version of the Durbin Levinson algorithm as described in Chapter 8 of Maronna et al. (2006). The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filter process basically compares the predicted value under the estimated model with the observed one and transformes the corresponding residual with the psi function. The transformed value is then set to the sum of the predicted value and the transformed residual. For more details see Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2015).
+The function fits AR models of increasing order by a robust version of the Durbin Levinson algorithm as described in Chapter 8 of Maronna et al. (2006). The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filter process basically compares the predicted value under the estimated model with the observed one and transforms the corresponding residual with the psi function. The transformed value is then set to the sum of the predicted value and the transformed residual. For more details see Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2015).
 
-Following Maronna et al. (2006), the psi function should fulfill two properties. It should be the identity for small absolute values and 0 for large absolute values. Both thresholds can be determined by \code{psi.l} and \code{psi.0}. Here the psi function is choosen to be two times continuous differentiable, see \enc{Dürre}{Duerre} et al. (2015) for a formal definition.
+Following Maronna et al. (2006), the psi function should fulfill two properties. It should be the identity for small absolute values and 0 for large absolute values. Both thresholds can be determined by \code{psi.l} and \code{psi.0}. Here the psi function is chosen to be two times continuous differentiable, see \enc{Dürre}{Duerre} et al. (2015) for a formal definition.
 }
 
 \value{
 List containing the following values:
 
-\item{partial}{numeric vector representing the successivly estimated partial correlations of the model.}
+\item{partial}{numeric vector representing the successively estimated partial correlations of the model.}
 \item{var}{numeric vector containing the estimations of the residual scale for AR models of order 0,...,\code{p}.}
 \item{acf}{numeric vector of estimated autocorrelations of a model of order \code{order.max} at lags 1,...,\code{p}.}
-\item{aic}{numeric vector of aic values of AR models of order 0,...,\code{p}.}
+\item{aic}{numeric vector of AIC values of AR models of order 0,...,\code{p}.}
 \item{filtered}{numeric matrix containing the robustly filtered time series of AR models of different orders. The first column corresponds to the AR(0) model, the second to the AR(1) model and so on.}
 \item{ar}{list containing the estimated AR coefficients of AR models of different orders. The first list element corresponds to the AR(0) model, the second to the AR(1) model and so on.}
 }

@@ -16,13 +16,13 @@ spectrumrob(x, method = c("pgram", "acf"), plot = TRUE, ...)
 spectrumrob.pgram(x, psifn = function(x) M_psi(x, type="smooth"),
                   arrob.method = c("yw", "regression", "filter", "gm", "nonrobust"),
                   kernel = c("parzen", "bartlett", "rectangular", "daniell"),
-                  truncation=log(length(x), 10) * 10, bandwidth = NULL,
+                  truncation = round(log(length(x), 10) * 10), bandwidth = NULL,
                   na.action = na.fail, series = deparse(substitute(x)), ...)
                   
 spectrumrob.acf(x, acf.approach = c("GK", "median", "multi", "partrank",
             "RA", "rank", "trim", "bireg", "nonrobust"),
             kernel = c("parzen", "bartlett", "rectangular", "daniell"),
-            truncation = log(length(x), 10) * 10, bandwidth = NULL,
+            truncation = round(log(length(x), 10) * 10), bandwidth = NULL,
             var1 = FALSE, scalefn = Qn, na.action = na.fail,
             series = deparse(substitute(x)), ...)
 }
@@ -35,8 +35,8 @@ spectrumrob.acf(x, acf.approach = c("GK", "median", "multi", "partrank",
 \item{arrob.method}{character string giving the calculation method passed to \code{\link{arrob}} if \code{method = "pgram"}, see there for details. One can additionally choose a nonrobust approach by \code{"nonrobust"}.}
 \item{acf.approach}{character string giving the approach for robustly estimating the autocorrelation function which is passed to \code{\link{acfrob}} if \code{method = "acf"}, see there for details. One can additionally choose a nonrobust approach by \code{"nonrobust"} but not the approach \code{"filter"}.}
 \item{kernel}{character string naming the used smoothing kernel. Possible kernels are \code{"parzen"} (the default), \code{"bartlett"}, \code{"rectangular"} and \code{"daniell"}.}
-\item{truncation}{integer value indicating the truncation of the acf for spectrum estimation via fourier transform of acf. Otherwise this number is converted into the equivalent bandwidth.}
-\item{bandwidth}{numric value giving the bandwidth for smoothing as a proportion of the frequency range. The given bandwidth is converted into the corresponding value for the argument \code{truncation}, which overrides any value given by that argument. Only if this argument is \code{NULL}, the given truncation is converted into the corresponding bandwidth and used for smoothing. A bandwidth of zero prevents from smoothing or at least tries to minimize smoothing if the \code{method = "acf"}.}
+\item{truncation}{integer value indicating the truncation of the acf for spectrum estimation via Fourier transform of acf. Otherwise this number is converted into the equivalent bandwidth.}
+\item{bandwidth}{numeric value giving the bandwidth for smoothing as a proportion of the frequency range. The given bandwidth is converted into the corresponding value for the argument \code{truncation}, which overrides any value given by that argument. Only if this argument is \code{NULL}, the given truncation is converted into the corresponding bandwidth and used for smoothing. A bandwidth of zero prevents from smoothing or at least tries to minimize smoothing if the \code{method = "acf"}.}
 \item{var1}{logical whether the variance estimator is fixed to 1, resulting in a spectral density estimation instead of a real spectrum. This only applies to the case \code{method = "acf"}.}
 \item{scalefn}{function which calculates a scale estimator. Only relevant if \code{var1 = FALSE}. Its argument must be a vector of the data. One could for example use one of the functions \code{\link{Qn}} (the default), \code{\link{Sn}}, \code{\link{scaleTau2}} (all from the package \code{robustbase}), \code{\link{mad}} or (not robust) \code{\link{sd}}.}
 \item{na.action}{function to be called to handle missing values.}
@@ -47,13 +47,13 @@ spectrumrob.acf(x, acf.approach = c("GK", "median", "multi", "partrank",
 \details{
 There are two general methods to compute a robust spectrum.
 
-If \code{method == "pgram"} the pre-whitening method as described in Chapter 8.14 of Maronna et al. (2006) is applied. The method combines two spectrum estimations. First one fits an AR model robustly. See the help page of \code{\link{arrob}} for an overview of possible methods which can be choosen by the argument \code{arrob.method}. Afterwards residuals of this fit are calculated and transformed by a given psi function \code{psifn}, which should project exceptional large values to 0. The usual spectrum of this residuals is then combined with the theoretical spectrum of the AR fit, see Maronna et al. (2006) for details.
+If \code{method == "pgram"} the pre-whitening method as described in Chapter 8.14 of Maronna et al. (2006) is applied. The method combines two spectrum estimations. First one fits an AR model robustly. See the help page of \code{\link{arrob}} for an overview of possible methods which can be chosen by the argument \code{arrob.method}. Afterwards residuals of this fit are calculated and transformed by a given psi function \code{psifn}, which should project exceptional large values to 0. The usual spectrum of this residuals is then combined with the theoretical spectrum of the AR fit, see Maronna et al. (2006) for details.
 
-If \code{method == "ar"}, the sprectrum is calculated directly from acf using the well-known relationship between acf and spectrum. The acf can be estimated robustly by various methods, choosing a specific approach by the argument \code{acf.approach}. See the help page of \code{\link{acfrob}} for more details and additional arguments. Because of computational reasons, it is usually not possible to estimate the whole acf up to lag \eqn{n-1}. Truncating the acf will always yield a smoothed estimate. However, this is desired anyway in most applications.
+If \code{method == "ar"}, the spectrum is calculated directly from acf using the well-known relationship between acf and spectrum. The acf can be estimated robustly by various methods, choosing a specific approach by the argument \code{acf.approach}. See the help page of \code{\link{acfrob}} for more details and additional arguments. Because of computational reasons, it is usually not possible to estimate the whole acf up to lag \eqn{n-1}. Truncating the acf will always yield a smoothed estimate. However, this is desired anyway in most applications.
 
-Since the autocorrelation does not contain informations about the scale of the time series, one can only derive the spectral density, which integrates to 1. If one is interested in the classical spectrum, one has to set \code{var1 = FALSE} (the default). In this case the estimated spectral density is transformed to a spectrum using a scale estimator which can be specified using the argument \code{scalefn}.
+Since the autocorrelation does not contain information about the scale of the time series, one can only derive the spectral density, which integrates to 1. If one is interested in the classical spectrum, one has to set \code{var1 = FALSE} (the default). In this case the estimated spectral density is transformed to a spectrum using a scale estimator which can be specified using the argument \code{scalefn}.
 
-The degree of smoothing can be either determined by setting either a bandwith \code{bandwith} or a maximal lag of the acf \code{truncation}. Note that a given bandwidth overrides any value given by the argument \code{truncation}.
+The degree of smoothing can be either determined by setting either a bandwidth \code{bandwith} or a maximal lag of the acf \code{truncation}. Note that a given bandwidth overrides any value given by the argument \code{truncation}.
 }
 
 \value{

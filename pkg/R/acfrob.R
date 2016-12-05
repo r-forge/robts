@@ -66,7 +66,7 @@ acfrob <- function(x, lag.max = NULL,
 	)
 	class(acf.out) <- "acf"
 	if (plot) {
-		confint <- confband(approach=approach, n=n,...)
+		confint <- confband(approach=approach, n=n, ...)
 		plot(acf.out, ci=0)
 		if (length(confint==2)) {
 			abline(h=confint[1], col="blue", lty="dashed")

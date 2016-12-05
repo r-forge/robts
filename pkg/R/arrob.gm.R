@@ -14,7 +14,7 @@
 #	smallest value in first element => white noise
 #####################################
 
-arrob.gm <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p, na.action = na.fail, series = deparse(substitute(x)), maxit=10^3, delta=1/2, epsilon=10^(-4), k1=1.37, k2=1) {
+arrob.gm <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p, na.action = na.fail, series = deparse(substitute(x)), k1=1.37, k2=1, delta=1/2, maxit=10^3, epsilon=10^(-4)) {
   cl <- match.call()
   if (is.null(series)) series <- deparse(substitute(x))
   ists <- is.ts(x)
@@ -37,10 +37,10 @@ arrob.gm <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p
 	if (order.max < 1) stop("Model order 'order.max' must be greater than zero.") 
   # is delta valid?
   if (delta <= 0) {delta <- 0.01
-    warning("Argument 'delta' <= 0 is not possible. Delta is set to 0.01.")
+    warning("Argument 'delta' <= 0 is not valid. Delta is set to 0.01.")
   }
   if (delta >= 1) {delta <- 0.5
-    warning("Argument 'delta' >= 1 is not possible. Delta is set to 0.5.")
+    warning("Argument 'delta' >= 1 is not valid. Delta is set to 0.5.")
   }
   
   # calculating consistency correction

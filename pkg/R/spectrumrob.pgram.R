@@ -1,4 +1,4 @@
-spectrumrob.pgram <- function(x, psifn = function(x) M_psi(x, type="smooth"), arrob.method = c("yw", "regression", "filter", "gm", "nonrobust"), kernel = c("parzen", "bartlett", "rectangular", "daniell"), truncation=log(length(x), 10) * 10, bandwidth = NULL, na.action = na.fail, series = deparse(substitute(x)), ...) {  
+spectrumrob.pgram <- function(x, psifn = function(x) M_psi(x, type="smooth"), arrob.method = c("yw", "regression", "filter", "gm", "nonrobust"), kernel = c("parzen", "bartlett", "rectangular", "daniell"), truncation=round(log(length(x), 10) * 10), bandwidth = NULL, na.action = na.fail, series = deparse(substitute(x)), ...) {  
   
   # checks and preparations:
   arrob.method <- match.arg(arrob.method)
@@ -21,7 +21,7 @@ spectrumrob.pgram <- function(x, psifn = function(x) M_psi(x, type="smooth"), ar
 		ka <- 1
 	} else {
 		arfit <- arrob(x, method = arrob.method, ...)
-		resi <- psifn(as.numeric(arfit$resid) / sqrt(as.numeric(arfit$var.pred))) * sqrt(as.numeric(arfit$var.pred))
+		resi <- psifn(as.numeric(arfit$resid[-(1:arfit$order)]) / sqrt(as.numeric(arfit$var.pred))) * sqrt(as.numeric(arfit$var.pred))
 		inte <- function(x) psifn(x)^2 * dnorm(x)
 		ka <- integrate(inte, -Inf, +Inf)$value
 	}
@@ -37,7 +37,7 @@ spectrumrob.pgram <- function(x, psifn = function(x) M_psi(x, type="smooth"), ar
 	XXim <- XXre
 	sumRe <- XXre
 	sumIm <- XXre
-	for (k in seq_along(ff)) {
+	for (k in seq(along=ff)) {
 		XXre[k] <- sum(resi * cos(-2 * pi * ff[k] * 1:tmax))
 		XXim[k] <- sum(resi * sin(-2 * pi * ff[k] * 1:tmax))
 		sumRe[k] <- sum(ph * cos(2 * pi * ff[k] * 1:p))

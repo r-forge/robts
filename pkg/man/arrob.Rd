@@ -9,7 +9,7 @@
 Robust Estimation of Autoregressive Models
 }
 \description{
-	Robust fit of an autogression model to a time series.  Its order is optimized with respect to a robustified AIC or given.
+	Robust fit of an autoregressive model to a time series.  Its order is optimized with respect to a robustified AIC or given.
 }
 \usage{
 arrob(x, aic = TRUE, order.max = NULL,
@@ -32,9 +32,9 @@ arrob.filter(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p,
 
 \arguments{
 	\item{x}{numeric vector of a univariate time series.}
-	\item{aic}{logical indicating wether the AR order should be estimated by robust AIC criteria considering orders up to \code{order.max} (if \code{aic = TRUE}) or should be equal to \code{order.max} (if \code{aic = FALSE}).}
+	\item{aic}{logical indicating whether the AR order should be estimated by robust AIC criteria considering orders up to \code{order.max} (if \code{aic = TRUE}) or should be equal to \code{order.max} (if \code{aic = FALSE}).}
 	\item{order.max}{integer value determining the (maximal) order of the AR fit.}
-	\item{method}{character string naming the estimation method to beused, see Details.}
+	\item{method}{character string naming the estimation method to be used, see Details.}
 	\item{na.action}{function to be called to handle missing values.}
 	\item{series}{the time series name.}
 	\item{aicpenalty}{function of the model order defining the penalty term of the model selection criteria. The default results in a robust AIC.}
@@ -48,19 +48,19 @@ arrob.filter(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p,
 }
 
 \details{
-There are many possibilities for robust estimation of AR models. The argument \code{method} specifies which of the follwoing methods is to be used, where \code{method = "yw"} is the default.
+There are many possibilities for robust estimation of AR models. The argument \code{method} specifies which of the following methods is to be used, where \code{method = "yw"} is the default.
 
 \describe{
 \item{\code{"yw"}}{One approach is to use a roust estimation of the autocorrelation function. The corresponding AR coefficients can be then either computed by solving the Yule-Walker equations \code{method = "yule-walker"} employing the Durbin-Levinson algorithm. The acf estimator can be determined by \code{acf.fun}. See the help page of \code{\link{acfrob}} for an overview of implemented procedures for estimation of the acf.}
 
-\item{\code{"regression"}}{The AR coefficients are computed by a robust regression. Here the dependent variable is the time series \code{x} and the independent variables are the up to \code{order.max} lagged time serieses. The regression is done by MM estimation with the function \code{\link{lmrob}}, see Rousseeuw et al. (2014).}
+\item{\code{"regression"}}{The AR coefficients are computed by a robust regression. Here the dependent variable is the time series \code{x} and the independent variables are the up to \code{order.max} lagged time series. The regression is done by MM estimation with the function \code{\link{lmrob}}, see Rousseeuw et al. (2014).}
 
 \item{\code{"filter"}}{The regression coefficients are computed via robust filtering as described in chapter 8.6 of Maronna et al. (2006). See the help page of \code{\link{ARfilter}} for details.}
 
 \item{\code{"gm"}}{Generalized M estimates are used for obtaining an AR fit as described in Maronna et al. (2006). See the help page of \code{\link{arrob.gm}} for details and further arguments which are passed to that function by the \code{...} argument.}
 }
 
-If \code{aic == TRUE}, AR models for every order up to \code{order.max} are estimated and the one with the smallest model selection criteria returned. The criterion is the sum of the logarithm of a robust variance estimation of the residuals and a penalty term devidided by \code{n-p} depending on the AR order \code{p}, i.e.,
+If \code{aic == TRUE}, AR models for every order up to \code{order.max} are estimated and the one with the smallest model selection criteria returned. The criterion is the sum of the logarithm of a robust variance estimation of the residuals and a penalty term divided by \code{n-p} depending on the AR order \code{p}, i.e.,
 \deqn{log(\hat{\sigma}^2)+\frac{pen(p)}{n-p}.}
 The penalty term can be set by the argument \code{aicpenalty}.
 }

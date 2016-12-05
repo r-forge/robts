@@ -29,7 +29,7 @@ Numeric vector of estimated autocorrelations.
 }
 
 \details{
-This function estimates the autocorrelation function based on multivariate correlation estimators. This method computes the acf en bloc and is therefore very time consuming if \code{lag.max} is large (e.g. greater 15). The approach works very well in case of outliers occuring in blocks, see \enc{Dürre}{Duerre} et al. (2015) for more details. There are many robust correlation estimators available.
+This function estimates the autocorrelation function based on multivariate correlation estimators. This method computes the acf en bloc and is therefore very time consuming if \code{lag.max} is large (e.g. greater 15). The approach works very well in case of outliers occurring in blocks, see \enc{Dürre}{Duerre} et al. (2015) for more details. There are many robust correlation estimators available.
 
 	If \code{multi.method = "rawMCD"}, one applies the MCD proposed by Rousseeuw (1985). This estimator is known to be very robust but also inefficient under normality. Therefore one often uses reweighted versions. See the help page of \code{\link{covMcd}} for more details.
 

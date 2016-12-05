@@ -17,6 +17,11 @@ for(scenario in names(datalist)){
   print(acfrob(datalist[[scenario]], plot = FALSE))
 }
 
+acfobject <- acfrob(datalist[["dep"]], approach = "GK")
+str(acfobject)
+plot(acfobject)
+
+
 
 ## Check the subroutines of all approaches:
 scenario <- "dep"

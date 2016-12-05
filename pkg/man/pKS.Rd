@@ -22,7 +22,7 @@ Values of the distribution function of the given quantiles.
 }
 
 \details{
-The distribution equals that of the supremum of the absolute values of a standard brownian bridge and often occurs in change point testing. The function is only a wrapper for the C code used in the function \code{\link{ks.test}} .
+The distribution equals that of the supremum of the absolute values of a standard Brownian bridge and often occurs in change point testing. The function is only a wrapper for the C code used in the function \code{\link{ks.test}} .
 }  
 
 \author{

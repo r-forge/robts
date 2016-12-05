@@ -1,4 +1,4 @@
-spectrumrob.acf <- function(x, acf.approach = c("GK", "median", "multi", "partrank", "RA", "rank", "trim", "bireg", "nonrobust"), kernel = c("parzen", "bartlett", "rectangular", "daniell"), truncation = log(length(x), 10) * 10, bandwidth = NULL, var1 = FALSE, scalefn = Qn, na.action = na.fail, series = deparse(substitute(x)), ...) {
+spectrumrob.acf <- function(x, acf.approach = c("GK", "median", "multi", "partrank", "RA", "rank", "trim", "bireg", "nonrobust"), kernel = c("parzen", "bartlett", "rectangular", "daniell"), truncation = round(log(length(x), 10) * 10), bandwidth = NULL, var1 = FALSE, scalefn = Qn, na.action = na.fail, series = deparse(substitute(x)), ...) {
   
   # checks and preparations:
   acf.approach <- match.arg(acf.approach)

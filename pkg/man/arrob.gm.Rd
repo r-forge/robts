@@ -6,26 +6,26 @@
 Robust Estimation of Autoregressive Models by GM Estimator
 }
 \description{
-Robust fit of an autogression model to a time series by generalized M estimators as described in Maronna et al. (2006).
+Robust fit of an autoregressive model to a time series by generalized M estimators as described in Maronna et al. (2006).
 }
 \usage{
 arrob.gm(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p,
-    na.action = na.fail, series = deparse(substitute(x)), maxit=10^3,
-    delta=1/2, epsilon=10^(-4), k1=1.37, k2=1)        
+    na.action = na.fail, series = deparse(substitute(x)), k1=1.37, k2=1,
+    delta=1/2, maxit=10^3, epsilon=10^(-4))        
 }
 
 \arguments{
 	\item{x}{numeric vector of a univariate time series.}
-	\item{aic}{logical indicating wether the AR order should be estimated by robust AIC criteria considering orders up to \code{order.max} or should be equal to \code{order.max}.}
+	\item{aic}{logical indicating whether the AR order should be estimated by robust AIC criteria considering orders up to \code{order.max} or should be equal to \code{order.max}.}
 	\item{order.max}{integer value determining the (maximal) order of the AR fit.}
 	\item{na.action}{function to be called to handle missing values.}
 	\item{series}{the time series name.}
 	\item{aicpenalty}{function of the model order defining the penalty term of the model selection criteria. The default results in a robust AIC.}
-  \item{maxit}{}
-  \item{delta}{}
-  \item{epsilon}{}
-  \item{k1}{}
-  \item{k2}{}
+  \item{k1}{numeric value giving the tuning parameter for the Huber weights.}
+  \item{k2}{numeric value giving the tuning parameter for the psi function applied to the regressors.}
+  \item{delta}{numeric value for \eqn{\delta}, see Details.}
+  \item{maxit}{integer value giving rhe maximal number of iterations for the iterative weighting procedure of the M estimators}
+  \item{epsilon}{numeric value giving the desired accuracy of the iterated solution of the M estimator.}
 }
 
 \details{
@@ -33,7 +33,7 @@ This procedure fits an AR model to a time series. The AR coefficients are determ
 
 The GM estimator is of Mallows type with a Huber function for the regression residuals and a bisquare function for the regressors. Both can be tuned by \code{k1} respectively \code{k2}. The weights \eqn{v_i} of the regressors are based on Malahanobis distances with the covariance matrix build of autocovariances derived by the so far estimated AR parameters, see Maronna et al. (2006) chapter 8.5 for details. 
 
-The GM estimator is computed as an iteratively weighted sum. Based on an initial estimator, which is here the least trimmed squares estimator \code{\link{ltsReg}} of the \code{robustbase} package, residuals \eqn{r_i} and its related huber \eqn{w_i} and bisquare weights \eqn{u_i} are calculated. The updated regression estimate is then
+The GM estimator is computed as an iteratively weighted sum. Based on an initial estimator, which is here the least trimmed squares estimator \code{\link{ltsReg}} of the \code{robustbase} package, residuals \eqn{r_i} and its related Huber \eqn{w_i} and bisquare weights \eqn{u_i} are calculated. The updated regression estimate is then
 \deqn{\beta=\frac{\sum_{i=1}^n w_iv_i x_iy_i}{\sum_{i=1}^n w_iv_i x_i^2}}
 and the scale estimate
 \deqn{\sigma^2_{new}=\frac{\sigma^2_{old}}{n \delta}\sum_{i=1}^n u_i r_i^2,}

@@ -23,7 +23,7 @@ filterrob.given(x, ar, psifn, locfn, scalefn, na.action = na.fail)
   \item{psifn}{psi function for filtering of residuals if \code{method = "pgram"}, see Details.}
 	\item{locfn}{function which calculates a location estimator. Its argument must be a vector of the data. One could for example use the function \code{\link{median}}.}
   \item{scalefn}{function which calculates a scale estimator. Its argument must be a vector of the data. One could for example use one of the functions \code{\link{Qn}}, \code{\link{Sn}}, \code{\link{scaleTau2}} (all from the package \code{robustbase}), \code{\link{mad}} or (not robust) \code{\link{sd}}.}
-	\item{...}{additional arguments passed to function \code{arrob.filter}. This is only appliccable if \code{method = "fit"}.}
+	\item{...}{additional arguments passed to function \code{arrob.filter}. This is only applicable if \code{method = "fit"}.}
 }
 
 \details{
@@ -31,7 +31,7 @@ This function filters a time series in respect of outliers. It is assumed that t
 
 If the model coefficients are known or have been previously estimated, one can set \code{method = "given"} and provide the vector of AR coefficients by the argument \code{ar}. Note that this argument has the value \code{NULL} by default, which corresponds to an AR model of order zero (assuming independent innovations).
 
-If the coefficients are not available, they can be estimated by setting \code{method = "fit"}. Estimation is done by the function \code{arrob.filter} for which further arguments can be provided by the \code{...} argument. In this case no additional information on the model fit is returned, e.g. the estimated parameters. It is difficult to assess the quality of the fit. For this reason it is reccommended to fit the model in a separate step before calling this funtion und then use \code{method = "given"}..
+If the coefficients are not available, they can be estimated by setting \code{method = "fit"}. Estimation is done by the function \code{arrob.filter} for which further arguments can be provided by the \code{...} argument. In this case no additional information on the model fit is returned, e.g. the estimated parameters. It is difficult to assess the quality of the fit. For this reason it is recommended to fit the model in a separate step before calling this function and then use \code{method = "given"}..
 
 Based on the model, residuals are calculated and smoothed by a psi function which is given by the argument \code{psifunc}. By default this is \code{M_psi(x, type="smooth")}, a smooth function which is the identity for absolute values smaller than 2 and zero for absolute values larger than 3. See \enc{Dürre}{Duerre} et al. (2014) for a formal definition of this psi function. 
 

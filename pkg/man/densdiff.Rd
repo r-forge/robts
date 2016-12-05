@@ -6,7 +6,7 @@
 Density Estimation at 0 of the Random Variable X-Y
 }
 \description{
-Estimates the density of the difference of two samples at 0. This is necessary for the Hodges-Lehmann (changepoint) test. See Dehling et al. (2015) for details.
+Estimates the density of the difference of two samples at 0. This is necessary for the Hodges-Lehmann (change point) test. See Dehling et al. (2015) for details.
 }
 
 \usage{
@@ -19,7 +19,7 @@ densdiff(x, y, type2 = c("all", "within", "between"), adjust = 1,
 	\item{x}{univariate numeric vector representing the first sample.}
 	\item{y}{univariate numeric vector representing the second sample.}
 	\item{type2}{character string indicating which differences should be used, to estimate the density. Must be one of 'all', 'within' and 'between', see Details.}
-	\item{adjust}{numeric which determines the used bandwith, see the help of \code{\link{density}} for Details.}
+	\item{adjust}{numeric which determines the used bandwidth, see the help of \code{\link{density}} for Details.}
 	\item{kernelused}{character string indicating the used kernel, see the help of \code{\link{density}} for Details.}
 	\item{...}{further arguments passed to the respective internal functions.}
 }
@@ -29,7 +29,7 @@ The estimated density at 0.
 }
 
 \details{
-The Hodges-Lehmann two sample test requires an estimation of the density of the difference of both random variables X and Y at 0. This is also true for the the Hodges-Lehmann changepoint test since it consists of a sequence of two samples tests. One approach to estimate this density is to apply a kernel estimator at differences of values of both samples. This is basically the task of this function.
+The Hodges-Lehmann two sample test requires an estimation of the density of the difference of both random variables X and Y at 0. This is also true for the the Hodges-Lehmann change point test since it consists of a sequence of two samples tests. One approach to estimate this density is to apply a kernel estimator at differences of values of both samples. This is basically the task of this function.
 
 There are different possibilities to build differences.
 
@@ -45,7 +45,7 @@ The density estimation itself is computed by the function \code{\link{density}} 
 \references{
 
 Dehling, H., Fried, R., Wendler, M. (2015): A robust method for shift detection in time series, preprint. 
-\href{http://arxiv.org/abs/1506.03345}{arvix 1506.03345}
+\href{http://arxiv.org/abs/1506.03345}{arXiv 1506.03345}
 }
 
 \author{

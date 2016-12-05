@@ -19,8 +19,8 @@ acfrob(x, lag.max = NULL, type = c("correlation", "covariance", "partial"),
 
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
-	\item{lag.max}{integer value giving the maximum lag at which to calculate the acf. Default ist \code{10 * log(length(x), 10)}.}
-	\item{type}{character string giving the type of acf to be computed. Allowed values are \code{"correlation"} (the default), \code{"covariance"} or \code{"partial"}.}
+	\item{lag.max}{integer value giving the maximum lag at which to calculate the acf. Default is \code{10 * log(length(x), 10)}.}
+	\item{type}{character string giving the type of acf to be computed. Possible values are \code{"correlation"} (the default), \code{"covariance"} or \code{"partial"}.}
 	\item{approach}{character string naming the approach used for computation, see Details.}
 	\item{...}{further arguments passed to the internal function of the respective estimation approach.}
 	\item{plot}{logical. If \code{TRUE} (the default) the acf is plotted.}
@@ -37,13 +37,13 @@ There are many approaches for robust autocorrelation estimation. The argument \c
 	
 \item{\code{"median"}}{One applies the so called median correlation, which calculates the acf for every lag individually. Basically this estimator substitutes the median for the mean in the definition of the empirical correlation. See the help page of \code{\link{acfrob.median}} for details.}
 	
-\item{\code{"multi"}}{One applies a robust estimator for the correlation matrix to compute the acf en bloc. This method can get quite time consuming if \code{lag.max} is large (e.g. larger than 15). It is favourable if outliers accour in blocks. See the help page of \code{\link{acfrob.multi}} for details and further arguments.}
+\item{\code{"multi"}}{One applies a robust estimator for the correlation matrix to compute the acf en bloc. This method can get quite time consuming if \code{lag.max} is large (e.g. larger than 15). It is favourable if outliers occur in blocks. See the help page of \code{\link{acfrob.multi}} for details and further arguments.}
 	
 \item{\code{"partrank"}}{One first calculates the partial autocorrelations and then derive the acf. This procedure has the advantage that one automatically gets a positive definite acf. See the help page of \code{\link{acfrob.partrank}} for more details and further arguments.}
 	
 \item{\code{"RA"}}{One first robustly transform the time series using a psi function and calculates the usual acf afterwards. See the help page of \code{\link{acfrob.RA}} for more details and further arguments.}
 	
-\item{\code{"rank"}}{One applies a rank correlation estimator like Spearmans rho, which calculates the acf for every lag individually. It is favourable if one considers integer valued processes. See the help page of \code{\link{acfrob.rank}} for more details and further arguments.}
+\item{\code{"rank"}}{One applies a rank correlation estimator like Spearman's rho, which calculates the acf for every lag individually. It is favourable if one considers integer valued processes. See the help page of \code{\link{acfrob.rank}} for more details and further arguments.}
 	
 \item{\code{"filter"}}{One applies the robust filter algorithm. This is basically a robust version of the Kalman filter. The acf is then either computed by applying the usual acf to the filtered time series or by a robust AR fit. See the help page of \code{\link{acfrob.filter}} for more details and further arguments.}
 	
