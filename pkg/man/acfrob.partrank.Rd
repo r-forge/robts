@@ -26,25 +26,32 @@ acfrob.partrank(x, lag.max, cor.method = c("spearman", "kendall", "quadrant", "g
 }
 
 \value{
-Numeric vector of estimated autocorrelations.
+A named list of the following elements:
+
+\item{acfvalues}{Numeric vector of estimated (partial) autocorrelations at the lags 1,...,\code{lag.max}.}
+\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
 }
 
 \details{
-This function estimates the autocorrelation function based on partial autocorrelations. This procedure was first proposed by Masarotto (1987) and has the advantage that it produces positive definite and therefore valid acf estimations. To estimate the pacf, the estimation procedure described in \enc{Möttönen}{Moettoennen} et al. (1999) is used. It depends on successive correlation estimations of forward and backward residuals. There are many possibilities to estimate these correlations.
+This function estimates the autocorrelation function based on partial autocorrelations. This procedure was first proposed by Masarotto (1987) and has the advantage that it produces positive definite and therefore valid acf estimations. To estimate the pacf, the estimation procedure described in \enc{Möttönen}{Moettoennen} et al. (1999) is used. It depends on successive correlation estimations of forward and backward residuals.
 
-	If \code{cor.method = "masarotto"}, one follows the original proposal of Masarotto (1987), which is a kind of M estimator. Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK estimator, (using the Qn) new variances and correlations are iteratively computed until convergence, using weights which are defined by the following psi function
-\deqn{\psi(x) = 3/(1+x).}
-Note that this is not really a rank or sign based estimator. See Masarotto (1987) for more details.
+There are several possible rank estimators available. The argument \code{cor.method} specifies which of the following approaches is to be used, where \code{cor.method = "spearman"} is the default.
 
-	If \code{cor.method = "gaussian"}, one uses the Gaussian rank correlation which is the usual correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi} the distribution function of the normal distribution, then the transformation is defined as
+\describe{
+\item{\code{"spearman"}}{One uses the well known Spearman's rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.}
+
+\item{\code{"kendall"}}{One uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for large time series (e.g. greater than 10000).}
+
+\item{\code{"quadrant"}}{One uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers.}
+
+\item{\code{"gaussian"}}{One uses the Gaussian rank correlation which is the usual correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi} the distribution function of the normal distribution, then the transformation is defined as
 \deqn{\Phi^{-1}(R(i)/(n+1)).}
-This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.
+This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.}
 
-	If \code{cor.method = "spearman"}, one uses the well known Spearman's rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.
-
-	If \code{cor.method = "kendall"}, one uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for large time series (e.g. greater than 10000).
-
-	If \code{cor.method = "quadrant"}, one uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers.
+\item{\code{"masarotto"}}{One follows the original proposal of Masarotto (1987), which is a kind of M estimator. Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK estimator, (using the Qn) new variances and correlations are iteratively computed until convergence, using weights which are defined by the following psi function
+\deqn{\psi(x) = 3/(1+x).}
+Note that this is not really a rank or sign based estimator. See Masarotto (1987) for more details.}
+}
 
 The computation of the acf from the pacf is carried out by the algorithm described in \enc{Möttönen}{Moettoennen} et al. (1999).
 }  

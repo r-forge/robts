@@ -24,22 +24,28 @@ acfrob.GK(x, lag.max, scalefn = Qn, ...)
 }
 
 \value{
-Numeric vector of estimated autocorrelations.
+A named list of the following elements:
+
+\item{acfvalues}{Numeric vector of estimated autocorrelations at the lags 1,...,\code{lag.max}.}
+\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution.}
 }
 
 \details{
 This function estimates the autocorrelation function based on the GK approach, which was proposed by Ma and Genton (2000). The acf is estimated for each lag individually. Let \eqn{X} denote the original time series and \eqn{Y} the lagged one, then the autocorrelation is estimated by
 \deqn{\frac{\hat{\sigma}(X+Y)^2-\hat{\sigma}(X-Y)^2}{\hat{\sigma}(X+Y)^2+\hat{\sigma}(X-Y)^2}.}
-If one uses the empirical standard deviation as the scale estimator \eqn{\hat{\sigma}}, one roughly gets the usual empirical acf. For robust estimation different scale estimators are available.
-  
-	
-	If \code{scalefn = Qn}, the Qn is used, which was proposed by Rousseeuw and Croux (1993). The estimator is known to be very robust and also rather efficient under normality. See the help page of \code{\link{Qn}} in the package \code{robustbase} for details.
-	
-	If \code{scalefn = scaleTau2}, the \eqn{\tau} estimator of scale is used, which was proposed by Maronna and Zamar (2002). The estimator is also known to be robust and rather efficient under normality. The estimator includes two tuning parameters, which can be changed using the \code{...} argument. See the help page of \code{\link{scaleTau2}} in the package \code{robustbase} for more details.
-	
-	If \code{scalefn = MAD}, one uses the usual median absolute deviation, which is known to be very robust and fast to compute, but not very efficient under normality. For more details see the help page of \code{\link{mad}} in the package \code{stats}.
+If one uses the empirical standard deviation as the scale estimator \eqn{\hat{\sigma}}, one roughly gets the usual empirical acf.
 
-	If \code{scalefn = reweightedQn}, one uses an efficiently reweighted Qn. For more details see the help page of \code{\link{reweightedQn}}.
+There are several possible scale estimators available. The argument \code{scalefn} specifies which estimator is to be used, where \code{scalefn = Qn} is the default. One could for example choose one of the following estimators.
+
+\describe{
+\item{\code{Qn}}{The Qn is used, which was proposed by Rousseeuw and Croux (1993). The estimator is known to be very robust and also rather efficient under normality. See the help page of \code{\link{Qn}} in the package \code{robustbase} for details.}
+	
+\item{\code{scaleTau2}}{The \eqn{\tau} estimator of scale is used, which was proposed by Maronna and Zamar (2002). The estimator is also known to be robust and rather efficient under normality. The estimator includes two tuning parameters, which can be changed using the \code{...} argument. See the help page of \code{\link{scaleTau2}} in the package \code{robustbase} for more details.}
+	
+\item{\code{mad}}{One uses the usual median absolute deviation, which is known to be very robust and fast to compute, but not very efficient under normality. For more details see the help page of \code{\link{mad}} in the package \code{stats}.}
+
+\item{\code{reweightedQn}}{One uses an efficiently reweighted Qn. For more details see the help page of \code{\link{reweightedQn}}.}
+}
 }
 
 

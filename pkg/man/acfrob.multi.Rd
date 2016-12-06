@@ -25,25 +25,32 @@ acfrob.multi(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel-Donoho"
 }
 
 \value{
-Numeric vector of estimated autocorrelations.
+A named list of the following elements:
+
+\item{acfvalues}{Numeric vector of estimated autocorrelations at the lags 1,...,\code{lag.max}.}
+\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
 }
 
 \details{
-This function estimates the autocorrelation function based on multivariate correlation estimators. This method computes the acf en bloc and is therefore very time consuming if \code{lag.max} is large (e.g. greater 15). The approach works very well in case of outliers occurring in blocks, see \enc{Dürre}{Duerre} et al. (2015) for more details. There are many robust correlation estimators available.
+This function estimates the autocorrelation function based on multivariate correlation estimators. This method computes the acf en bloc and is therefore very time consuming if \code{lag.max} is large (e.g. greater 15). The approach works very well in case of outliers occurring in blocks, see \enc{Dürre}{Duerre} et al. (2015) for more details. 
 
-	If \code{multi.method = "rawMCD"}, one applies the MCD proposed by Rousseeuw (1985). This estimator is known to be very robust but also inefficient under normality. Therefore one often uses reweighted versions. See the help page of \code{\link{covMcd}} for more details.
+There are several possible robust correlation estimators available. The argument \code{multi.method} specifies which of the following approaches is to be used, where \code{multi.method = "weightedMCD"} is the default.
 
-	If \code{multi.method = "weightedMCD"}, one applies the weighted MCD, which is basically the empirical covariance of observations which are not identified as outliers. The identification is based on Mahalanobis distances calculated from the raw MCD, see \code{\link{covMcd}} for more details. For acf estimation the weighted MCD is preferable to the unweighted one, see \enc{Dürre}{Duerre} et al. (2014).
+\describe{
+\item{\code{"rawMCD"}}{One applies the MCD proposed by Rousseeuw (1985). This estimator is known to be very robust but also inefficient under normality. Therefore one often uses reweighted versions. See the help page of \code{\link{covMcd}} for more details.}
 
-	If \code{multi.method = "reweight"}, one applies the efficient weighted MCD which was proposed by Gervini (2003). See the help page of \code{\link{Corefw}} for more details.
+\item{\code{"weightedMCD"}}{One applies the weighted MCD, which is basically the empirical covariance of observations which are not identified as outliers. The identification is based on Mahalanobis distances calculated from the raw MCD, see \code{\link{covMcd}} for more details. For acf estimation the weighted MCD is preferable to the unweighted one, see \enc{Dürre}{Duerre} et al. (2014).}
 
-	If \code{multi.method = "Stahel-Donoho"}, one applies the Stahel-Donoho estimator. See the help page of \code{\link{CovSde}} for more details. Note that this estimator gets really time consuming if \code{lag.max} is large!
+\item{\code{"reweight"}}{One applies the efficient weighted MCD which was proposed by Gervini (2003). See the help page of \code{\link{Corefw}} for more details.}
 
-	If \code{multi.method = "S"}, one applies an S estimator of scatter. See the help page of \code{\link{CovSest}} for more details.
+\item{\code{"Stahel-Donoho"}}{One applies the Stahel-Donoho estimator. See the help page of \code{\link{CovSde}} for more details. Note that this estimator gets really time consuming if \code{lag.max} is large!}
 
-	If \code{multi.method = "M"}, one applies an M estimator of scatter. See the help page of \code{\link{mvhuberM}} for more details.
+\item{\code{"S"}}{One applies an S estimator of scatter. See the help page of \code{\link{CovSest}} for more details.}
 
-	If \code{multi.method = "Tyler"}, one applies the Tyler shape matrix, which is a special M estimator of scatter. See the help page of \code{\link{tyler.shape}} for more details.
+\item{\code{"M"}}{One applies an M estimator of scatter. See the help page of \code{\link{mvhuberM}} for more details.}
+
+\item{\code{"Tyler"}}{One applies the Tyler shape matrix, which is a special M estimator of scatter. See the help page of \code{\link{tyler.shape}} for more details.}
+}
 }  
 
 \references{

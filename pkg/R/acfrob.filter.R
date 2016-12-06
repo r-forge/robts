@@ -32,7 +32,7 @@ acfrob.filter <- function(x, lag.max, order.max = lag.max, robfil.method = c("fi
   #estimating acf of the residuals using robustly filtered values:
   if (robfil.method=="filtered"){
  	  robfiltered <- estimate$filtered[, order_selected+1]
-  	acfvalues <- try(acf(robfiltered, plot=FALSE, lag.max=lag.max, type=ifelse(partial, "partial", "correlation"))$acf[-1], silent=TRUE)
+  	acfvalues <- try(acf(robfiltered, plot=FALSE, lag.max=lag.max, type=ifelse(partial, "partial", "correlation"))$acf[as.numeric(!partial)+(1:lag.max), 1, 1], silent=TRUE)
   	if (inherits(acfvalues, "try-error")){
   		stop("Calculation of the (p)acf of the filtered values failed.")
  		}
@@ -46,6 +46,11 @@ acfrob.filter <- function(x, lag.max, order.max = lag.max, robfil.method = c("fi
     } 
   	acfvalues <- if(order_selected > 0) ARMAacf(ar=estimate$ar[[order_selected+1]], lag.max=lag.max)[-1] else  rep(0, lag.max)
  	}
+ 	
+ 	res <- list(
+   acfvalues = acfvalues,
+   are = NA
+  )
   	
-  return(acfvalues)
+  return(res)
 }

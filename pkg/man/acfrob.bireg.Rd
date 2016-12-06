@@ -23,7 +23,10 @@ acfrob.bireg(x, lag.max, regression.method = c("MM", "LTS", "L1"))
 }
 
 \value{
-Numeric vector of estimated autocorrelations.
+A named list of the following elements:
+
+\item{acfvalues}{Numeric vector of estimated autocorrelations at the lags 1,...,\code{lag.max}.}
+\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
 }
 
 \details{

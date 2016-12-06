@@ -52,5 +52,10 @@ acfrob.trim <- function(x, lag.max, trim=0.1, biascorr = TRUE) {
   load(system.file("extdata", "acfbiascorr_trim", package = "robts"))	# loading the simulated expected values
   acfvalues <- sapply(acfvalues_biased, linearinterpol, a=get("expectations"), b=get("values"))
   
-  return(acfvalues)
+ 	res <- list(
+   acfvalues = acfvalues,
+   are = NA
+  )
+  	
+  return(res)
 }

@@ -1,6 +1,7 @@
+library(robts)
+
 set.seed(1654)
 
-library(robts)
 x <- arima.sim(n=200, model=list(ar=c(0.6,0.3)))
 
 ARfilter(x, order.max=3, aicpenalty = function(p) 2*p, psi.l = 2, psi.0 = 3)

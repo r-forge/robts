@@ -33,7 +33,7 @@ Following Maronna et al. (2006), the psi function should fulfill two properties.
 \value{
 List containing the following values:
 
-\item{partial}{numeric vector representing the successively estimated partial correlations of the model.}
+\item{pacf}{numeric vector representing the successively estimated partial correlations of the model at lags 1,...,\code{p}.}
 \item{var}{numeric vector containing the estimations of the residual scale for AR models of order 0,...,\code{p}.}
 \item{acf}{numeric vector of estimated autocorrelations of a model of order \code{order.max} at lags 1,...,\code{p}.}
 \item{aic}{numeric vector of AIC values of AR models of order 0,...,\code{p}.}

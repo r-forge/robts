@@ -88,7 +88,12 @@ acfrob.partrank <- function(x, lag.max, cor.method=c("spearman", "kendall", "qua
   		}  
   	rho[H] <- a[H-1, 1:(H-1)] %*% rho[(H-1):1] + phi[H] * (1-a[H-1, 1:(H-1)] %*% rho[1:(H-1)])	# calculating the autocorrelation
  	}
- 	pacfvalues <- phi
-  acfvalues <- rho
-  if(partial) return(pacfvalues) else return(acfvalues)
+ 	acfvalues <- if(partial) phi else rho
+  
+ 	res <- list(
+   acfvalues = acfvalues,
+   are = NA
+  )
+  	
+  return(res)
 }

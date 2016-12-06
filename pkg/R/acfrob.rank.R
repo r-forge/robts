@@ -22,7 +22,6 @@ acfrob.rank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendal
   	cn <- sum(qnorm((1:n)/(n+1))^2)
   	
   	acfvalues <- acf(x_transformed, lag.max=lag.max, plot=FALSE, type="cov")$acf[-1]/cn*n
-  	return(acfvalues)
  	}
   
   if (cor.method=="spearman") {
@@ -37,7 +36,6 @@ acfrob.rank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendal
   	if(!biascorr) return(acfvalues_biased)
     
     acfvalues <- 2*sin(acfvalues_biased*pi/6)
-    return(acfvalues)
  	}
   
   # for the other methods a function corestimation ist defined and applied to the time series in a second step:
@@ -67,10 +65,18 @@ acfrob.rank <- function(x, lag.max, cor.method=c("gaussian", "spearman", "kendal
   	correlation <- function(x, y, biascorr) BurgM(x, y)
   }
   
-  # calculation of the acf:  
-  acfvalues <- numeric(length(lags))
-  for (i in lags) {
-  	acfvalues[i] <- correlation(x[1:(n-i)], x[(i+1):n], biascorr=biascorr)
+  if(cor.method %in% c("kendall", "quadrant", "masarotto")){
+    # calculation of the acf:  
+    acfvalues <- numeric(length(lags))
+    for (i in lags) {
+    	acfvalues[i] <- correlation(x[1:(n-i)], x[(i+1):n], biascorr=biascorr)
+   	}
  	}
-  return(acfvalues)
+ 	
+ 	res <- list(
+   acfvalues = acfvalues,
+   are = switch(cor.method, "gaussian"=1, "spearman"=sqrt(pi^2/9), "kendall"=sqrt(pi^2/9), "quadrant"=sqrt(pi^2/4), NA)
+  )
+  	
+  return(res)
 }

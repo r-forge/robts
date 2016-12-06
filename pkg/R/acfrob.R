@@ -30,16 +30,21 @@ acfrob <- function(x, lag.max = NULL,
   # actual calculations:
   if (type == "partial") {	
   	if (approach %in% c("filter", "partrank") & partial.method == "automatic") {
-      pacfvalues <- acffn(x, lag.max = lag.max, partial = TRUE, ...)
+      acfout <- acffn(x, lag.max = lag.max, partial = TRUE, ...)
+      pacfvalues <- acfout$acfvalues
     } else {
-      acfvalues <- acffn(x, lag.max = lag.max, ...)
+      acfout <- acffn(x, lag.max = lag.max, ...)
+      acfvalues <- acfout$acfvalues
       pacfvalues <- DurbinLev(acfvalues)$phis[[lag.max]]
     }
-    acfvalues <- pacfvalues    
+    acfvalues <- pacfvalues
+    lags <- 1:lag.max    
   }	
   
 	if (type %in% c("correlation", "covariance")) {
-    acfvalues <- acffn(x, lag.max = lag.max, ...)
+    acfout <- acffn(x, lag.max = lag.max, ...)
+    acfvalues <- c(1, acfout$acfvalues)
+    lags <- 0:lag.max
 		if (psd) {
 			acfvalues_psd <- try(make_acf_psd(acfvalues), silent=TRUE)
 			if (inherits(acfvalues_psd, "try-error")){
@@ -56,24 +61,21 @@ acfrob <- function(x, lag.max = NULL,
   }
 	
 	# output:
-	acf.out <- list(
-    acf = array(data = c(1, acfvalues), dim = c(lag.max+1, 1, 1)),
+	res <- list(
+    acf = array(data = acfvalues, dim = c(length(acfvalues), 1, 1)),
     type = type,
     n.used = n,
-    lag = array(data = 0:lag.max, dim = c(lag.max+1, 1, 1)),
+    lag = array(data = lags, dim = c(length(lags), 1, 1)),
     series = series,
-    snames = NULL
+    snames = NULL,
+    approach = approach,
+    are = acfout$are
 	)
-	class(acf.out) <- "acf"
+	class(res) <- c("acfrob", "acf")
 	if (plot) {
-		confint <- confband(approach=approach, n=n, ...)
-		plot(acf.out, ci=0)
-		if (length(confint==2)) {
-			abline(h=confint[1], col="blue", lty="dashed")
-			abline(h=confint[2], col="blue", lty="dashed")
-		}
-		return(invisible(acf.out))
+    plot(res)
+		return(invisible(res))
 	} else {
-    return(acf.out)
+    return(res)
   }
 }

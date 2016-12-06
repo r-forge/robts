@@ -12,24 +12,24 @@ importFrom("sscor", "sscor")
 
 export(
   acfrob,
-  acfrob.filter,
-  acfrob.RA,
-  acfrob.partrank,
-  acfrob.median,
-  acfrob.GK,
-  acfrob.multi,
-  acfrob.trim,
-  acfrob.rank,
   acfrob.bireg,
+  acfrob.filter,
+  acfrob.GK,
+  acfrob.median,
+  acfrob.multi,
+  acfrob.partrank,
+  acfrob.RA,
+  acfrob.rank,
+  acfrob.trim,
   make_acf_psd,
   reweightedQn,
   corGK,
-  ARfilter,
   arrob,
   arrob.yw,
   arrob.filter,
   arrob.regression,
   arrob.gm,
+  ARfilter,
   filterrob,
   filterrob.given,
   Corefw,
@@ -48,5 +48,9 @@ export(
   qKS
 )
 
+S3method(plot, acfrob)
 S3method(plot, struc)
+
+S3method(residuals, ar)
+S3method(coef, ar)
 S3method(plot, ar)

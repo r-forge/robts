@@ -24,5 +24,10 @@ acfrob.median <- function(x, lag.max, biascorr = TRUE) {
   load(system.file("extdata", "acfbiascorr_median", package = "robts")) # loading the simulated expected values for the median correlation
  	acfvalues <- sapply(acfvalues_biased, linearinterpol, a=get("expectations"), b=get("values"))
  	
-  return(acfvalues)
+ 	res <- list(
+   acfvalues = acfvalues,
+   are = NA
+  )
+  	
+  return(res)
 }

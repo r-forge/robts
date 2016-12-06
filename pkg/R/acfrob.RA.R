@@ -57,5 +57,11 @@ acfrob.RA <- function(x, lag.max, psi = c("huber", "bisquare"), k, locfn = media
   }else{
     warning("No bias correction has been made. The estimation could be slightly biased")
  	} 	
-  return(acfvalues)
+ 	
+ 	res <- list(
+   acfvalues = acfvalues,
+   are = NA
+  )
+  	
+  return(res)
 }

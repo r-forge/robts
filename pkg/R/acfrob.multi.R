@@ -47,5 +47,10 @@ acfrob.multi <- function(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "St
   acfvalues[i] <- mean(offdiag(cormatrix, i))  # averaging the off-diagonals
   }
   
-  return(acfvalues)
+ 	res <- list(
+   acfvalues = acfvalues,
+   are = NA
+  )
+  	
+  return(res)
 }

@@ -9,3 +9,6 @@ arrob <- function(x, aic = TRUE, order.max = NULL, method = c("yw", "regression"
   res$call <- match.call()	 
 	return(res)
 }
+
+residuals.ar <- function(object, ...) object$resid
+coef.ar <- function(object, ...) object$ar

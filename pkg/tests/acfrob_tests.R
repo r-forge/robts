@@ -1,4 +1,6 @@
-set.seed(1114)
+library(robts)
+
+set.seed(1837)
 
 ## Creating some test data:
 depmodel <- list(ar=0.5, ma=0.3)
@@ -10,18 +12,10 @@ datalist <- list(
   long = arima.sim(model = depmodel, n = 1000) #long time series
 )
 
-library(robts)
-
 maxlag <- 10
 for(scenario in names(datalist)){
   print(acfrob(datalist[[scenario]], plot = FALSE))
 }
-
-acfobject <- acfrob(datalist[["dep"]], approach = "GK")
-str(acfobject)
-plot(acfobject)
-
-
 
 ## Check the subroutines of all approaches:
 scenario <- "dep"

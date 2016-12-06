@@ -61,7 +61,10 @@ With exception of the approaches \code{"partrank"}, \code{"filter"}, \code{"trim
 }
 
 \value{
-Object of class \code{"acf"}, see \code{\link{acf}} for details.
+Object of classes \code{"acfrob"} and \code{"acf"}. This is a list which includes all elements of an object of class \code{"acf"} (see \code{\link{acf}} for details) plus the following additional element:
+
+\item{approach}{character string naming the estimation approach. Coincides with argument \code{approach}.}
+\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. If the ARE is not available for the chosen estimation approach, it is \code{NA}.}
 }
 
 \references{

@@ -17,6 +17,17 @@ acfrob.GK <- function(x, lag.max, scalefn = Qn, ...) {
   for (i in lags) {
     acfvalues[i] <- corGK(x[1:(n-i)], x[(i+1):n], scalefn=scalefn, ...)
   }
- 
-  return(acfvalues)
+  
+  are <- NA #factor is NA unless the scale function matches one of the following alternatives:
+  if(identical(scalefn, Qn)) are <- sqrt(1/0.8227)
+  if(identical(scalefn, scaleTau2)) are <- sqrt(1/0.8)
+  if(identical(scalefn, mad)) are <- sqrt(1/0.3674)
+  if(identical(scalefn, sd)) are <- 1
+
+ 	res <- list(
+   acfvalues = acfvalues,
+   are = are
+  )
+  	
+  return(res)
 }
