@@ -31,7 +31,7 @@ if (varmethod=="acfextra") {
 	asy <- asymvar.acfextra(x=x,obs="ranks",...)[[1]]
 	}
 
-t2 <- t2/asy
+t2 <- t2/sqrt(asy)
 return(t2)
 }
 

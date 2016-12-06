@@ -47,7 +47,7 @@ asymvar.window=function(x=x,overlapping=FALSE,obs=c("untransformed","ranks"),dd=
  S=(abs(S-l*phibar)/sqrt(l))^momentp
  cp=2^(-momentp/2)*sqrt(pi)/gamma((momentp+1)/2)
  er=sum(S)/k*cp
- erg <- list(lrv=er^(1/momentp),blocklength=l)
+ erg <- list(lrv=er^(2/momentp),blocklength=l)
  return(erg)
  }
  }

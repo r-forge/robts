@@ -58,7 +58,7 @@ if (varmethod=="acfextra") {
 	asy <- do.call(asymvar.acfextra,c(list(x=x,obs="ranks"),threedots1))[[1]]
 	}
 
-t2 <- t2/asy*u0
+t2 <- t2/sqrt(asy)*u0
 return(t2)
 }
 

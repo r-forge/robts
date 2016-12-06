@@ -33,5 +33,5 @@ if (varmethod=="acfextra") {
 	asy <- asymvar.acfextra(x=x,obs="untransformed",...)[[1]]
 	}
 
-return(t2/asy)
+return(t2/sqrt(asy))
 }

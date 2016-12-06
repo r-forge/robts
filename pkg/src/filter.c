@@ -15,8 +15,8 @@ int compare2(const void *x, const void *y)
 
 double scaleTau(int n, double*x, double c1, double c2, double correc) {
 int i;
-double median=1;
-double sigma0=1;
+double median;
+double sigma0;
 double xbalt[n];
 
 for(i = 0; i < n; i++) {
@@ -25,10 +25,10 @@ for(i = 0; i < n; i++) {
 
 qsort(x,n,sizeof(double),compare2);
 if (n % 2==0) { 
-	median=(x[(n-1)/2]+x[(n-1)/2+1])/2;
+	median=(x[n/2]+x[n/2-1])/2;
 	}
 if (n % 2==1) { 
-	median=x[n/2];
+	median=x[(n+1)/2-1];
 	}
 
 for(i = 0; i < n; i++) {
@@ -45,10 +45,10 @@ for(i = 0; i < n; i++) {
 	}
 qsort(xb,n,sizeof(double),compare2);
 if (n % 2==0) { 
-	sigma0=(xb[(n-1)/2]+xb[(n-1)/2+1])/2;
+	sigma0=(xb[n/2]+xb[n/2-1])/2;
 	}
 if (n % 2==1) { 
-	sigma0=xb[n/2];
+	sigma0=xb[(n+1)/2-1];
 	}
 double mu=0;
 for(i = 0; i < n; i++) {
