@@ -9,7 +9,7 @@ Robust Time Series Analysis
 Collection of R functions for robust time series analysis.  This includes various approaches for robust estimation of (partial) autocorrelation, robust filtering, robust fitting of AR(p) processes as well as robust change point detection.
 }
 \details{
-See the main functions \code{\link{acfrob}} for robust estimation of the autocorrelation function, \code{\link{arrob}} for robust fitting of autoregressive (AR) models, \code{link{spectrumrob}} for robust estimation of the spectral density and \code{\link{rob.change}} for robust change point tests.
+See the main functions \code{\link{acfrob}} for robust estimation of the autocorrelation function, \code{\link{arrob}} for robust fitting of autoregressive (AR) models, \code{\link{spectrumrob}} for robust estimation of the spectral density and \code{\link{rob.change}} for robust change point tests.
 }
 \author{
 Alexander \enc{Dürre}{Duerre}, Tobias Liboschik, Jonathan Rathjens and Roland Fried

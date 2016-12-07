@@ -16,7 +16,7 @@ make_acf_psd(acfvalues, ...)
 }
 
 \arguments{
-	\item{acfvalues}{numeric vector with original acf estimation.}
+	\item{acfvalues}{numeric vector with original acf estimation at lags 1,2,...}
 	\item{...}{tuning parameters for internal functions, see Details.}
 }
 
@@ -42,3 +42,5 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \seealso{
 The function \code{\link{acfrob}} for robust estimation of the autocorrelation function.
 }
+
+\keyword{Autocorrelation function}

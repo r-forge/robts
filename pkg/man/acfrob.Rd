@@ -76,6 +76,8 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 }
 
 \seealso{
+S3 method \code{\link[=plot.acfrob]{plot}}.
+
 Classical, nonrobust estimation is provided by the function \code{\link{acf}}.
 
 The subroutines which actually estimate the acf: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}}, \code{\link{acfrob.median}}, \code{\link{acfrob.multi}}, \code{\link{acfrob.partrank}}, \code{\link{acfrob.RA}}, \code{\link{acfrob.rank}}, \code{\link{acfrob.bireg}}, \code{\link{acfrob.trim}}.
@@ -88,3 +90,5 @@ acfrob(tss, plot = FALSE)
 acfrob(tss, type = "partial", plot = FALSE)
 acfrob(tss, type = "covariance", plot = FALSE)
 }
+
+\keyword{Autocorrelation function}

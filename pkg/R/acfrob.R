@@ -43,9 +43,9 @@ acfrob <- function(x, lag.max = NULL,
   
 	if (type %in% c("correlation", "covariance")) {
     acfout <- acffn(x, lag.max = lag.max, ...)
-    acfvalues <- c(1, acfout$acfvalues)
-    lags <- 0:lag.max
-		if (psd) {
+    acfvalues <- acfout$acfvalues
+		
+    if (psd) {
 			acfvalues_psd <- try(make_acf_psd(acfvalues), silent=TRUE)
 			if (inherits(acfvalues_psd, "try-error")){
 				warning("Transformation to a positiv semidefinite acf failed. The returned result is not positive semidefinite.")
@@ -53,6 +53,8 @@ acfrob <- function(x, lag.max = NULL,
         acfvalues <- acfvalues_psd
       }
 		}
+		acfvalues <- c(1, acfvalues)
+		lags <- 0:lag.max
 	}
 	
 	if (type == "covariance") {

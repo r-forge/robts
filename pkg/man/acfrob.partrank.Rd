@@ -82,3 +82,5 @@ set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
 acfrob(tss, approach = "partrank")
 }
+
+\keyword{Autocorrelation function}

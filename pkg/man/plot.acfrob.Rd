@@ -16,7 +16,7 @@ Plot method for objects of class \code{"acfrob"}.
 
 \arguments{
 	\item{x}{an object with classes \code{"acfrob"} and \code{"acf"}.}
-	\item{ci}{coverage probability for confidence interval. Plotting of the confidence interval is suppressed if ci is zero or negative.}
+	\item{ci}{coverage probability for confidence interval. Plotting of the confidence interval is suppressed if \code{ci} is zero or negative.}
 	\item{ci.col}{colour to plot the confidence interval lines.}
 	\item{ci.type}{character string giving the type of confidence limits. Currently the only possible type is \code{"white"}, where a white noise input is assumed.}
 	\item{...}{further arguments passed to \code{\link{plot.acf}}. See that help page for details.}
@@ -38,3 +38,5 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 \seealso{
 \code{\link{acfrob}} which calls \code{plot.acfrob} by default. Classical, nonrobust estimation is provided by the function \code{\link{acf}}.
 }
+
+\keyword{Autocorrelation function}

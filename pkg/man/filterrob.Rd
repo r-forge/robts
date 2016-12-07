@@ -4,10 +4,10 @@
 \alias{filterrob.given}
 
 \title{
-Robustly Filtered Time Series
+Robust Filtering of Time Series Assuming an Autoregressive Model
 }
 \description{
-Filters a given time series robustly. The filtered series can be applied to improve estimations. Optionally, the coefficients of a fitted AR model can be used.  See chapter 8.6 of Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2014) for details.
+Robustly filters a given time series assuming an Autoregressive Model. The filtered series can be applied to improve estimations. Optionally, the coefficients of a fitted AR model can be used.  See chapter 8.6 of Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2014) for details.
 }
 \usage{
 filterrob(x, ar = NULL, method = c("fit", "given"), psifn, locfn, scalefn,
@@ -65,3 +65,5 @@ filterrob(tss, ar = phis, method = "fit")
 phis <- arrob(tss, aic = FALSE, order.max = 3)$ar
 filterrob(tss, ar = phis, method = "given")
 }
+
+\keyword{Autoregressive models}

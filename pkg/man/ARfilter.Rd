@@ -3,11 +3,11 @@
 \alias{ARfilter}
 
 \title{
-Estimation of AR Models by Robust Filtering
+Robust Fitting of Autoregressive Models by Robust Filtering
 }
 
 \description{
-Robustly estimates AR models using a robust filter algorithm. See \enc{Dürre}{Duerre} et al. (2015) for details.
+Robustly fits AR models using a robust filter algorithm. See \enc{Dürre}{Duerre} et al. (2015) for details.
 
 This is a workhorse function which is called by several other functions in this package.
 }
@@ -61,3 +61,5 @@ set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
 ARfilter(tss, order.max = 5)
 }
+
+\keyword{Autoregressive models}

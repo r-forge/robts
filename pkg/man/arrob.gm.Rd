@@ -3,7 +3,7 @@
 \alias{arrob.gm}
 
 \title{
-Robust Estimation of Autoregressive Models by GM Estimator
+Robust Fitting of Autoregressive Models Based on GM Estimation
 }
 \description{
 Robust fit of an autoregressive model to a time series by generalized M estimators as described in Maronna et al. (2006).
@@ -67,3 +67,5 @@ set.seed(1066)
 tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
 arrob(tss, method="gm")
 }
+
+\keyword{Autoregressive models}

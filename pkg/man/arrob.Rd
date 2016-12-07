@@ -6,7 +6,7 @@
 \alias{arrob.filter}
 
 \title{
-Robust Estimation of Autoregressive Models
+Robust Fitting of Autoregressive Models
 }
 \description{
 	Robust fit of an autoregressive model to a time series.  Its order is optimized with respect to a robustified AIC or given.
@@ -60,8 +60,8 @@ There are many possibilities for robust estimation of AR models. The argument \c
 \item{\code{"gm"}}{Generalized M estimates are used for obtaining an AR fit as described in Maronna et al. (2006). See the help page of \code{\link{arrob.gm}} for details and further arguments which are passed to that function by the \code{...} argument.}
 }
 
-If \code{aic == TRUE}, AR models for every order up to \code{order.max} are estimated and the one with the smallest model selection criteria returned. The criterion is the sum of the logarithm of a robust variance estimation of the residuals and a penalty term divided by \code{n-p} depending on the AR order \code{p}, i.e.,
-\deqn{log(\hat{\sigma}^2)+\frac{pen(p)}{n-p}.}
+If \code{aic = TRUE}, AR models for every order up to \code{order.max} are estimated and the one with the smallest model selection criterion returned. The criterion is the sum of the logarithm of a robust variance estimation of the residuals and a penalty term \eqn{pen(p)} divided by \eqn{n-p} depending on the AR order \eqn{p}, i.e.,
+\deqn{log(\hat{\sigma}^2)+\frac{pen(p)}{n-p}.}{log(sigma_hat^2) + (pen(p))/(n-p)}
 The penalty term can be set by the argument \code{aicpenalty}.
 }
 
@@ -93,3 +93,5 @@ arrob(tss, method = "regression")
 arrob(tss, method = "filter")
 arrob(tss, method = "gm")
 }
+
+\keyword{Autoregressive models}
