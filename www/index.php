@@ -43,9 +43,15 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<p> No content added. </p>
+<p> More information on the project and the information how to install our R package <tt>robts</tt> you can find on the <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/">project summary page</a> on the software development platform <a href="http://www.r-forge.r-project.org/">R-Forge</a>. You will also find a current development version there, which can be installed by typing <tt>install.packages("robts", repos=c("http://R-Forge.R-project.org", "http://CRAN.R-project.org"))</tt> in R.
+<!-- We recommend to use the most recent stable release available from the Comprehensive R Archive Network (<a href="http://cran.r-project.org">CRAN</a>): <a href="http://cran.r-project.org/web/packages/robts">http://cran.r-project.org/web/packages/robts</a>.</p> -->
 
-<p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
+<p>A good starting point for working with the package is its main help page which can be accessed by typing <tt>help("robts-package")</tt>. Details on how to cite the package are provided when typing <tt>citation("robts")</tt>.</p>
+
+<p>We appreciate any kind of feedback on the package. Contributions to the package are very welcome.</p>
+
+<p> <strong>Maintainer:</strong>
+<a href="https://www.statistik.tu-dortmund.de/duerre-en.html">Alexander D&uuml;rre</a>, Department of Statistics, Technische Universit&auml;t Dortmund, Germany.</p>
 
 </body>
 </html>
