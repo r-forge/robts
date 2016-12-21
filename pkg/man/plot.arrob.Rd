@@ -1,18 +1,18 @@
 \encoding{utf8}
-\name{plot.ar}
-\alias{plot.ar}
+\name{plot.arrob}
+\alias{plot.arrob}
 \title{
 Diagnostic Plots for a Fitted Autoregressive Model
 }
 \description{
-Produces several diagnostic plots to asses the fit of an autoregressive model stored in an object of class \code{"ar"}. A robust fit can be obtained by the function \code{\link{arrob}}, a classical nonrobust fit by \code{\link{ar}}.
+Diagnostic plots for objects of class \code{"arrob"} as it is returned by a call to the function \code{\link{arrob}}.
 }
 \usage{
-\method{plot}{ar}(x, ask = TRUE, ci = 0.95, ...)
+\method{plot}{arrob}(x, ask = TRUE, ci = 0.95, ...)
 }
 \arguments{
   \item{x}{
-an object of class \code{"ar"}. Usually the result of a call to \code{\link{arrob}} or \code{\link{ar}}.
+an object of class \code{"arrob"}. Usually the result of a call to \code{\link{arrob}}.
 }
   \item{ask}{
 logical value. If \code{TRUE} (and the R session is interactive) the user is asked for input, before a new figure is drawn (see \code{\link{devAskNewPage}}).
@@ -33,11 +33,20 @@ Produces the following plots:
 
 }
 \author{
-Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
+Alexander \enc{Dürre}{Duerre} and Tobias Liboschik
 }
 
 \seealso{
 \code{\link{arrob}} for robust fitting of AR models, \code{\link{ar}} for classical fitting.
+
+Other S3 methods \code{\link{residuals.arrob}}, \code{\link{fitted.arrob}}, \code{\link{filtered.arrob}} and \code{\link{predict.arrob}} for objects of class \code{"arrob"}. 
+}
+
+\examples{
+set.seed(1066)
+tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+fit <- arrob(tss, method = "yw")
+plot(fit)
 }
 
 \keyword{Autoregressive models}

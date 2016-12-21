@@ -21,16 +21,15 @@ asymvar.acfextra(x,obs=c("untransformed","ranks"),order.max=2,aic=FALSE,...)
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 
+\details{
+Cusum-type change point tests require an estimation of the long run variance. One possibility is to fit an AR model and calculate its corresponding autocovariance function. The long run variance is then estimated by the Bartlett estimator with bandwidth \eqn{n-1}.
+}
+
 \value{
 List containing the following values:
 \item{lrv}{estimated long run variance}
 \item{order}{estimated order of the AR model}
 }
-
-\details{
-Cusum-type change point tests require an estimation of the long run variance. One possibility is to fit an AR model and calculate its corresponding autocovariance function. The long run variance is then estimated by the Bartlett estimator with bandwidth \eqn{n-1}.
-}
-
 
 \seealso{
 

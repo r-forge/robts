@@ -24,7 +24,7 @@ acfrob(x, lag.max = NULL, type = c("correlation", "covariance", "partial"),
 	\item{approach}{character string naming the approach used for computation, see Details.}
 	\item{...}{further arguments passed to the internal function of the respective estimation approach.}
 	\item{plot}{logical. If \code{TRUE} (the default) the acf is plotted.}
-	\item{na.action}{function to be called to handle missing values.}
+	\item{na.action}{function to be called to handle missing values. Default is \code{\link{na.fail}}. Other reasonable possibilities are \code{\link{na.omit}} (omits all missing values at the beginning and the end of the time series and fails if there are more missing values), \code{\link{na.contiguous}} (uses longest contiguous stretch of non-missing observations) and \code{\link{na.extremify}} (experimental, sets missing values to very extreme values in the expectation that they have only little influence on the outcome of robust estimation methods).}
 	\item{psd}{logical. If \code{TRUE} the autocorrelation is enforced to be positive semidefinite, see Details.}
 	\item{scalefn}{function which calculates a scale estimator. Its argument must be a vector of the data. One could for example use one of the functions \code{\link{Qn}} (the default), \code{\link{Sn}}, \code{\link{scaleTau2}} (all from the package \code{robustbase}), \code{\link{mad}} or (not robust) \code{\link{sd}}.}
 	\item{partial.method}{character string giving the method employed for calculation of the acf in case \code{type == "partial"}, see Details.}
@@ -61,14 +61,14 @@ With exception of the approaches \code{"partrank"}, \code{"filter"}, \code{"trim
 }
 
 \value{
-Object of classes \code{"acfrob"} and \code{"acf"}. This is a list which includes all elements of an object of class \code{"acf"} (see \code{\link{acf}} for details) plus the following additional element:
+Object of classes \code{"acfrob"} and \code{"acf"}. This is a list which includes all elements of an object of class \code{"acf"} (see \code{\link{acf}} for details) plus the following additional elements:
 
 \item{approach}{character string naming the estimation approach. Coincides with argument \code{approach}.}
 \item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. If the ARE is not available for the chosen estimation approach, it is \code{NA}.}
 }
 
 \references{
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 }
 
 \author{

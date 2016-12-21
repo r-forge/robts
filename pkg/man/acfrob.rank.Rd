@@ -24,13 +24,6 @@ acfrob.rank(x, lag.max, cor.method=c("gaussian", "spearman", "kendall", "quadran
 	\item{biascorr}{logical indicating whether a bias correction of the result should be done. Note that this bias correction is only valid for Gaussian processes. There is no bias correction available for \code{partial.method = 'masarotto'}.}
 }
 
-\value{
-A named list of the following elements:
-
-\item{acfvalues}{Numeric vector of estimated autocorrelations at the lags 1,...,\code{lag.max}.}
-\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution.}
-}
-
 \details{
 
 The function estimates the acf using rank correlation estimators, which estimate the autocorrelations individually for every lag. The approach works also well for count time series, see Fried et al. (2014).
@@ -38,7 +31,7 @@ The function estimates the acf using rank correlation estimators, which estimate
 There are several possible rank estimators available. The argument \code{cor.method} specifies which of the following approaches is to be used, where \code{cor.method = "gaussian"} is the default.
 
 \describe{
-\item{\code{"gaussian"}}{One uses the Gaussian rank correlation which is the usual empirical correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi} the distribution function of the normal distribution, then the transformation is defined as
+\item{\code{"gaussian"}}{One uses the Gaussian rank correlation which is the usual empirical correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi}{Phi} the distribution function of the normal distribution, then the transformation is defined as
 \deqn{\Phi^{-1}(R(i)/(n+1)).}
 This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.}
 
@@ -49,19 +42,26 @@ This estimator has the same asymptotic efficiency as the usual empirical correla
 \item{\code{"quadrant"}}{One uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers.}
 
 \item{\code{"masarott0"}}{One uses the M estimator proposed by Masarotto (1987). Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK estimator (using the Qn), new variances and correlations are iteratively computed until convergence using weights which are defined by the following psi function:
-\deqn{\psi(x) = 3/(1+x).}
+\deqn{\psi(x) = 3/(1+x).}{psi(x) = 3/(1+x).}
 Note that this is not really a rank or sign based estimator. See Masarotto (1987) for more details.}
 }
 }
 
+\value{
+A named list of the following elements:
+
+\item{acfvalues}{Numeric vector of estimated autocorrelations at the lags 1,...,\code{lag.max}.}
+\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution.}
+}
+
 \references{
-Croux, C. and Dehon, C. (2010): Influence functions of the Spearman and Kendall correlation measures, \emph{Statistical Methods & Applications}, vol. 19, 497--515.
+Croux, C. and Dehon, C. (2010): Influence functions of the Spearman and Kendall correlation measures, \emph{Statistical Methods & Applications}, vol. 19, 497--515, \doi{10.1007/s10260-010-0142-z}.
 
-Fried, R., Liboschik, T., Elsaid, H., Kitromilidou, S. and Fokianos, K. (2014): On outliers and interventions in count time series following GLMs, \emph{Austrian Journal of Statistics}, vol. 43, 181-193.
+Fried, R., Liboschik, T., Elsaid, H., Kitromilidou, S. and Fokianos, K. (2014): On outliers and interventions in count time series following GLMs, \emph{Austrian Journal of Statistics}, vol. 43, 181-193, \doi{10.17713/ajs.v43i3.30}.
 
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 
-Masarotto, D. (2003): Robust identification of autoregressive moving average models, \emph{Applied statistics}, vol. 36, 214--220.
+Masarotto, D. (2003): Robust identification of autoregressive moving average models, \emph{Applied statistics}, vol. 36, 214--220, \doi{10.2307/2347553}.
 }
 
 \author{

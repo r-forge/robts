@@ -24,10 +24,6 @@ densdiff(x, y, type2 = c("all", "within", "between"), adjust = 1,
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 
-\value{
-The estimated density at 0.
-}
-
 \details{
 The Hodges-Lehmann two sample test requires an estimation of the density of the difference of both random variables X and Y at 0. This is also true for the the Hodges-Lehmann change point test since it consists of a sequence of two samples tests. One approach to estimate this density is to apply a kernel estimator at differences of values of both samples. This is basically the task of this function.
 
@@ -40,6 +36,10 @@ If 'type2' is 'within' one uses all possible differences within the first sample
 If 'type2' is 'between' one uses all possible differences between one observation of the first sample and one observation of the second.
 
 The density estimation itself is computed by the function \code{\link{density}} of the stats package.
+}
+
+\value{
+The estimated density at 0.
 }
 
 \references{

@@ -14,4 +14,4 @@ guitar
 A data frame with variables \code{time} in seconds and \code{volume} in decibel of an oscillating D4-string, which corresponds to a frequency of around 293. The volume is recorded by a comparatively bad microphone.
 }
 
-\keyword{Data}
+\keyword{datasets}

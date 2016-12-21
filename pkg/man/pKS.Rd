@@ -17,13 +17,13 @@ pKS(x)
 	\item{x}{vector of quantiles.}
 }
 
+\details{
+The distribution equals that of the supremum of the absolute values of a standard Brownian bridge and often occurs in change point testing. The function is only a wrapper for the C code used in the function \code{\link{ks.test}} .
+}
+
 \value{
 Values of the distribution function of the given quantiles.
 }
-
-\details{
-The distribution equals that of the supremum of the absolute values of a standard Brownian bridge and often occurs in change point testing. The function is only a wrapper for the C code used in the function \code{\link{ks.test}} .
-}  
 
 \author{
 R Core Team and Alexander \enc{Dürre}{Duerre}

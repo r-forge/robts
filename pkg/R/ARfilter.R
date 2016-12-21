@@ -22,7 +22,7 @@ ARfilter <- function(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, ps
   d <- (2*l^2+2*k*l+2*k^2)/(k-l)^3
   e <- -(l+k)/(k-l)^3
   
-  # consistency correction:
+  # consistency correction for residual variance (like scaleTau2):
   conscorr <- function(c1=4.5, c2=3) {
     b <- c2*qnorm(3/4)
     corfa <- 2*((1-b^2)*pnorm(b)-b*dnorm(b)+b^2)-1
@@ -32,11 +32,12 @@ ARfilter <- function(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, ps
   # AR(0):
   scale_vector[1] <- sqrt(varest)
   aic_vector[1] <- log(scale_vector[1]) + aicpenalty(1)/n
-  filtcent_matrix[, 1] <- filterrob.given(x, ar=NULL)$filtered
+  attr(x, "na.action") <- NULL # this information should not be passed to filterrob
+  filtcent_matrix[, 1] <- filterrob(x, ar = NULL, var.pred = varest, method = "statespace")$filtered
   
   # AR(p) for p>0:
   if (order.max > 0) {
-    segam <- function(z) .Call("filterinit2", c(x,0), z, a, b, d, e, k, l, 4.5, 3, conscorr())[n+1]
+    segam <- function(z) .Call("filterinit2", c(x,0,rep(0,n)), z, a, b, d, e, k, l, 4.5, 3, conscorr(), varest)[n+1]
     op <- suppressWarnings(try(optimize(segam, c(-1,1)), silent=TRUE))
     if (inherits(op, "try-error") || is.nan(op$objective)){
     	warning("Optimization failed for a model of order zero")  	
@@ -49,13 +50,13 @@ ARfilter <- function(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, ps
     scale_vector[1+1] <- op$objective
     aic_vector[1+1] <- log(scale_vector[1+1]) + aicpenalty(2)/(n-1)
     # calculation of the other autocorrelations
-    filtcent_matrix[, 1+1] <- .Call("filterinit2", c(x,0), partial[1], a, b, d, e, k, l, 4.5, 3, conscorr())[-(n+1)]
-    acfvalues <- ARMAacf(phi_temp, lag.max=order.max)[-1]
+    filtcent_matrix[, 1+1] <- .Call("filterinit2", c(x,0,rep(0,n)), partial[1], a, b, d, e, k, l, 4.5, 3, conscorr(), varest)[1:n]
+    acfvalues <- ARMAacf(phi_temp, lag.max=1)
   }
   
   if (order.max > 1) {
     for (p in 2:order.max) {
-    	segam <- function(z)  .Call("filter2", c(x,0), z, scale_vector[p+1-1], phi_temp, a, b, d, e, k, l, 4.5, 3, conscorr(), varest*acfvalues[1:(p-1)])[n+1]
+    	segam <- function(z)  .Call("filter2", c(x,0,rep(0,n)), z, scale_vector[p+1-1], phi_temp, a, b, d, e, k, l, 4.5, 3, conscorr(), varest*acfvalues)[n+1]
     	op <- suppressWarnings(try(optimize(segam, c(-1,1)), silent=TRUE))
     	if (inherits(op, "try-error") || is.nan(op$objective)){
     		warning(paste("Optimization failed for a model of order", p))
@@ -63,7 +64,7 @@ ARfilter <- function(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, ps
     		return(res)
     	}	
     	partial[p] <- op$minimum
-    	filtcent_matrix[, p+1] <- .Call("filter2", c(x,0), partial[p], scale_vector[p+1-1], phi_temp, a, b, d, e, k, l, 4.5, 3, conscorr(), varest*acfvalues[1:(p-1)])[1:n]
+    	filtcent_matrix[, p+1] <- .Call("filter2", c(x,0,rep(0,n)), partial[p], scale_vector[p+1-1], phi_temp, a, b, d, e, k, l, 4.5, 3, conscorr(), varest*acfvalues)[1:n]
     	scale_vector[p+1] <- op$objective
     	aic_vector[p+1] <- log(scale_vector[p]) + aicpenalty(p+1)/(n-p)
     	Phi <- numeric(p)
@@ -74,7 +75,7 @@ ARfilter <- function(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, ps
    		}
     	phi_temp <- Phi
     	ar_list[[p+1]] <- phi_temp
-      acfvalues <- ARMAacf(phi_temp, lag.max=order.max)[-1] 
+      acfvalues <- ARMAacf(phi_temp, lag.max=p)
     }
   }
   

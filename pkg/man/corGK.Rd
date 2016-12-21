@@ -21,14 +21,13 @@ corGK(x, y, scalefn = Qn, ...)
 	\item{...}{further arguments passed to the function \code{scalefn}.}
 }
 
-\value{
-Numeric value with the estimated correlation.
-}
-
 \details{
 The definition of this functions can be accessed by typing \code{corGK}.
 }  
 
+\value{
+Numeric value with the estimated correlation.
+}
 
 \author{
 Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens

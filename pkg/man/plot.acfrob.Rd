@@ -11,7 +11,8 @@ Plot method for objects of class \code{"acfrob"}.
 }
 
 \usage{
-\method{plot}{acfrob}(x, ci = 0.95, ci.col = "blue", ci.type = "white", ...)
+\method{plot}{acfrob}(x, ci = 0.95, ci.col = "blue", ci.type = "white",
+           ylim = NULL, ...)
 }
 
 \arguments{
@@ -19,6 +20,7 @@ Plot method for objects of class \code{"acfrob"}.
 	\item{ci}{coverage probability for confidence interval. Plotting of the confidence interval is suppressed if \code{ci} is zero or negative.}
 	\item{ci.col}{colour to plot the confidence interval lines.}
 	\item{ci.type}{character string giving the type of confidence limits. Currently the only possible type is \code{"white"}, where a white noise input is assumed.}
+  \item{ylim}{numeric vector of length two giving the vertical limits for the plot.}
 	\item{...}{further arguments passed to \code{\link{plot.acf}}. See that help page for details.}
 }
 

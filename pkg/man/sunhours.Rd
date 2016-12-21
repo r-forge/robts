@@ -20,4 +20,4 @@ Deutscher Wetterdienst: SurvStat@RKI, \url{ftp://ftp-cdc.
 dwd.de/pub/CDC/observations_germany/climate/}, accessed on 15th December 2015.
 }
 
-\keyword{Data}
+\keyword{datasets}

@@ -1,4 +1,4 @@
-plot.ar <- function(x, ask = TRUE, ci = 0.95, ...){
+plot.arrob <- function(x, ask = TRUE, ci = 0.95, ...){
   n <- x$n.used
   p <- x$order
   devAskNewPage(ask = ask)   

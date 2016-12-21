@@ -25,13 +25,6 @@ acfrob.partrank(x, lag.max, cor.method = c("spearman", "kendall", "quadrant", "g
 	\item{partial}{logical indicating whether the function should return the partial acf instead of the acf.}
 }
 
-\value{
-A named list of the following elements:
-
-\item{acfvalues}{Numeric vector of estimated (partial) autocorrelations at the lags 1,...,\code{lag.max}.}
-\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
-}
-
 \details{
 This function estimates the autocorrelation function based on partial autocorrelations. This procedure was first proposed by Masarotto (1987) and has the advantage that it produces positive definite and therefore valid acf estimations. To estimate the pacf, the estimation procedure described in \enc{Möttönen}{Moettoennen} et al. (1999) is used. It depends on successive correlation estimations of forward and backward residuals.
 
@@ -44,26 +37,33 @@ There are several possible rank estimators available. The argument \code{cor.met
 
 \item{\code{"quadrant"}}{One uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers.}
 
-\item{\code{"gaussian"}}{One uses the Gaussian rank correlation which is the usual correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi} the distribution function of the normal distribution, then the transformation is defined as
+\item{\code{"gaussian"}}{One uses the Gaussian rank correlation which is the usual correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi}{Phi} the distribution function of the normal distribution, then the transformation is defined as
 \deqn{\Phi^{-1}(R(i)/(n+1)).}
 This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.}
 
 \item{\code{"masarotto"}}{One follows the original proposal of Masarotto (1987), which is a kind of M estimator. Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK estimator, (using the Qn) new variances and correlations are iteratively computed until convergence, using weights which are defined by the following psi function
-\deqn{\psi(x) = 3/(1+x).}
+\deqn{\psi(x) = 3/(1+x).}{psi(x) = 3/(1+x)}
 Note that this is not really a rank or sign based estimator. See Masarotto (1987) for more details.}
 }
 
 The computation of the acf from the pacf is carried out by the algorithm described in \enc{Möttönen}{Moettoennen} et al. (1999).
-}  
+}
+
+\value{
+A named list of the following elements:
+
+\item{acfvalues}{Numeric vector of estimated (partial) autocorrelations at the lags 1,...,\code{lag.max}.}
+\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
+}
 
 \references{
-Croux, C. and Dehon, C. (2010): Influence functions of the Spearman and Kendall correlation measures, \emph{Statistical Methods & Applications}, vol. 19, 497--515.
+Croux, C. and Dehon, C. (2010): Influence functions of the Spearman and Kendall correlation measures, \emph{Statistical Methods & Applications}, vol. 19, 497--515, \doi{10.1007/s10260-010-0142-z}.
 
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 
-Masarotto, D. (2003): Robust identification of autoregressive moving average models, \emph{Applied statistics}, vol. 36, 214--220.
+Masarotto, D. (2003): Robust identification of autoregressive moving average models, \emph{Applied statistics}, vol. 36, 214--220, \doi{10.2307/2347553}.
 
-\enc{Möttönen}{Moettoennen}, J., Koivunen, V. and Oja, H. (1999): Robust autocovariance estimation based on sign and rank correlation coefficients, In: \emph{Proceedings of the IEEE Signal Processing Workshop on Higher-Order Statistics}, 187--190.
+\enc{Möttönen}{Moettoennen}, J., Koivunen, V. and Oja, H. (1999): Robust autocovariance estimation based on sign and rank correlation coefficients, In: \emph{Proceedings of the IEEE Signal Processing Workshop on Higher-Order Statistics}, 187--190, \doi{10.1109/HOST.1999.778722}.
 }
 
 \author{

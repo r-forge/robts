@@ -30,18 +30,6 @@ rob.change(x, property = c("location", "scale"), procedure = c("HL", "Wilcoxon",
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 
-\value{
-Object of class \code{"htest"} containing the following values:
-	\item{statistic}{the value of the test statistic. Under the null the test statistic follows, dependent of the chosen alternative, (asymptotically) a Kolmogorov Smirnov distribution.}
-	\item{p.value}{the p-value of the test.}
-	\item{estimate}{the estimated time of change.}
-	\item{null.value}{the jump height of the at most one change point model, which is under the null hypothesis always 0.}
-	\item{alternative}{a character string describing the alternative hypothesis.}
-	\item{method}{a characters string indicating the chosen test.}
-	\item{data.name}{a character giving the names of the data.}
-	\item{trajectory}{the cumulative sum on which the tests are based on. Could be used for additional plots.}
-}
-
 \details{
 The cusum type test procedures are originally designed to test for a constant location but are also able to detect changes in scale using the following transformation
 \deqn{\tilde{x}_i = log(|x_i-median(x)|)}
@@ -64,9 +52,21 @@ if 'varmethod' is 'acfextra' one uses an extrapolation of the acf based on an AR
 For the Hodges-Lehmann estimator one needs an additional estimation of the density at 0. See the help page of \code{\link{densdiff}} how to adjust tuning constants for that.
 }
 
+\value{
+Object of class \code{"htest"} containing the following values:
+	\item{statistic}{the value of the test statistic. Under the null the test statistic follows, dependent of the chosen alternative, (asymptotically) a Kolmogorov Smirnov distribution.}
+	\item{p.value}{the p-value of the test.}
+	\item{estimate}{the estimated time of change.}
+	\item{null.value}{the jump height of the at most one change point model, which is under the null hypothesis always 0.}
+	\item{alternative}{a character string describing the alternative hypothesis.}
+	\item{method}{a characters string indicating the chosen test.}
+	\item{data.name}{a character giving the names of the data.}
+	\item{trajectory}{the cumulative sum on which the tests are based on. Could be used for additional plots.}
+}
+
 \references{
 
-Carlstein, E. (1986): The use of subseries values for estimating the variance of a general statistic from a stationary sequence, \emph{The Annals of Statistics}, vol. 14, 1171--1179.
+Carlstein, E. (1986): The use of subseries values for estimating the variance of a general statistic from a stationary sequence, \emph{The Annals of Statistics}, vol. 14, 1171--1179, \doi{10.1214/aos/1176350057}.
 
 Dehling, H., Fried, R., Wendler, M. (2015): A robust method for shift detection in time series, preprint. 
 \href{http://arxiv.org/abs/1506.03345}{arXiv 1506.03345}
@@ -74,7 +74,7 @@ Dehling, H., Fried, R., Wendler, M. (2015): A robust method for shift detection 
 Dehling, H., Fried, R., Garcia, I., Wendler, M. (2013): Change-point detection under dependence based on two-sample U-statistics, preprint. 
 \href{http://arxiv.org/abs/1304.2479}{arXiv 1304.2479}
 
-Peligrad, M., Shao, Q. (1995): Estimation of the Variance of Partial Sums for rho-Mixing Random Variables, \emph{Journal of Multivariate Analysis}, vol. 152, 140--157. 
+Peligrad, M., Shao, Q. (1995): Estimation of the Variance of Partial Sums for rho-Mixing Random Variables, \emph{Journal of Multivariate Analysis}, vol. 152, 140--157, \doi{10.1006/jmva.1995.1008}. 
 }
 
 \author{

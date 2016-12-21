@@ -8,22 +8,22 @@
 
 M_psi <- function(x, type=c("huber", "bisquare", "smooth"), k){
   type <- match.arg(type)
-  if(missing(k)) k <- switch(type, huber=1.37, bisquare=4.68, smooth=c(2,3))
-  if(type=="huber"){
+  if(missing(k)) k <- switch(type, huber=1.37, bisquare=4.68, smooth=c(2, 3))
+  if(type == "huber") {
     inner <- abs(x) <= k  # observation small enough to stay as it is?
     return(x*inner+k*sign(x)*(1-inner)) # norm of larger values set to k 
   } 
-  if(type=="bisquare"){
+  if(type == "bisquare") {
     return(x*(1-(x/k)^2)^2*(abs(x)<=k))
   }
-  if(type=="smooth"){
+  if(type == "smooth") {
     return(smoothpsi(x, k=k))
   }
 }
 
 M_wgt <- function(x, type=c("huber", "bisquare"), k){
   type <- match.arg(type)
-  if(missing(k)) switch(type, huber=1.37, bisquare=4.68)
+  if(missing(k)) switch(type, huber = 1.37, bisquare = 4.68)
   if(type=="huber"){
     return(apply(cbind(1, k/abs(x)), 1, min))
   } 
@@ -32,7 +32,7 @@ M_wgt <- function(x, type=c("huber", "bisquare"), k){
   }
 }
 
-smoothpsi <- function(x, k=c(2, 3)) {
+smoothpsi <- function(x, k = c(2, 3)) {
   a <- (2*k[1]^2*k[2]^2)/(k[1]-k[2])^3
   b <- -(k[2]^3+k[1]*k[2]^2+4*k[1]^2*k[2])/(k[1]-k[2])^3
   d <- (2*k[2]^2+2*k[1]*k[2]+2*k[1]^2)/(k[1]-k[2])^3

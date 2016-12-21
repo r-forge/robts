@@ -4,7 +4,7 @@ spectrumrob.pgram <- function(x, psifn = function(x) M_psi(x, type="smooth"), ar
   arrob.method <- match.arg(arrob.method)
   kernel <- match.arg(kernel)
   series <- deparse(substitute(x))
-  x <- na.action(as.ts(x)) # handling of missing values
+  x <- handle_missings_ts(x, na.action)
 	n <- length(x)
 	
 	#translate given bandwith to truncation or vice versa:
@@ -66,6 +66,7 @@ spectrumrob.pgram <- function(x, psifn = function(x) M_psi(x, type="smooth"), ar
     method = "pgramrob",
     bandwidth = bandwidth
   )
-	class(res) <- "spec"
+	attr(res, "na.action") <- attr(x, "na.action")
+  class(res) <- "spec"
 	return(res)
 }

@@ -1,14 +1,14 @@
 ## DurbinLev - partial autocorrelation function by Durbin-Levinson algorithm
 ## input:
-## 		acf: autocorrelation function
+## 		acfvalues: autocorrelation function
 ## output: list of 2:
 ##		phis: list of coefficient vectors
 ##		nus: vector of mean squared errors
 
-DurbinLev <- function(acf) {
-	stopifnot(is.numeric(acf))
+DurbinLev <- function(acfvalues) {
+	stopifnot(is.numeric(acfvalues))
 	# autocorrelation function from 0:
-	gammas <- c(1, acf)
+	gammas <- c(1, acfvalues)
 	n <- length(gammas) - 1
 	if (n < 1) stop("autocorrelation of lag 1 required at least")
 	nus <- numeric(n + 1)

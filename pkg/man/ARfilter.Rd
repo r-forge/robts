@@ -19,15 +19,15 @@ ARfilter(x, order.max, aicpenalty = function(p) {2*p}, psi.l = 2, psi.0 = 3)
 \arguments{
 	\item{x}{univariate numeric vector or time series object.}
 	\item{order.max}{integer value determining the maximum order of the AR fit.}
-	\item{psi.l}{numeric value determining the used psi function. See Details.}
-	\item{psi.0}{numeric value determining the used psi function. See Details.}
+	\item{psi.l}{numeric value determining the psi function used for filtering, see \code{link{smoothpsi}}. For absolute values lower than \code{psi.l} the psi function is linear.}
+	\item{psi.0}{numeric value determining the psi function used for filtering, see \code{link{smoothpsi}}. For absolute values larger than \code{psi.0} the psi function is zero.}
 	\item{aicpenalty}{function of the model order, indicating the penalty for a larger model. See Details.}
 	}
 
 \details{
 The function fits AR models of increasing order by a robust version of the Durbin Levinson algorithm as described in Chapter 8 of Maronna et al. (2006). The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filter process basically compares the predicted value under the estimated model with the observed one and transforms the corresponding residual with the psi function. The transformed value is then set to the sum of the predicted value and the transformed residual. For more details see Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2015).
 
-Following Maronna et al. (2006), the psi function should fulfill two properties. It should be the identity for small absolute values and 0 for large absolute values. Both thresholds can be determined by \code{psi.l} and \code{psi.0}. Here the psi function is chosen to be two times continuous differentiable, see \enc{Dürre}{Duerre} et al. (2015) for a formal definition.
+Following Maronna et al. (2006), the psi function should fulfill two properties. It should be the identity for small absolute values and zero for large absolute values. Both thresholds can be determined by \code{psi.l} and \code{psi.0}. Here the psi function is chosen to be two times continuous differentiable, see \code{link{smoothpsi}} and \enc{Dürre}{Duerre} et al. (2015) for a formal definition.
 }
 
 \value{
@@ -42,9 +42,9 @@ List containing the following values:
 }
 
 \references{
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{wics.1351}.
 
-Maronna, R., Martin, D. and Yohai, V. (2006): \emph{Robust statistics}, Wiley, Chichester.
+Maronna, R., Martin, D. and Yohai, V. (2006): \emph{Robust statistics}, Wiley, Chichester, \doi{10.1002/0470010940}.
 }
 
 \author{
@@ -53,7 +53,7 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 
 
 \seealso{
-\code{\link{arrob.filter}} for robust fitting of AR models, \code{\link{acfrob.filter}} for robust estimation of the autocorrelation function and \code{\link{filterrob}} for robust filtering of time series.
+\code{\link{arrob.filter}} for robust fitting of AR models and \code{\link{acfrob.filter}} for robust estimation of the autocorrelation function, both based on robust filtering. \code{\link{filterrob}} for robust filtering of time series.
 }
 
 \examples{

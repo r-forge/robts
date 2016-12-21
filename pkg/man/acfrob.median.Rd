@@ -22,6 +22,12 @@ acfrob.median(x, lag.max, biascorr = TRUE)
 	\item{biascorr}{logical indicating whether a bias correction of the result should be done. Note that this bias correction is only valid for Gaussian processes.}
 }
 
+\details{
+This function estimates the autocorrelation function based on the median correlation, which is proposed by Chakhchoukh (2010). The acf is estimated for each lag individually. Let \eqn{X} denote the original time series and \eqn{Y} the lagged one, then the autocorrelation is estimated by
+\deqn{median(XY)/median(X^2).}
+The resulting value does not measure the usual autocorrelation. Therefore a nonlinear transformation based on a Monte Carlo simulation is applied, which is only valid for Gaussian processes.
+}  
+
 \value{
 A named list of the following elements:
 
@@ -29,14 +35,8 @@ A named list of the following elements:
 \item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
 }
 
-\details{
-This function estimates the autocorrelation function based on the median correlation, which is proposed by Chakhchoukh (2010). The acf is estimated for each lag individually. Let \eqn{X} denote the original time series and \eqn{Y} the lagged one, then the autocorrelation is estimated by
-\deqn{median(XY)/median(X^2).}
-The resulting value does not measure the usual autocorrelation. Therefore a nonlinear transformation based on a Monte Carlo simulation is applied, which is only valid for Gaussian processes.
-}  
-
 \references{
-Chakhchoukh, Y. (2010): A new robust estimation method for ARMA models, \emph{IEEE Transactions on Signal Processing}, vol. 58, 3512--3522.
+Chakhchoukh, Y. (2010): A new robust estimation method for ARMA models, \emph{IEEE Transactions on Signal Processing}, vol. 58, 3512--3522, \doi{10.1109/TSP.2010.2046413}.
 }
 
 \author{

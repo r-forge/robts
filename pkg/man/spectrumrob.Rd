@@ -39,7 +39,7 @@ spectrumrob.acf(x, acf.approach = c("GK", "median", "multi", "partrank",
 \item{bandwidth}{numeric value giving the bandwidth for smoothing as a proportion of the frequency range. The given bandwidth is converted into the corresponding value for the argument \code{truncation}, which overrides any value given by that argument. Only if this argument is \code{NULL}, the given truncation is converted into the corresponding bandwidth and used for smoothing. A bandwidth of zero prevents from smoothing or at least tries to minimize smoothing if the \code{method = "acf"}.}
 \item{var1}{logical whether the variance estimator is fixed to 1, resulting in a spectral density estimation instead of a real spectrum. This only applies to the case \code{method = "acf"}.}
 \item{scalefn}{function which calculates a scale estimator. Only relevant if \code{var1 = FALSE}. Its argument must be a vector of the data. One could for example use one of the functions \code{\link{Qn}} (the default), \code{\link{Sn}}, \code{\link{scaleTau2}} (all from the package \code{robustbase}), \code{\link{mad}} or (not robust) \code{\link{sd}}.}
-\item{na.action}{function to be called to handle missing values.}
+	\item{na.action}{function to be called to handle missing values. Default is \code{\link{na.fail}}. Other reasonable possibilities are \code{\link{na.omit}} (omits all missing values at the beginning and the end of the time series and fails if there are more missing values), \code{\link{na.contiguous}} (uses longest contiguous stretch of non-missing observations) and \code{\link{na.extremify}} (experimental, sets missing values to very extreme values in the expectation that they have only little influence on the outcome of robust estimation methods).}
 \item{series}{the time series name.}
 \item{...}{further arguments passed to the acf calculation by \code{\link{acfrob}} if \code{method == "acf"} or the AR calculation if \code{method == "pgram"}.}
 }
@@ -60,7 +60,7 @@ The degree of smoothing can be either determined by setting either a bandwidth \
 An object of class \code{"spec"}, see \code{\link{spectrum}} for details.
 }
 \references{
-Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): \emph{Robust Statistics: Theory and Methods}, Wiley, chapter 8.
+Maronna, R. A., Martin, R. D., and Yohai, V. J. (2006): \emph{Robust Statistics: Theory and Methods}, Wiley, chapter 8, \doi{10.1002/0470010940}.
 }
 \author{
 Alexander \enc{Dürre}{Duerre} and Jonathan Rathjens

@@ -24,13 +24,6 @@ acfrob.multi(x, lag.max, multi.method=c("weightedMCD", "rawMCD", "Stahel-Donoho"
 	\item{...}{additional arguments passed to the respective multivariate covariance estimator, see Details.}
 }
 
-\value{
-A named list of the following elements:
-
-\item{acfvalues}{Numeric vector of estimated autocorrelations at the lags 1,...,\code{lag.max}.}
-\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
-}
-
 \details{
 This function estimates the autocorrelation function based on multivariate correlation estimators. This method computes the acf en bloc and is therefore very time consuming if \code{lag.max} is large (e.g. greater 15). The approach works very well in case of outliers occurring in blocks, see \enc{Dürre}{Duerre} et al. (2015) for more details. 
 
@@ -39,7 +32,7 @@ There are several possible robust correlation estimators available. The argument
 \describe{
 \item{\code{"rawMCD"}}{One applies the MCD proposed by Rousseeuw (1985). This estimator is known to be very robust but also inefficient under normality. Therefore one often uses reweighted versions. See the help page of \code{\link{covMcd}} for more details.}
 
-\item{\code{"weightedMCD"}}{One applies the weighted MCD, which is basically the empirical covariance of observations which are not identified as outliers. The identification is based on Mahalanobis distances calculated from the raw MCD, see \code{\link{covMcd}} for more details. For acf estimation the weighted MCD is preferable to the unweighted one, see \enc{Dürre}{Duerre} et al. (2014).}
+\item{\code{"weightedMCD"}}{One applies the weighted MCD, which is basically the empirical covariance of observations which are not identified as outliers. The identification is based on Mahalanobis distances calculated from the raw MCD, see \code{\link{covMcd}} for more details. For acf estimation the weighted MCD is preferable to the unweighted one, see \enc{Dürre}{Duerre} et al. (2015).}
 
 \item{\code{"reweight"}}{One applies the efficient weighted MCD which was proposed by Gervini (2003). See the help page of \code{\link{Corefw}} for more details.}
 
@@ -51,14 +44,21 @@ There are several possible robust correlation estimators available. The argument
 
 \item{\code{"Tyler"}}{One applies the Tyler shape matrix, which is a special M estimator of scatter. See the help page of \code{\link{tyler.shape}} for more details.}
 }
-}  
+}
+
+\value{
+A named list of the following elements:
+
+\item{acfvalues}{Numeric vector of estimated autocorrelations at the lags 1,...,\code{lag.max}.}
+\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
+}
 
 \references{
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 
-Gervini, D. (2003): A robust and efficient adaptive reweighted estimator of multivariate location and scatter, \emph{Journal of Multivariate Analysis}, vol. 84, 116--144.
+Gervini, D. (2003): A robust and efficient adaptive reweighted estimator of multivariate location and scatter, \emph{Journal of Multivariate Analysis}, vol. 84, 116--144, \doi{10.1016/S0047-259X(02)00018-0}.
 
-Rousseeuw, P. (1985): Multivariate estimation with high breakdown point, \emph{Mathematical Statistics and Applications Vol. B}, 283--297.
+Rousseeuw, P. (1985): Multivariate estimation with high breakdown point, \emph{Mathematical Statistics and Applications Vol. B}, 283--297, \doi{10.1007/978-94-009-5438-0_20}.
 }
 
 \author{

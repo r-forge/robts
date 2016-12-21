@@ -17,13 +17,13 @@ qKS(x)
 	\item{x}{one! probability.}
 }
 
+\details{
+The distribution equals that of the supremum of the absolute values of a standard Brownian bridge and therefore often occurs in change point testing. The function is only a wrapper for the C code used in the function \code{\link{ks.test}}.
+}
+
 \value{
 value of the corresponding quantile
 }
-
-\details{
-The distribution equals that of the supremum of the absolute values of a standard Brownian bridge and therefore often occurs in change point testing. The function is only a wrapper for the C code used in the function \code{\link{ks.test}}.
-}  
 
 \author{
 R Core Team and Alexander \enc{Dürre}{Duerre}

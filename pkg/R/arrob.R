@@ -1,5 +1,9 @@
-arrob <- function(x, aic = TRUE, order.max = NULL, method = c("yw", "regression", "gm", "filter"), na.action = na.fail, series = deparse(substitute(x)), ...) {
+arrob <- function(x, aic = TRUE, order.max, method = c("yw", "regression", "gm", "filter"), na.action = na.fail, series = deparse(substitute(x)), ...) {
+
+  # checks and preparations:
 	method <- match.arg(method)
+	# more checks are done by the function of the respective method
+
 	res <- switch(method,
 	 yw = arrob.yw(x=x, aic=aic, order.max=order.max, na.action=na.action, series=series, ...),
 	 regression = arrob.regression(x=x, aic=aic, order.max=order.max, na.action=na.action, series=series, ...),
@@ -9,6 +13,3 @@ arrob <- function(x, aic = TRUE, order.max = NULL, method = c("yw", "regression"
   res$call <- match.call()	 
 	return(res)
 }
-
-residuals.ar <- function(object, ...) object$resid
-coef.ar <- function(object, ...) object$ar

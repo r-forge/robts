@@ -23,6 +23,14 @@ acfrob.trim(x, lag.max, trim = 0.1, biascorr = TRUE)
 	\item{biascorr}{logical indicating whether a bias correction of the result should be done. Note that this bias correction is only valid for Gaussian processes.}
 }
 
+\details{
+The function basically first trims the smallest and largest observations of the time series and then calculates the usual sample acf. This procedure was proposed by Chan and Wei (1992).
+
+\code{trim} determines the quantiles (\eqn{\alpha}{alpha} and \eqn{1-\alpha}{1-alpha}) at which the data is trimmed. Therefore \eqn{2\alpha}{2alpha} of the data is trimmed, see \enc{Dürre}{Duerre} et al. (2015) for details.
+
+Since the estimator does not measure the usual autocorrelation, a nonlinear transformation based on simulations is applied, which guarantees consistency under Gaussian processes.
+}
+
 \value{
 A named list of the following elements:
 
@@ -30,18 +38,10 @@ A named list of the following elements:
 \item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
 }
 
-\details{
-The function basically first trims the smallest and largest observations of the time series and then calculates the usual sample acf. This procedure was proposed by Chan and Wei (1992).
-
-\code{trim} determines the quantiles (\eqn{\alpha} and \eqn{1-\alpha}) at which the data is trimmed. Therefore \eqn{2\alpha} of the data is trimmed, see \enc{Dürre}{Duerre} et al. (2015) for details.
-
-Since the estimator does not measure the usual autocorrelation, a nonlinear transformation based on simulations is applied, which guarantees consistency under Gaussian processes.
-}
-
 \references{
-Chan, W., and Wei, W. (1992): A comparison of some estimators of time series autocorrelations, \emph{Computational statistics & data analysis}, vol 14, .149--163.
+Chan, W., and Wei, W. (1992): A comparison of some estimators of time series autocorrelations, \emph{Computational statistics & data analysis}, vol 14, .149--163, \doi{10.1016/0167-9473(92)90170-K}.
 
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 }
 
 \author{

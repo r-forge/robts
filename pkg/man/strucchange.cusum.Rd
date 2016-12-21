@@ -23,10 +23,6 @@ strucchange.cusum(x,varmethod=c("window","acf","acfextra"),
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 
-\value{
-Numeric of time series length - 1 which contains the whole path of the test statistic.
-}
-
 \details{
 The cusum change-point test is a nonparametric test against a change in location under short range dependence. The test has high power under Gaussian processes and is able to detect even small changes. The test may suffer under outliers and in case of heavy tailed time series. In this case the Hodges-Lehmann change-point test \code{\link{strucchange.HL}} or the Wilcoxon change-point test \code{\link{strucchange.wilcox}} are preferable. See Dehling et al. (2013) for details. This function computes only the test trajectory, the actual test is executed by the function \code{\link{rob.change}}. 
 
@@ -39,14 +35,18 @@ if 'varmethod' is 'acf' one uses a kernel estimator, which weights estimated aut
 if 'varmethod' is 'acfextra' one uses an extrapolation of the acf based on an AR fit. For more details how to set the bandwidth and other tuning possibilities, see the help page of \code{\link{asymvar.acfextra}}.
 }
 
+\value{
+Numeric of time series length - 1 which contains the whole path of the test statistic.
+}
+
 \references{
 
-Carlstein, E. (1986): The use of subseries values for estimating the variance of a general statistic from a stationary sequence, \emph{The Annals of Statistics}, vol. 14, 1171--1179.
+Carlstein, E. (1986): The use of subseries values for estimating the variance of a general statistic from a stationary sequence, \emph{The Annals of Statistics}, vol. 14, 1171--1179, \doi{10.1214/aos/1176350057}.
 
 Dehling, H., Fried, R., Garcia, I., Wendler, M. (2013): Change-point detection under dependence based on two-sample U-statistics, preprint. 
 \href{http://arxiv.org/abs/1304.2479}{arXiv 1304.2479}
 
-Peligrad, M., Shao, Q. (1995): Estimation of the Variance of Partial Sums for rho-Mixing Random Variables, \emph{Journal of Multivariate Analysis}, vol. 152, 140--157. 
+Peligrad, M., Shao, Q. (1995): Estimation of the Variance of Partial Sums for rho-Mixing Random Variables, \emph{Journal of Multivariate Analysis}, vol. 152, 140--157, \doi{10.1006/jmva.1995.1008}. 
 }
 
 \author{

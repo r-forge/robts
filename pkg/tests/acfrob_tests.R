@@ -2,20 +2,23 @@ library(robts)
 
 set.seed(1837)
 
+
 ## Creating some test data:
-depmodel <- list(ar=0.5, ma=0.3)
+depmodel <- list(ar=c(0.6, 0.3))
 depdata <- arima.sim(model = depmodel, n = 100)
 datalist <- list(
   iid = rnorm(100), #iid data
   dep = depdata, #dependent data 
   short = arima.sim(model = depmodel, n = 10), #short time series
-  long = arima.sim(model = depmodel, n = 1000) #long time series
+  long = arima.sim(model = depmodel, n = 1000), #long time series
+  missings = c(depdata[1:2], NA, NA, depdata[5:100]) #missing values
 )
 
 maxlag <- 10
 for(scenario in names(datalist)){
-  print(acfrob(datalist[[scenario]], plot = FALSE))
+  print(acfrob(datalist[[scenario]], plot = FALSE, na.action = na.contiguous))
 }
+
 
 ## Check the subroutines of all approaches:
 scenario <- "dep"
@@ -78,3 +81,10 @@ acfrob.trim(datalist[[scenario]], lag.max = maxlag, trim = 0, biascorr = TRUE)
 acfrob.trim(datalist[[scenario]], lag.max = maxlag, trim = 0.25, biascorr = TRUE)
 
 acfrob.bireg(datalist[[scenario]], lag.max = maxlag)
+
+
+## Check cases with missing data:
+scenario <- "missings"
+
+acfrob(datalist[[scenario]], plot = FALSE, na.action = na.contiguous)
+acfrob(datalist[[scenario]], plot = FALSE, na.action = na.extremify)

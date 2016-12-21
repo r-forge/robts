@@ -1,16 +1,3 @@
-##################
-# estimation of the acf using robustly filtered values
-# input
-# x: time series without NAs as vector
-# order.max: order of used AR-fit
-# lag.max: maximal lag of interest
-# output
-# acft: acf using the empirical acf of the robustly filtered x
-# acfp: acf using the estimated partial autocorrelations
-# acfp2: acf using the estimated partial autocorrelations (transformation like in ojas paper robust autocorrelation using robust autocorrelation)
-##################
-
-
 acfrob.filter <- function(x, lag.max, order.max = lag.max, robfil.method = c("filtered", "ar"), aic = TRUE, aicpenalty=function(p) {2*p}, psi.l = 2, psi.0 = 3, partial = FALSE) {
   n <- length(x)
   robfil.method <- match.arg(robfil.method)

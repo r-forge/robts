@@ -1,40 +1,21 @@
-###################################
-# calculates AR-fits using Generalized M estimates (see Robust Statistics, Maronna et al. chapter 8) of increasing order (up to order.max) and returns robust aic values
-# input
-# x: time series of interest as vector
-# order.max: maximal order of AR-process
-# maxit: maximal number of iterations for iterative weighting procedures of M-estimators
-# epsilon: accuracy of iterated solution of M-estimators
-# k1: tuning parameter for huber weights
-# k2: tuning parameter for regressor
-# output
-# phi_matrix: matrix with fitted AR-parameters
-# 	 AR modell of order p in row p+1, AR parameter s in column s
-# RAICs:	robust aic-value of estimated AR processes (in ascending order)
-#	smallest value in first element => white noise
-#####################################
-
-arrob.gm <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p, na.action = na.fail, series = deparse(substitute(x)), k1=1.37, k2=1, delta=1/2, maxit=10^3, epsilon=10^(-4)) {
+arrob.gm <- function(x, order.max, aic = TRUE, aicpenalty = function(p) 2*p, na.action = na.fail, series = deparse(substitute(x)), k1 = 1.37, k2 = 1, delta = 1/2, maxit = 10^3, epsilon = 10^(-4)) {
   cl <- match.call()
   if (is.null(series)) series <- deparse(substitute(x))
   ists <- is.ts(x)
   if (!is.null(dim(x))) stop("Only implemented for univariate series")
-  x <- na.action(as.ts(x))
-  if (anyNA(x)) stop("NAs in 'x'")
   if (!is.numeric(x)) stop("'x' must be numeric")
   if (ists) xtsp <- tsp(x)
   xfreq <- frequency(x)
-  #x <- as.vector(x)
+  x.original <- x
+  x <- handle_missings_ts(x, na.action)
   n <- length(x)
-  if (is.null(order.max)) order.max <- floor(min(c((n - 1) / 4, 10 * log(n, base = 10)))) 
+  if (missing(order.max)) order.max <- floor(min(c((n - 1) / 4, 10 * log(n, base = 10)))) 
   if (order.max < 0L) stop("'order.max' must be >= 0")
   if (order.max >= n) stop("Argument 'order.max' must be lower than the length of the time series")
-	if (!is.null(order.max)) if (order.max >= floor((n - 1) / 2)) {
+	if (order.max >= floor((n - 1) / 2)) {
 		warning("Not enough data for chosen model order 'order.max'. The largest possible value of 'order.max' is used.")
 		order.max <- floor((n - 1) / 2) - 1
 	}
-	if (is.null(order.max)) order.max <- floor(min(c((n - 1) / 4, 10 * log(n, base = 10))))
-	if (order.max < 1) stop("Model order 'order.max' must be greater than zero.") 
   # is delta valid?
   if (delta <= 0) {delta <- 0.01
     warning("Argument 'delta' <= 0 is not valid. Delta is set to 0.01.")
@@ -129,9 +110,10 @@ arrob.gm <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p
 	resid_selected <- resid_matrix[, order_selected+1]	
 	var.pred <- sd.pred_vector[order_selected+1]^2	
 	partialacf <- diag(phi_matrix)
+	resid_output <- naresid(attr(x, "na.action"), resid_selected)
   if (ists) {
-        attr(resid_selected, "tsp") <- xtsp
-        attr(resid_selected, "class") <- "ts"
+        attr(resid_output, "tsp") <- xtsp
+        attr(resid_output, "class") <- "ts"
   }
   res <- list(
 		order = order_selected,
@@ -143,14 +125,16 @@ arrob.gm <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p
 		n.used = n,
 		order.max = order.max,
 		partialacf = array(partialacf, dim=c(length(partialacf), 1, 1)),
-		resid = resid_selected,
+		resid = resid_output,
 		method = "GM",
 		series = series,
 		frequency = xfreq,
 		call = cl,
-		asy.var.coef = NULL
+		asy.var.coef = NULL,
+		x = x.original
 	)
-	class(res) <- "ar"
+	attr(res, "na.action") <- attr(x, "na.action")
+	class(res) <- c("arrob", "ar")
 	return(res)  
 }
 

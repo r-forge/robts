@@ -28,6 +28,13 @@ acfrob.RA(x, lag.max, psi = c("huber", "bisquare"), k, locfn = median, scalefn =
 	\item{...}{further arguments passed to the function \code{scalefn}.}
 }
 
+\details{
+
+The function estimates the residual autocovariance, which is the usual acf of the robustly transformed time series. Using estimators for location and scale, which can be chosen by using the arguments \code{locfn} and \code{scalefn}, the time series is transformed by applying a psi function (currently only Huber and Tukey are possible). The tuning parameter for Huber's function is \code{k = 1.37} and for Tukey's function \code{k = 4.68} but both can be changed using the \code{...} argument. For the meaning of the tuning parameters, see e.g. \enc{Dürre}{Duerre} et al. (2015).
+
+There is a simulation based consistency correction implemented for Gaussian time series and the preset tuning parameters.
+}
+
 \value{
 A named list of the following elements:
 
@@ -35,16 +42,9 @@ A named list of the following elements:
 \item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
 }
 
-\details{
-
-The function estimates the residual autocovariance, which is the usual acf of the robustly transformed time series. Using estimators for location and scale, which can be chosen by using the arguments \code{locfn} and \code{scalefn}, the time series is transformed by applying a psi function (currently only Huber and Tukey are possible). The tuning parameter for Huber's function is \code{k = 1.37} and for Tukey's function \code{k = 4.68} but both can be changed using the \code{...} argument. For the meaning of the tuning parameters, see e.g. \enc{Dürre}{Duerre} et al. (2015).
-
-There is a simulation based consistency correction implemented for Gaussian time series and the preset tuning parameters.
-}  
-
 \references{
 
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 
 }
 

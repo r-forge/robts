@@ -9,6 +9,7 @@ importFrom("rrcov", "CovSde", "CovSest")
 importFrom("ICSNP", "tyler.shape")
 importFrom("SpatialNP", "mvhuberM")
 importFrom("sscor", "sscor")
+importFrom("ltsa", "tacvfARMA")
 
 export(
   acfrob,
@@ -31,7 +32,8 @@ export(
   arrob.gm,
   ARfilter,
   filterrob,
-  filterrob.given,
+  filterrob.statespace,
+  filterrob.recursive,
   Corefw,
   spectrumrob,
   asymvar.acf,
@@ -45,12 +47,28 @@ export(
   M_psi,
   M_wgt,
   pKS,
-  qKS
+  qKS,
+  na.extremify,
+  filtered
 )
 
 S3method(plot, acfrob)
+
 S3method(plot, struc)
 
 S3method(residuals, ar)
 S3method(coef, ar)
-S3method(plot, ar)
+
+S3method(plot, arrob)
+S3method(residuals, arrob)
+S3method(fitted, arrob)
+S3method(filtered, arrob)
+S3method(predict, arrob)
+
+S3method(na.extremify, ts)
+
+S3method(naresid, extremify)
+S3method(napredict, extremify)
+
+S3method(naresid, omit)
+S3method(napredict, omit)

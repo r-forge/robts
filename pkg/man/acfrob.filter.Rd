@@ -30,13 +30,6 @@ acfrob.filter(x, lag.max, order.max = lag.max, robfil.method = c("filtered", "ar
 	\item{partial}{logical indicating whether the function should return the partial acf instead of the acf.}
 }
 
-\value{
-A named list of the following elements:
-
-\item{acfvalues}{Numeric vector of estimated (partial) autocorrelations at the lags 1,...,\code{lag.max}.}
-\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
-}
-
 \details{
 The function estimates the acf using the robust filter algorithm, which is a kind of robust Kalman filter, as described in chapter 8 of Maronna et al. (2006). The method fits AR models of increasing order by a robust version of the Durbin Levinson algorithm. The AR coefficients are estimated by minimizing a robust scale (\code{\link{scaleTau2}}) of one step ahead residuals of robustly filtered predictors. The filtering process depends on the psi function and respects the estimated dependence structure of the time series. The order of the AR process can be determined by the argument \code{order.max} if one chooses \code{aic = FALSE} or estimated by a robust AIC criterion if \code{aic = TRUE}. In this case \code{order.max} represents the maximal possible AR order.
 
@@ -51,10 +44,17 @@ A psi function which is two times continuous differentiable is used here, see \e
 More details can be found in Maronna et al. (2006), \enc{Dürre}{Duerre} et al. ( 2015) and the help page of the subroutine \code{\link{ARfilter}}.
 }
 
-\references{
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
+\value{
+A named list of the following elements:
 
-Maronna, R., Martin, D. and Yohai, V. (2006): \emph{Robust statistics}, Wiley, Chichester.
+\item{acfvalues}{Numeric vector of estimated (partial) autocorrelations at the lags 1,...,\code{lag.max}.}
+\item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
+}
+
+\references{
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
+
+Maronna, R., Martin, D. and Yohai, V. (2006): \emph{Robust statistics}, Wiley, Chichester, \doi{10.1002/0470010940}.
 }
 
 \author{

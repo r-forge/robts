@@ -124,7 +124,7 @@ SEXP smoothpsi2(SEXP x, SEXP a, SEXP b, SEXP d, SEXP e, SEXP k, SEXP l) {
 	return ans;
 }
 
-static void filterinit(int n,double*timeseries,double autocor,double a, double b, double d, double e, double k, double l, double c1, double c2, double correc) {
+static void filterinit(int n,double*timeseries,double autocor,double a, double b, double d, double e, double k, double l, double c1, double c2, double correc, double varpred) {
 
 int i;
 double xhat[n+1];
@@ -132,8 +132,7 @@ double ug[n];
 double sigma,sigmau,P,shat,ugt,varest;
 double m;
 xhat[0]=0;
-sigma=scaleTau(n,timeseries,c1,c2,correc);
-sigma=sigma*sigma;
+sigma=varpred;
 sigmau=sigma*(1-autocor*autocor);
 P=sigma;
 for(i = 1; i < n+1; i++) {
@@ -150,12 +149,15 @@ for(i = 0; i < n; i++) {
 	timeseries[i]=xhat[i+1];
 	}
 timeseries[n]=varest;
+for(i = n+1; i < 2*n+1; i++) {
+	timeseries[i]=ug[i-(n+1)];
+	}
 }
 
-SEXP filterinit2(SEXP timeseries, SEXP autocor1, SEXP a, SEXP b, SEXP d, SEXP e, SEXP k, SEXP l,SEXP c1, SEXP c2, SEXP correc) {
-	int n=length(timeseries)-1;
+SEXP filterinit2(SEXP timeseries, SEXP autocor1, SEXP a, SEXP b, SEXP d, SEXP e, SEXP k, SEXP l,SEXP c1, SEXP c2, SEXP correc, SEXP varpred) {
+	int n=(length(timeseries)-1)/2;
 	SEXP ans = duplicate(timeseries);
-	filterinit(n,REAL(ans),asReal(autocor1),asReal(a),asReal(b),asReal(d),asReal(e),asReal(k),asReal(l),asReal(c1),asReal(c2),asReal(correc));
+	filterinit(n,REAL(ans),asReal(autocor1),asReal(a),asReal(b),asReal(d),asReal(e),asReal(k),asReal(l),asReal(c1),asReal(c2),asReal(correc),asReal(varpred));
 	return ans;
 }
 
@@ -174,7 +176,6 @@ double shat;
 double mhatma[p][p];
 double ugt;
 double fak;
-
 
 memset(Phi, 0, sizeof(double) * p * p);
 memset(P, 0, sizeof(double) * p * p);
@@ -247,11 +248,14 @@ for (i = 0; i < n; i++) {
 	timeseries[i]=xhat[i+p];
 	}
 timeseries[n]=scaleTau(n,ug,c1,c2,correc);
+for (i = n+1; i < 2*n+1; i++) {
+	timeseries[i]=ug[i-(n+1)];
+	}
 }
 
 
 SEXP filter2(SEXP timeseries, SEXP autocor, SEXP oldvar, SEXP oldmemory, SEXP a, SEXP b, SEXP d, SEXP e, SEXP k, SEXP l,SEXP c1, SEXP c2, SEXP correc, SEXP acf) {
-	int n=length(timeseries)-1;
+	int n=(length(timeseries)-1)/2;
 	int p=length(oldmemory)+1;
 	SEXP ans = duplicate(timeseries);
 	filter(n,p,REAL(ans),asReal(autocor),asReal(oldvar),REAL(oldmemory),asReal(a),asReal(b),asReal(d),asReal(e),asReal(k),asReal(l),asReal(c1),asReal(c2),asReal(correc),REAL(acf));

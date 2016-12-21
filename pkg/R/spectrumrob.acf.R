@@ -4,7 +4,7 @@ spectrumrob.acf <- function(x, acf.approach = c("GK", "median", "multi", "partra
   acf.approach <- match.arg(acf.approach)
   kernel <- match.arg(kernel)
   series <- deparse(substitute(x))
-  x <- na.action(as.ts(x)) # handling of missing values
+  x <- handle_missings_ts(x, na.action)
   n <- length(x)
 
 	#translate given bandwith to truncation or vice versa:
@@ -46,6 +46,7 @@ spectrumrob.acf <- function(x, acf.approach = c("GK", "median", "multi", "partra
     method = "acfrob",
     bandwidth = bandwidth
   )
+ 	attr(res, "na.action") <- attr(x, "na.action")
 	class(res) <- "spec"  	
 	return(res)		
 }

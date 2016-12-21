@@ -1,24 +1,21 @@
-arrob.yw <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p, na.action = na.fail, series = deparse(substitute(x)), acf.approach = c("GK", "median", "multi", "partrank", "RA", "rank", "filter", "trim", "bireg"), locfn = median, scalefn = Qn, ...) {
+arrob.yw <- function(x, order.max, aic = TRUE, aicpenalty = function(p) 2*p, na.action = na.fail, series = deparse(substitute(x)), acf.approach = c("GK", "median", "multi", "partrank", "RA", "rank", "filter", "trim", "bireg"), locfn = median, scalefn = Qn, ...) {
   cl <- match.call()
   if (is.null(series)) series <- deparse(substitute(x))
   ists <- is.ts(x)
   if (!is.null(dim(x))) stop("Only implemented for univariate series")
-  x <- na.action(as.ts(x))
-  if (anyNA(x)) stop("NAs in 'x'")
   if (!is.numeric(x)) stop("'x' must be numeric")
   if (ists) xtsp <- tsp(x)
   xfreq <- frequency(x)
-  #x <- as.vector(x)
-  n <- length(x)
-  if (is.null(order.max)) order.max <- floor(min(c((n - 1) / 4, 10 * log(n, base = 10)))) 
+  x.original <- x
+  x <- handle_missings_ts(x, na.action)
+  n <- length(x) # actual number of observations used for estimation
+  if (missing(order.max)) order.max <- floor(min(c((n - 1) / 4, 10 * log(n, base = 10)))) 
   if (order.max < 0L) stop("'order.max' must be >= 0")
   if (order.max >= n) stop("Argument 'order.max' must be lower than the length of the time series")
-	if (!is.null(order.max)) if (order.max >= floor((n - 1) / 2)) {
+	if (order.max >= floor((n - 1) / 2)) {
 		warning("Not enough data for chosen model order 'order.max'. The largest possible value of 'order.max' is used.")
 		order.max <- floor((n - 1) / 2) - 1
 	}
-	if (is.null(order.max)) order.max <- floor(min(c((n - 1) / 4, 10 * log(n, base = 10))))
-	if (order.max < 1) stop("Model order 'order.max' must be greater than zero.")
 	acf.approach <- match.arg(acf.approach)
 	
   RAICs <- rep(NA, order.max+1)
@@ -28,13 +25,14 @@ arrob.yw <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p
 
 	# null model:
 	order_selected <- 0
-  resid <- resid_opt <- x - x.mean
+  resid <- x - x.mean
 	var.pred <- scalefn(resid)^2
 	RAICs[1] <- log(var.pred) + aicpenalty(1)/n
-	RAIC_selected <- RAICs[1]
+  resid_selected <- resid  
+	RAIC_selected <- RAICs[1] 
 	coeff <- NULL
 	partialacf <- rep(0, order.max)
-  orders <- seq(along=numeric(order.max))
+  orders <- seq_len(order.max)
   ARparams <- acf2AR(xacf) 
 	for (p in orders) {
 		D <- matrix(nrow = n - p, ncol = p)
@@ -46,17 +44,18 @@ arrob.yw <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p
 		var.new <- scalefn(resid)^2
 		RAICs[p+1] <- log(var.new) + aicpenalty(p+1)/(n-p)
 		if (RAICs[p+1] < RAIC_selected || (!aic && p==order.max)) {
-		  RAIC_selected <- RAICs[p+1]
 		  order_selected <- p
+      RAIC_selected <- RAICs[p+1]
 			resid_selected <- c(rep(NA, n-length(resid)), resid)
 			var.pred <- var.new
 			coeff <- ph
-			partialacf <- ARMAacf(ar=coeff, lag.max=order.max, pacf=TRUE)
+			partialacf <- ARMAacf(ar = coeff, lag.max = order.max, pacf = TRUE)
 		}
 	}
+	resid_output <- naresid(attr(x, "na.action"), resid_selected)
   if (ists) {
-        attr(resid_selected, "tsp") <- xtsp
-        attr(resid_selected, "class") <- "ts"
+        attr(resid_output, "tsp") <- xtsp
+        attr(resid_output, "class") <- "ts"
   }
   res <- list(
 		order = order_selected,
@@ -68,13 +67,15 @@ arrob.yw <- function(x, order.max = NULL, aic = TRUE, aicpenalty=function(p) 2*p
 		n.used = n,
 		order.max = order.max,
 		partialacf = array(partialacf, dim=c(length(partialacf), 1, 1)),
-		resid = resid_selected,
+		resid = resid_output,
 		method = "Yule-Walker",
 		series = series,
 		frequency = xfreq,
 		call = cl,
-		asy.var.coef = NULL
+		asy.var.coef = NULL,
+		x = x.original
 	)
-	class(res) <- "ar"
+	attr(res, "na.action") <- attr(x, "na.action")
+	class(res) <- c("arrob", "ar")
 	return(res)
 }

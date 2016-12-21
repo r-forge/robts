@@ -22,21 +22,21 @@ acfrob.bireg(x, lag.max, regression.method = c("MM", "LTS", "L1"))
 	\item{regression.method}{character string indicating the regression method, see Details.}
 }
 
+
+\details{
+TO BE INCLUDED. MENTION AND CITE POLITIS.
+}
+
 \value{
 A named list of the following elements:
 
 \item{acfvalues}{Numeric vector of estimated autocorrelations at the lags 1,...,\code{lag.max}.}
 \item{are}{numeric value giving the asymptotic relative efficiency (ARE) of the estimator as compared to the classical nonrobust estimator, under the assumption that the observations are uncorrelated and from a Gaussian distribution. The ARE is currently not available for this estimation approach and is therefore \code{NA}.}
-}
-
-\details{
-TO BE INCLUDED. MENTION AND CITE POLITIS.
-}  
+} 
 
 \references{
 
-\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222.
-
+\enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 }
 
 \author{

@@ -23,12 +23,6 @@ asymvar.window(x=x,overlapping=FALSE,obs=c("untransformed","ranks"),
 	\item{...}{further arguments passed to the respective internal functions.}
 }
 
-\value{
-List containing the following values:
-\item{lrv}{estimated long run variance}
-\item{blocklength}{used block length of the subsamples}
-}
-
 \details{
 Cusum-type change point tests require an estimation of the long run variance. One possibility is to use subsampling methods, where one splits the sample into blocks and estimates the variance by a centered absolute empirical moment of these block sums. There are different tuning options: setting the block length \eqn{l}, choosing the centered absolute moment \eqn{p} and characterising the block building. For the later, there are two options. 
 
@@ -45,13 +39,19 @@ if 'dd' is 'independent' one uses a thumb rule only based on the time series len
 
 }
 
+\value{
+List containing the following values:
+\item{lrv}{estimated long run variance}
+\item{blocklength}{used block length of the subsamples}
+}
+
 \references{
 
-Carlstein, E. (1986): The use of subseries values for estimating the variance of a general statistic from a stationary sequence, \emph{The Annals of Statistics}, vol. 14, 1171--1179.
+Carlstein, E. (1986): The use of subseries values for estimating the variance of a general statistic from a stationary sequence, \emph{The Annals of Statistics}, vol. 14, 1171--1179, \doi{10.1214/aos/1176350057}.
 
-Dehling, H., Fried, R., Shapirov, O., Wornowizki, M. (2013): Estimation of the variance of partial sums of dependent processes, \emph{Statistics and Probability Letters}, vol. 83, 141--147.
+Dehling, H., Fried, R., Shapirov, O., Wornowizki, M. (2013): Estimation of the variance of partial sums of dependent processes, \emph{Statistics and Probability Letters}, vol. 83, 141--147, \doi{10.1016/j.spl.2012.08.012}.
 
-Peligrad, M., Shao, Q. (1995): Estimation of the Variance of Partial Sums for rho-Mixing Random Variables, \emph{Journal of Multivariate Analysis}, vol. 152, 140--157. 
+Peligrad, M., Shao, Q. (1995): Estimation of the Variance of Partial Sums for rho-Mixing Random Variables, \emph{Journal of Multivariate Analysis}, vol. 152, 140--157, \doi{10.1006/jmva.1995.1008}. 
 }
 
 \author{
