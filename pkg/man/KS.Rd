@@ -1,20 +1,23 @@
 \encoding{utf8}
-\name{qKS}
+\name{KS}
+\alias{pKS}
 \alias{qKS}
 
 \title{
-Quantile Function of the Kolmogorov Smirnov Distribution
+The Kolmogorov Smirnov Distribution
 }
 \description{
-Computes the quantiles of the two sided Kolmogorov Smirnov test
+Computes the distribution function and the quantiles of the two-sided Kolmogorov Smirnov (KS) test.
 }
 
 \usage{
-qKS(x)
+pKS(q)
+qKS(p)
 }
 
 \arguments{
-	\item{x}{one! probability.}
+	\item{q}{numeric vector of quantiles.}
+	\item{p}{numeric value with one probability (not a vector of probabilities).}
 }
 
 \details{
@@ -22,7 +25,9 @@ The distribution equals that of the supremum of the absolute values of a standar
 }
 
 \value{
-value of the corresponding quantile
+Function \code{pKS} returns a numeric vector with values of the distribution function at the given quantiles.
+
+Function \code{qKS} returns a numeric value of the desired quantile.
 }
 
 \author{
@@ -35,5 +40,7 @@ R Core Team and Alexander \enc{Dürre}{Duerre}
 }
 
 \examples{
+curve(pKS(x), from = 0, to = 2)
+
 qKS(0.95)
 }

@@ -3,7 +3,7 @@
 \alias{densdiff}
 
 \title{
-Density Estimation at 0 of the Random Variable X-Y
+Density Estimation at Zero of the Random Variable X - Y
 }
 \description{
 Estimates the density of the difference of two samples at 0. This is necessary for the Hodges-Lehmann (change point) test. See Dehling et al. (2015) for details.
@@ -27,15 +27,15 @@ densdiff(x, y, type2 = c("all", "within", "between"), adjust = 1,
 \details{
 The Hodges-Lehmann two sample test requires an estimation of the density of the difference of both random variables X and Y at 0. This is also true for the the Hodges-Lehmann change point test since it consists of a sequence of two samples tests. One approach to estimate this density is to apply a kernel estimator at differences of values of both samples. This is basically the task of this function.
 
-There are different possibilities to build differences.
+There are different possibilities to build differences:
 
-If 'type2' is 'all' one uses all possible differences of the merged sample.
+If \code{type2} is \code{"all"} one uses all possible differences of the merged sample.
 
-If 'type2' is 'within' one uses all possible differences within the first sample and all possible differences within the second.
+If \code{type2} is \code{"within"} one uses all possible differences within the first sample and all possible differences within the second.
 
-If 'type2' is 'between' one uses all possible differences between one observation of the first sample and one observation of the second.
+If \code{type2} is \code{"between"} one uses all possible differences between one observation of the first sample and one observation of the second.
 
-The density estimation itself is computed by the function \code{\link{density}} of the stats package.
+The density estimation itself is computed by the function \code{\link{density}} of the \code{stats} package.
 }
 
 \value{
@@ -43,25 +43,20 @@ The estimated density at 0.
 }
 
 \references{
-
-Dehling, H., Fried, R., Wendler, M. (2015): A robust method for shift detection in time series, preprint. 
-\href{http://arxiv.org/abs/1506.03345}{arXiv 1506.03345}
+Dehling, H., Fried, R., Wendler, M. (2015): A robust method for shift detection in time series, preprint. \href{http://arxiv.org/abs/1506.03345}{arXiv 1506.03345}
 }
 
 \author{
 Roland Fried and Alexander \enc{Dürre}{Duerre}
 }
 
-
 \seealso{
-
-The change point detection functions \code{\link{rob.change}} and \code{\link{strucchange.HL}}
-
+The change point detection functions \code{\link{changerob}} and \code{\link{changerob.HL}}.
 }
 
 \examples{
 set.seed(1066)
 x <- rnorm(100)
 y <- rnorm(20)
-densdiff(x,y)
+densdiff(x, y)
 }

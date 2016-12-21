@@ -34,27 +34,27 @@ export(
   filterrob,
   filterrob.statespace,
   filterrob.recursive,
-  Corefw,
   spectrumrob,
+  Corefw,
+  M_psi,
+  M_wgt,
+  na.extremify,
+  filtered,
+  changerob,
+  changerob.HL,
+  changerob.wilcox,
+  changerob.cusum,
   asymvar.acf,
   asymvar.acfextra,
   asymvar.window,
-  rob.change,
-  strucchange.HL,
-  strucchange.wilcox,
-  strucchange.cusum,
-  densdiff,
-  M_psi,
-  M_wgt,
   pKS,
   qKS,
-  na.extremify,
-  filtered
+  densdiff
 )
 
 S3method(plot, acfrob)
 
-S3method(plot, struc)
+S3method(plot, changerob)
 
 S3method(residuals, ar)
 S3method(coef, ar)

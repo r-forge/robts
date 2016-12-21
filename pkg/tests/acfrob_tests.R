@@ -88,3 +88,11 @@ scenario <- "missings"
 
 acfrob(datalist[[scenario]], plot = FALSE, na.action = na.contiguous)
 acfrob(datalist[[scenario]], plot = FALSE, na.action = na.extremify)
+
+
+## Check type="covariance" and type="partial":
+scenario <- "dep"
+
+acfrob(datalist[[scenario]], plot = FALSE, type = "covariance")
+
+acfrob(datalist[[scenario]], plot = FALSE, type = "partial")
