@@ -33,7 +33,16 @@ acfrob <- function(x, lag.max = NULL,
     } else {
       acfout <- acffn(x, lag.max = lag.max, ...)
       acfvalues <- acfout$acfvalues
-      pacfvalues <- DurbinLev(acfvalues)$phis[[lag.max]]
+      if (psd) {
+		acfvalues_psd <- try(make_acf_psd(acfvalues), silent=TRUE)
+		if (inherits(acfvalues_psd, "try-error")){
+			warning("Transformation to a positiv semidefinite acf failed. The returned result is not\npositive semidefinite.")
+			} else {
+        		acfvalues <- acfvalues_psd
+      			}
+		}
+      BestLinPred <- DurbinLev(acfvalues)$phis
+      pacfvalues <- sapply(BestLinPred,function(x) return(x[length(x)]))
     }
     acfvalues <- pacfvalues
     lags <- 1:lag.max    

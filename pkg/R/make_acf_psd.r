@@ -55,6 +55,6 @@ psd_toep <- function(mat, maxit=100, tol=1e-8){
 make_acf_psd <- function(acfvalues, ...) {
   mat <- toeplitz(c(1, acfvalues))
   pdmat <- psd_toep(mat, ...)$projection
-  acfvalues_psd <- pdmat[1, -1]
+  acfvalues_psd <- pdmat[1, -1]/pdmat[1,1]
   return(acfvalues_psd)
 }
