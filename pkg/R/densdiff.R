@@ -9,20 +9,18 @@
 # adjust: determine the bandwith used by density (see density)
 ## output:
 # density estimation at 0
-densdiff<-function(x,y,type2=c("all","within","between"),adjust=1,kernelused=c("gaussian", "epanechnikov", "rectangular","triangular", "biweight","cosine", "optcosine"),...){
+densdiff <- function(x, y, type2 = c("all", "within", "between"), adjust = 1, kernelused = c("gaussian", "epanechnikov", "rectangular", "triangular", "biweight", "cosine", "optcosine"), ...){
  kernelused <- match.arg(kernelused)
  type2 <- match.arg(type2)
- if(sum(type2==c("between","all","within"))==0) {
-   warning(paste(type2,"is not impelemented. Using type between instead."))}
- if (type2=="between"){  # only pairs of x and y
-   dif=as.numeric(outer(x,y,"-"))}
- if (type2=="all"){ # pairs of all
-   z <- c(x,y)
+ if (type2 == "between"){  # only pairs of x and y
+   dif <- as.numeric(outer(x, y, "-"))}
+ if (type2 == "all"){ # pairs of all
+   z <- c(x, y)
    dif <- as.numeric(dist(z))}
- if (type2=="within"){  # only pairs within x or within y
+ if (type2 == "within"){  # only pairs within x or within y
    dif1 <- as.numeric(dist(x))
    dif2 <- as.numeric(dist(y))
-   dif <- c(dif1,dif2)}
- out=density(dif,na.rm=TRUE,kernel=kernelused,adjust=adjust,from=0,to=0,n=1)
-return(out$y)
+   dif <- c(dif1, dif2)}
+ out <- density(dif, na.rm = TRUE, kernel = kernelused, adjust = adjust, from = 0, to = 0, n = 1)
+  return(out$y)
 }

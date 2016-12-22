@@ -35,5 +35,5 @@ Alexander \enc{Dürre}{Duerre}, Tobias Liboschik and Jonathan Rathjens
 }
 
 \seealso{
-\code{\link{Qn}} for the non-weighted Qn estimator.
+\code{\link{Qn}} for the non-reweighted Qn estimator.
 }
