@@ -40,8 +40,8 @@ asymvar.window <- function(x, overlapping = FALSE, obs = c("untransformed", "ran
     res <- list(lrv=er^(1/momentp),blocklength=l)
   } else {
     k <- floor(N/l)
-    xma <- matrix(x[1:(k*l)],ncol=l,nrow=k)
-    S <- apply(xma,1,sum)
+    xma <- matrix(x[1:(k*l)],ncol=k,nrow=l)
+    S <- apply(xma,2,sum)
     S <- (abs(S-l*phibar)/sqrt(l))^momentp
     cp <- 2^(-momentp/2)*sqrt(pi)/gamma((momentp+1)/2)
     er <- sum(S)/k*cp
