@@ -62,7 +62,7 @@ The density at 0 for the Hodges-Lehmann estimator is calculated by \code{\link{d
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 trajectory <- changerob.HL(tss)
 plot(trajectory)
 }

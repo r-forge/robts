@@ -37,6 +37,6 @@ The long run variance can be also estimated by \code{\link{asymvar.window}} and 
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 asymvar.acfextra(tss)
 }

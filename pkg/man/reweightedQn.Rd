@@ -19,7 +19,7 @@ reweightedQn(x, boundq = 0.999)
 }
 
 \details{
-In a first step the ordinary Qn estimator is computed. In a second step the empirical standard deviation is computed using all observation which are lower than the \code{boundq} quantile of a chi square distribution with one degree of freedom. This additional reweighting step improves the efficiency as compared to the ordinary Qn estimator, which was introduced by Ma and Genton (2001).
+In a first step the ordinary Qn estimator is computed. In a second step the empirical standard deviation is computed using all observations whose squared residuals based median and Qn are smaller than the \code{boundq} quantile of a chi square distribution with one degree of freedom. This additional reweighting step improves the efficiency as compared to the Qn estimator, which was introduced by Rousseeuw and Croux (1993).
 }
 
 \value{
@@ -27,7 +27,7 @@ Numeric value with the estimated scale.
 }
 
 \references{
-Ma, Y. and Genton M. (2001): Highly Robust Estimation of Dispersion Matrices, \emph{Journal of Multivariate Analysis}, vol. 78, 11-36, \doi{10.1006/jmva.2000.1942}.
+Rousseeuw, P.J., Croux, C. (1993): Alternatives to the median absolute deviation, \emph{Journal of the American Statistical Association}, vol. 88, 1273--1283.
 }
 
 \author{

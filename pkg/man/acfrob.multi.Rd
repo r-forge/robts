@@ -36,13 +36,13 @@ There are several possible robust correlation estimators available. The argument
 
 \item{\code{"reweight"}}{One applies the efficient weighted MCD which was proposed by Gervini (2003). See the help page of \code{\link{Corefw}} for more details.}
 
-\item{\code{"Stahel-Donoho"}}{One applies the Stahel-Donoho estimator. See the help page of \code{\link{CovSde}} for more details. Note that this estimator gets really time consuming if \code{lag.max} is large!}
+\item{\code{"Stahel-Donoho"}}{One applies the Stahel-Donoho estimator proposed by Stahel (1981) and Donoho (1982). See the help page of \code{\link{CovSde}} for more details. Note that this estimator gets really time consuming if \code{lag.max} is large!}
 
-\item{\code{"S"}}{One applies an S estimator of scatter. See the help page of \code{\link{CovSest}} for more details.}
+\item{\code{"S"}}{One applies an S estimator of scatter proposed by Davies (1987). See the help page of \code{\link{CovSest}} for more details.}
 
-\item{\code{"M"}}{One applies an M estimator of scatter. See the help page of \code{\link{mvhuberM}} for more details.}
+\item{\code{"M"}}{One applies an M estimator of scatter. Note that the breakdown point of M estimators decreases with incresing dimension (Maronna et al. 2006), so the estimator gets less robust for large \code{lag.max}. See the help page of \code{\link{mvhuberM}} for more details.}
 
-\item{\code{"Tyler"}}{One applies the Tyler shape matrix, which is a special M estimator of scatter. See the help page of \code{\link{tyler.shape}} for more details.}
+\item{\code{"Tyler"}}{One applies the Tyler shape matrix, which is a special M estimator of scatter (Tyler, 1987). See the help page of \code{\link{tyler.shape}} for more details.}
 }
 }
 
@@ -54,11 +54,22 @@ A named list of the following elements:
 }
 
 \references{
+
+Davies, P. (1987): Asymptotic behaviour of S-estimates of multivariate location parameters and dispersion matrices, \emph{Annals of Statistics}, vol 15, 1269--1292.  
+
+Donoho, D.L. (1982): Breakdown properties of multivariate location estimators, \emph{PH.D. thesis at Harvard University}.
+
 \enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 
 Gervini, D. (2003): A robust and efficient adaptive reweighted estimator of multivariate location and scatter, \emph{Journal of Multivariate Analysis}, vol. 84, 116--144, \doi{10.1016/S0047-259X(02)00018-0}.
 
-Rousseeuw, P. (1985): Multivariate estimation with high breakdown point, \emph{Mathematical Statistics and Applications Vol. B}, 283--297, \doi{10.1007/978-94-009-5438-0_20}.
+Maronna, R., Martin, D., Yohai, V. (2006): Robust Statistics - Theory and Methods.
+
+Rousseeuw, P.J. (1985): Multivariate estimation with high breakdown point, \emph{Mathematical Statistics and Applications Vol. B}, 283--297, \doi{10.1007/978-94-009-5438-0_20}.
+
+Stahel, W. (1981): Infitisimal optimality and covariance matrix estimators, \emph{Ph.D. thesis at ETH \enc{Zürich}{Zuerich}.}
+
+Tyler, D.E. (1987): A disribution-free M-estimator of multivariate scatter, \emph{Annals of Statistics}, vol. 15, 234--251.
 }
 
 \author{
@@ -76,7 +87,7 @@ Robust multivariate scatter estimators: \code{\link{covMcd}}, \code{\link{Corefw
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 acfrob(tss, approach = "multi")
 }
 

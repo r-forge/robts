@@ -25,7 +25,7 @@ asymvar.acf(x, obs = c("untransformed", "ranks"), cc = 1.4, K = 3,
 \value{
 List containing the following named elements:
 \item{lrv}{estimated long run variance}
-\item{bandwith}{used bandwidth}
+\item{bandwidth}{used bandwidth}
 }
 
 \details{
@@ -35,11 +35,11 @@ If \code{kernel} is \code{"bartlett"}, one uses the classical Bartlett kernel wh
 \deqn{k(x)= 1 - x/bn~~\mbox{for}~|x|\leq bw~~\mbox{and}~~ 0~~\mbox{for}~|x|>bw}
 
 If \code{kernel} is \code{"trapezoid"}, the following flat-top kernel is used
-\deqn{k(x)= 1 ~~\mbox{for}~ |x|\leq bw,~~ 1-|x-bw|/bw~~\mbox{for}~2bw\leq |x|>bw~~and 0~~\mbox{for}~x>2bw}
+\deqn{k(x)= 1 ~~\mbox{for}~ |x|\leq bw,~~ 1-|x-bw|/bw~~\mbox{for}~2bw\leq |x|>bw~~\mbox{and}~~ 0~~\mbox{for}~x>2bw}
 
 For the bandwidth a data-adaptive thumb rule depending on two tuning parameters is used. The basic idea is to determine after which lag the autocorrelation is negligible. Therefor one looks if the empirical acf is smaller than
 \deqn{cc \sqrt{\log_{10}(N)/N}.}
-If the next \eqn{K} autocorrelation also fulfill this criteria, this lag is considered as bandwidth.
+If the next \eqn{K} autocorrelations also fulfill this criterion, this lag is considered as bandwidth.
 }
 
 \seealso{
@@ -48,6 +48,6 @@ The long run variance can be also estimated by \code{\link{asymvar.window}} and 
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 asymvar.acf(tss)
 }

@@ -1,20 +1,18 @@
-## estimates long run variance (see Dehling et al. 2013) (overlapping and nonoverlappingblocksums Si)
+## estimates long run variance (see Dehling et al. 2013) (overlapping and nonoverlapping block sums)
 ## input:
-# x: timeseries
+# x: time series
 # dd: how should block length be calculated
-#	possibilities:	"independent": blocklength-factor independent of correlation structure of the sample
-#			"carlstein-cor": blocklength-factor dependent of acf(1) of transformed timeseries
-#			"carlstein-Qn": blocklength-factor dependent of acf(1) of timeseries (robustly estimated)
-# rhotrue: acf(1) of timeseries
-# shiftcorrect: should variace estimation consider a possible levelshift
-# obs: if obs=untransformed, the longrunvariance for a cusum test is calculated, if obs="ranks" the longrunvariance for a wilcoxon changepoint test is calculated
-# borderN: if shiftcorrect=TRUE, how many observations at the beginning and end are left out for a change point search
-# p: which centered mean should be used, see (Peligrad and Shao 1995 for details)
+#	possibilities:	"independent": block-length-factor independent of correlation structure of the sample
+#			"carlstein-cor": block-length-factor dependent of acf(1) of transformed time series
+#			"carlstein-Qn": blocklength-factor dependent of acf(1) of time series (robustly estimated)
+# rhotrue: acf(1) of time series
+# obs: if obs=untransformed, the long-run-variance for a cusum test is calculated, if obs="ranks" the long-run-variance for a wilcoxon changepoint test is calculated
+# p: which centered mean should be used, see Peligrad and Shao (1995) for details
 ## output:
-# l: used blocklength of variance estimator
+# l: used block length of variance estimator
 # er: estimated long run variance
 
-asymvar.window <- function(x, overlapping = FALSE, obs = c("untransformed", "ranks"), dd = c("independent", "carlstein-cor", "carlstein-Qn"), momentp = 1){
+asymvar.window <- function(x, overlapping = TRUE, obs = c("untransformed", "ranks"), dd = c("independent", "carlstein-cor", "carlstein-Qn"), momentp = 1){
   N <- length(x)
   dd <- match.arg(dd)
   obs <- match.arg(obs)

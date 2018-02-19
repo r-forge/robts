@@ -9,7 +9,7 @@ Robust Autocorrelation Estimation Based on Robust Filtering
 \description{
 Robustly estimates the autocorrelation function of a time series based on the robust filter algorithm. See \enc{Dürre}{Duerre} et al. (2015) for details.
 
-This function is intended for internal usage only. Users should rather use the wrapper function \code{\link{acfrob}} with argument \code{approach = "acfrobfil"}.
+This function is intended for internal usage only. Users should rather use the wrapper function \code{\link{acfrob}} with argument \code{approach = "filter"}.
 }
 
 \usage{
@@ -71,7 +71,7 @@ The subroutine \code{\link{ARfilter}}.
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 acfrob(tss, approach = "filter", order.max = 5)
 }
 

@@ -1,10 +1,10 @@
 ## estimates density around of differences at 0
-## imput:
+## input:
 # x: first sample
 # y: second sample
 # type2: what differences should be considered?
 # 	possible are: 	between (all possible pairs where minuend is from first sample and subtrahend from the second) 
-#			all (all possible pairs but for the same values)
+#			all (all possible pairs except for the same values)
 #			within (merge all possible pairs in first sample and all possible pairs in second sample)
 # adjust: determine the bandwith used by density (see density)
 ## output:

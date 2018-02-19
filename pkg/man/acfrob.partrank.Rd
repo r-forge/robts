@@ -33,15 +33,15 @@ There are several possible rank estimators available. The argument \code{cor.met
 \describe{
 \item{\code{"spearman"}}{One uses the well known Spearman's rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.}
 
-\item{\code{"kendall"}}{One uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for large time series (e.g. greater than 10000).}
+\item{\code{"kendall"}}{One uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for very long time series (e.g. more than 10000 ovservations).}
 
-\item{\code{"quadrant"}}{One uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers.}
+\item{\code{"quadrant"}}{One uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should therefore only be applied for time series with a high amount of outliers.}
 
 \item{\code{"gaussian"}}{One uses the Gaussian rank correlation which is the usual correlation applied to transformed values. Denote \eqn{R(i)} the rank of \eqn{X(i)} and \eqn{\Phi}{Phi} the distribution function of the normal distribution, then the transformation is defined as
 \deqn{\Phi^{-1}(R(i)/(n+1)).}
 This estimator has the same asymptotic efficiency as the usual empirical correlation under normality, but is robust to some degree.}
 
-\item{\code{"masarotto"}}{One follows the original proposal of Masarotto (1987), which is a kind of M estimator. Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK estimator, (using the Qn) new variances and correlations are iteratively computed until convergence, using weights which are defined by the following psi function
+\item{\code{"masarotto"}}{One follows the proposal of Masarotto (1987), which is a kind of M estimator. Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK estimator, (using the Qn) new variances and correlations are iteratively computed until convergence, using weights which are defined by the following psi function
 \deqn{\psi(x) = 3/(1+x).}{psi(x) = 3/(1+x)}
 Note that this is not really a rank or sign based estimator. See Masarotto (1987) for more details.}
 }
@@ -61,7 +61,7 @@ Croux, C. and Dehon, C. (2010): Influence functions of the Spearman and Kendall 
 
 \enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 
-Masarotto, D. (2003): Robust identification of autoregressive moving average models, \emph{Applied statistics}, vol. 36, 214--220, \doi{10.2307/2347553}.
+Masarotto, D. (2003): Robust identification of autoregressive moving average models, \emph{Applied Statistics}, vol. 36, 214--220, \doi{10.2307/2347553}.
 
 \enc{Möttönen}{Moettoennen}, J., Koivunen, V. and Oja, H. (1999): Robust autocovariance estimation based on sign and rank correlation coefficients, In: \emph{Proceedings of the IEEE Signal Processing Workshop on Higher-Order Statistics}, 187--190, \doi{10.1109/HOST.1999.778722}.
 }
@@ -79,7 +79,7 @@ Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 acfrob(tss, approach = "partrank")
 }
 

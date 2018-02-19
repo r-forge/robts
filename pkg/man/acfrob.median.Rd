@@ -52,7 +52,7 @@ Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 acfrob(tss, approach = "median")
 }
 

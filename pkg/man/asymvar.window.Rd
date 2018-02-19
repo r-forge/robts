@@ -10,7 +10,7 @@ Computes the long run variance, which is required for change point testing, base
 }
 
 \usage{
-asymvar.window(x, overlapping = FALSE, obs = c("untransformed", "ranks"),
+asymvar.window(x, overlapping = TRUE, obs = c("untransformed", "ranks"),
                dd = c("independent", "carlstein-cor", "carlstein-Qn"),
                momentp = 1)
 }

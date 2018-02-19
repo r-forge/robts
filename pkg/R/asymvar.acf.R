@@ -1,15 +1,15 @@
 ## estimates long run variance from acf
 ## input:
-# y: timeseries
-# cc: factor which determines, when autocorrelation is significant
+# x: time series
+# cc: factor which determines, whether autocorrelation is relevant
 # K: determines length of sequence in which at least one autocorrelation should be significantly large
-# type: which kernal should be used
+# type: which kernel is used
 #	possibilities: 	"bartlett"
 #			"trapezoid"
-# tau: time of structural break if timeseries is not stationary
-# h: jump height
+# obs: determines whether the asymptotical variance of the time series or of the ranks of the time series is estimated
 ## output:
 # asy: estimated long run variance
+# bandwidth: used bandwidth
 
 asymvar.acf <- function(x, obs = c("untransformed", "ranks"), cc = 1.4, K = 3, type = c("bartlett", "trapezoid")){
   N <- length(x)
@@ -26,10 +26,10 @@ asymvar.acf <- function(x, obs = c("untransformed", "ranks"), cc = 1.4, K = 3, t
   w <- ((2*i):1)/(2*i)
   if (type=="trapezoid"){w=c(rep(1,i),(i:1)/i)}
   if (sum(type==c("bartlett","trapezoid"))==0) {
-    warning(paste(type,"is not implemented. Using bbartlett kernal instead."))
+    warning(paste(type,"is not implemented. Using bartlett kernel instead."))
   }
   ac <- acf(x,plot=F,type="covariance",lag.max=2*i)$acf[1:(2*i+1)]
   asy <- ac[1]+2*sum(ac[2:(2*i+1)]*w)
-  erg <- list(lrv=asy,bandwith=i)
+  erg <- list(lrv=asy,bandwidth=i)
   return(erg)
 }

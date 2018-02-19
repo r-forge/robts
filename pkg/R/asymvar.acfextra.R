@@ -1,12 +1,12 @@
 ## estimates long run variance by extrapolating the acf
 ## input:
-# y: timeseries
-# tau: time of structural break if timeseries is not stationary
-# h: jump height
-# order.max: number of estimated autocorreelations which are used for extrapolation (if aic=TRUE maximal possible AR order)
+# x: time series
+# order.max: number of estimated autocorrelations which are used for extrapolation (if aic=TRUE maximal possible AR order)
 # aic: should AR order be estimated based on aic criterium?
+# obs: determines whether the asymptotical variance of the time series or of the ranks of the time series is estimated
 ## output:
 # asy: estimated long run variance
+# order: order of fitted AR model
 
 asymvar.acfextra <- function(x, obs = c("untransformed", "ranks"), order.max = 2, aic = FALSE){
   n <- length(x)

@@ -7,7 +7,7 @@ Robust Autocorrelation Estimation Based on Trimming
 }
 
 \description{
-Robustly estimates the autocorrelation function of a time series based on the trimmed time series. See \enc{Dürre}{Duerre} et al. (2015) for details.
+Robustly estimates the autocorrelation function of a time series based on a trimmed time series. See \enc{Dürre}{Duerre} et al. (2015) for details.
 
 This function is intended for internal usage only. Users should rather use the wrapper function \code{\link{acfrob}} with argument \code{approach = "acftrim"}.
 }
@@ -26,7 +26,7 @@ acfrob.trim(x, lag.max, trim = 0.1, biascorr = TRUE)
 \details{
 The function basically first trims the smallest and largest observations of the time series and then calculates the usual sample acf. This procedure was proposed by Chan and Wei (1992).
 
-\code{trim} determines the quantiles (\eqn{\alpha}{alpha} and \eqn{1-\alpha}{1-alpha}) at which the data is trimmed. Therefore \eqn{2\alpha}{2alpha} of the data is trimmed, see \enc{Dürre}{Duerre} et al. (2015) for details.
+\code{trim} determines the quantiles (\eqn{\alpha}{alpha} and \eqn{1-\alpha}{1-alpha}) at which the data is trimmed. Therefore \eqn{2\alpha}{2alpha} percent of the data is trimmed, see \enc{Dürre}{Duerre} et al. (2015) for details.
 
 Since the estimator does not measure the usual autocorrelation, a nonlinear transformation based on simulations is applied, which guarantees consistency under Gaussian processes.
 }
@@ -39,7 +39,7 @@ A named list of the following elements:
 }
 
 \references{
-Chan, W., and Wei, W. (1992): A comparison of some estimators of time series autocorrelations, \emph{Computational statistics & data analysis}, vol 14, .149--163, \doi{10.1016/0167-9473(92)90170-K}.
+Chan, W., and Wei, W. (1992): A comparison of some estimators of time series autocorrelations, \emph{Computational Statistics & Data Analysis}, vol 14, .149--163, \doi{10.1016/0167-9473(92)90170-K}.
 
 \enc{Dürre}{Duerre}, A., Fried, R. and Liboschik, T. (2015): Robust estimation of (partial) autocorrelation, \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, vol. 7, 205--222, \doi{10.1002/wics.1351}.
 }
@@ -56,7 +56,7 @@ Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 acfrob(tss, approach = "trim")
 }
 

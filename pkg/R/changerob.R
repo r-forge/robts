@@ -1,23 +1,23 @@
 ### robust changepoint tests ###
 ## robust tests for a change in location or scale
 # input:
-# x: timeseries
+# x: time series
 # property: whether to test against a change in location or scale
-# test: which test to use: usual Cusum test, Wilcoxon-test and Hodges-Lehmann test are possible
-# conf.level: desired confidence level of the test
+# test: which test to use: Cusum test, Wilcoxon-test or Hodges-Lehmann test
+# conf.level: desired significance level of the test
 # alternative: power against which alternative
 # 	possibilities:	two.sided: classical approach
-#			greater: mean increases
-#			less: mean decreases
+#			increase: mean increases
+#			decrease: mean decreases
 # var.method: procedure to estimate the long run variance
 #	possibilities:	window: subsampling procedure
 #			acf: kernel estimator
 #			acfextra: extrapolates acf from ar-fit
-# overlapping: should distinct or overlapping blocks be used to calculate the lonmg run variance, only used if var.method=window
+# overlapping: should distinct or overlapping blocks be used to calculate the long run variance, only used if var.method=window
 # shiftcorrect: If TRUE the estimation of the lon run variance considers a location change
-# plot: if true trajectory of test is drawn
+# plot: draw trajectory of test statistic
 
-changerob <- function(x, property = c("location", "scale"), test = c("HL", "Wilcoxon", "CUSUM"), conf.level = 0.95, alternative = c("two.sided", "less", "greater"), var.method = c("window", "acf", "acfextra"), overlapping = FALSE, shiftcorrect = TRUE, borderN = 10, plot = FALSE, ...) {
+changerob <- function(x, property = c("location", "scale"), test = c("HL", "Wilcoxon", "CUSUM"), conf.level = 0.95, alternative = c("two.sided", "increase", "decrease"), var.method = c("window", "acf", "acfextra"), overlapping = TRUE, shiftcorrect = TRUE, borderN = 10, plot = FALSE, ...) {
 
   test <- match.arg(test)
   property <- match.arg(property)
@@ -55,14 +55,14 @@ changerob <- function(x, property = c("location", "scale"), test = c("HL", "Wilc
   	cval <- c(-1,+1)*qKS(conf.level)
  	}
   
-  if (alternative=="greater") {
+  if (alternative=="decreae") {
   	p.value <- exp(-max(c(0,testtrajectory))^2)
   	statistic <- max(testtrajectory)
   	estimate <- which.max(testtrajectory)
   	cval <- sqrt(-log(1-conf.level))
  	}
   
-  if (alternative=="less") {
+  if (alternative=="increase") {
   	p.value <- exp(-min(c(0,testtrajectory))^2)
   	statistic <- min(testtrajectory)
   	estimate <- which.min(testtrajectory)

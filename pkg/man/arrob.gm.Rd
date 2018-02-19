@@ -66,7 +66,7 @@ Classical, nonrobust fitting is provided by the function \code{\link{ar}}.
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 arrob(tss, method="gm")
 }
 

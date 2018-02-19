@@ -13,8 +13,8 @@ Robust and non robust tests for changes in location and scale based on U-statist
 \usage{
 changerob(x, property = c("location", "scale"),
           test = c("HL", "Wilcoxon", "CUSUM"), conf.level = 0.95,
-          alternative = c("two.sided", "less", "greater"),
-          var.method = c("window", "acf", "acfextra"), overlapping = FALSE,
+          alternative = c("two.sided", "increase", "decrease"),
+          var.method = c("window", "acf", "acfextra"), overlapping = TRUE,
           shiftcorrect = TRUE, borderN = 10, plot = FALSE, ...)
           
 \method{plot}{changerob}(x, ...)
@@ -22,9 +22,9 @@ changerob(x, property = c("location", "scale"),
 
 \arguments{
 	\item{x}{numeric vector or univariate time series object.}
-	\item{property}{character string whether one tests against a change in location (\code{"location"}) or scale (\code{"scale"}).}
+	\item{property}{character string indicating whether one tests against a change in location (\code{"location"}) or scale (\code{"scale"}).}
 	\item{test}{character string defining the applied change point test. Possible are the nonrobust cusum test (\code{"CUSUM"}), the Wilcoxon test (\code{"wilcox"}) and the Hodges-Lehmann test (\code{"HL"}, the default). See Details for more information about the tests.}
-	\item{conf.level}{numeric value indicating the confidence level of the test.}
+	\item{conf.level}{numerical value indicating the confidence level of the test.}
 	\item{alternative}{character string which specifies the alternative hypothesis.}
 	\item{var.method}{character string defining the estimator of the long run variance, see Details.}
 	\item{overlapping}{logical value indicating whether block sums should be distinct or overlapping. Only relevant if \code{var.method = "window"}, see Details.}
@@ -43,16 +43,16 @@ There are three different tests implemented, which can be chosen by the argument
 \describe{
 \item{\code{"CUSUM"}}{The usual Cusum test for a change in location is applied. Because of its sensitivity relative to particular large or small values one should be careful in case of outliers. Furthermore, the test loses a lot of power if the time series is heavy tailed. In both cases one should apply one of the two other tests.}
 
-\item{\code{"Wilcoxon"}}{One basically applies a two sample Mann-Whitney-Wilcoxon test for every possible change point and choose a kind of maximal test statistic. The exact definition and details can be found in Dehling et al. (2013). By using ranks the tests gets less sensitive to outliers and does not suffer under heavy tailed distributions. Even under Gaussian processes the power of the test is not much worse than that of the cusum test. However, the test has little power against changes far from the center of the time series.}
+\item{\code{"Wilcoxon"}}{One basically applies a two sample Mann-Whitney-Wilcoxon test for every possible change point and chooses a kind of maximal test statistic. The exact definition and details can be found in Dehling et al. (2013). By using ranks the tests gets less sensitive to outliers and does not suffer under heavy tailed distributions. Even under Gaussian processes the power of the test is not much worse than that of the cusum test. However, the test has little power against changes far from the center of the time series.}
 
-\item{\code{"HL"}}{One basically applies a two sample Hodges-Lehmann test for every possible change point and choose a kind of maximal test statistic. The exact definition and details can be found in Dehling et al. (2015). As the Mann-Whitney-Wilcoxon test the Hodges-Lehmann test is less sensitive to outliers and does not suffer under heavy tailed distributions. The power of the test is in fact comparable to the Wilcoxon based one if the change point is in the center of the time series but outperforms the former if the change is nearer to the margins. The test procedure is computationally demanding and can take some time for large time series (with more than 2000 observations).
+\item{\code{"HL"}}{One basically applies a two sample Hodges-Lehmann test for every possible change point and chooses a kind of maximal test statistic. The exact definition and details can be found in Dehling et al. (2015). As the Mann-Whitney-Wilcoxon test the Hodges-Lehmann test is less sensitive to outliers and does not suffer under heavy tailed distributions. The power of the test is in fact comparable to the Wilcoxon based one if the change point is in the center of the time series but outperforms the former if the change is nearer to the margins. The test procedure is computationally demanding and can take some time for large time series (with more than 2000 observations).
 
 For the Hodges-Lehmann estimator one needs an additional estimation of the density at 0. See the help page of \code{\link{densdiff}} how to adjust tuning constants for that.}
 }
 
 There are several possibilities to estimate the long run variance. Three of them with further variations are implemented and can be selected by the argument \code{var.method}:
 \describe{
-\item{\code{"window"}}{One uses a subsampling estimator, which is based on centered absolute moments of block sums. One can either use distinct blocks, which is proposed by Carlstein (1986) and is applied if one sets \code{overlapping = FALSE} or overlapping blocks, which is proposed by Peligrad and Shao (1995) and is applied in case of \code{overlapping = TRUE}. For more details how to set the block length and other tuning possibilities, see the help page of \code{\link{asymvar.window}}.}
+\item{\code{"window"}}{One uses a subsampling estimator, which is based on centered absolute moments of block sums. One can either use distinct blocks, which is proposed by Carlstein (1986) and is applied if one sets \code{overlapping = FALSE}, or overlapping blocks, which is proposed by Peligrad and Shao (1995) and is applied in case of \code{overlapping = TRUE}. For more details how to set the block length and other tuning possibilities, see the help page of \code{\link{asymvar.window}}.}
 
 \item{\code{"acf"}}{One uses a kernel estimator, which weights estimated autocovariances. For more details how to set the bandwidth and other tuning possibilities, see the help page of \code{\link{asymvar.acf}}.}
 
@@ -101,7 +101,7 @@ The density at 0 for the Hodges-Lehmann estimator is calculated by \code{\link{d
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 output <- changerob(tss, plot = TRUE)
 output
 plot(output)

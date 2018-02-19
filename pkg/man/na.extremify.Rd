@@ -8,7 +8,7 @@ Handing Missing Values in Objects for Application of Robust Procedures
 }
 
 \description{
-This generic function is useful for dealing with \code{\link{NA}}s. It returns the object and replaces missing values by a vale which is very large with respect to the range of values in that object. This can be reasonable if a robust estimation procedure is applied which is influenced not at all or only very little by extreme observations.
+This generic function is useful for dealing with \code{\link{NA}}s. It returns the object and replaces missing values by a vale which is very large compared to the range of values in that object. This can be reasonable if a robust estimation procedure is applied which is influenced not at all or only very little by extreme observations.
 }
 
 \usage{

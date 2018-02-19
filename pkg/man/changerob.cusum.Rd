@@ -57,7 +57,7 @@ The long run variance is calculated by \code{\link{asymvar.window}}, \code{\link
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 trajectory <- changerob.cusum(tss)
 plot(trajectory)
 }

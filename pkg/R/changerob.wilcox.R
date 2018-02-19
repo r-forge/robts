@@ -1,13 +1,13 @@
 ## wilcoxon-type cusum for structural change in location
 ## input:
-# z: timeseries
-# var.method: how should the long run variance be calculated
+# x: time series
+# var.method: how should the long run variance be estimated
 # 	possibilities: 	window: uses a running window, see asymcusum for details
-#			acf: estimates the acf of the timeseries, see asymacf for details
+#			acf: estimates the acf of the time series, see asymacf for details
 #			acfextra: estimates the acf by first two autocorrelations and extrapolation, see extracf for details
 # overlapping: only used for option window in var.method: should windows overlap?
 ## output:
-# t2: complete trajectory of teststatistic
+# res: complete trajectory of test statistic
 
 changerob.wilcox <- function(x, var.method = c("window", "acf", "acfextra"), overlapping = TRUE,shiftcorrect = TRUE, borderN = 10, ...){
   N <- length(x)

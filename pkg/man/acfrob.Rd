@@ -41,15 +41,15 @@ There are many approaches for robust autocorrelation estimation. The argument \c
 	
 \item{\code{"partrank"}}{One first calculates the partial autocorrelations and then derive the acf. This procedure has the advantage that one automatically gets a positive definite acf. See the help page of \code{\link{acfrob.partrank}} for more details and further arguments.}
 	
-\item{\code{"RA"}}{One first robustly transform the time series using a psi function and calculates the usual acf afterwards. See the help page of \code{\link{acfrob.RA}} for more details and further arguments.}
+\item{\code{"RA"}}{One first robustly transforms the time series using a psi function and calculates the usual acf afterwards. See the help page of \code{\link{acfrob.RA}} for more details and further arguments.}
 	
-\item{\code{"rank"}}{One applies a rank correlation estimator like Spearman's rho, which calculates the acf for every lag individually. It is favourable if one considers integer valued processes. See the help page of \code{\link{acfrob.rank}} for more details and further arguments.}
+\item{\code{"rank"}}{One applies a bivariate correlation estimator based on ranks and signs like Spearman's rho, which calculates the acf for every lag individually. It is favourable if one considers integer valued processes. See the help page of \code{\link{acfrob.rank}} for more details and further arguments.}
 	
 \item{\code{"filter"}}{One applies the robust filter algorithm. This is basically a robust version of the Kalman filter. The acf is then either computed by applying the usual acf to the filtered time series or by a robust AR fit. See the help page of \code{\link{acfrob.filter}} for more details and further arguments.}
 	
 \item{\code{"trim"}}{One applies a trimmed correlation, which calculates the acf for every lag individually. This estimator basically substitutes the mean by a trimmed mean in the definition of the empirical correlation. See the help page of \code{\link{acfrob.trim}} for more details and further arguments.}
 
-\item{\code{"bireg"}}{One applies a method proposed by Politis. HERE MORE DETAILS HAVE TO BE INCLUDED. See the help page of \code{\link{acfrob.bireg}} for more details and further arguments.}
+\item{\code{"bireg"}}{One applies a robust regression estimator where the dependent variable is the timeseries and the single explanatory variable the lagged timeseries ahifted back by \code{"h"} observations for the autocorrelation at lag \code{"h"}. See the help page of \code{\link{acfrob.bireg}} for more details and further arguments.}
 }
 
 For obtaining the robust autocovariance estimation (\code{type = "covariance"}), the acf is multiplied with a robust estimation of the marginal variance of the time series. This estimation is obtained by the squared scale estimator \code{scalefn}, which is by default \code{\link{Qn}} from the package \code{robustbase}.
@@ -57,7 +57,7 @@ For obtaining the robust autocovariance estimation (\code{type = "covariance"}),
 The partial autocorrelation (\code{type = "partial"}) could be computed by employing several methods. If \code{partial.method = "durbin-levinson"} one first estimates the acf by the chosen estimation approach and then derives the pacf from this by applying the Durbin-Levinson algorithm. This method works for all estimation approaches.
 For some approaches there exists a direct way to obtain the pacf. If \code{partial.method = "automatic"} (the default) such a direct way is used wherever it is available and otherwise the Durbin-Levinson algorithm is applied. For \code{approach = "partrank"} and \code{approach = "filter"} the pacf is calculated anyway and will be used directly if \code{partial.method = "automatic"}.
 
-With exception of the approaches \code{"partrank"}, \code{"filter"}, \code{"trim"}, \code{"RA"}, a positive definite acf is not guaranteed, although this will often be the case. If one needs a positive definite and therefore valid acf, one can enforce this property by setting \code{psd = TRUE}. Usually this will also improve the acf estimation. See the help page of \code{\link{make_acf_psd}} for more details.
+Usually a positive definite acf is not guaranteed, alhough this will often be the case. There are some exceptions: the approaches \code{"partrank"} and \code{"filter"} will always produce positive semidefinite estimations. This is also true for \code{"trim"} and \code{"RA"} if one uses the argument \code{"biascorr = FALSE"}. Furthermore the methods \code{"gaussian"} and \code{"spearman"} (the latter only if \code{"biascorr = FALSE"}) of the approach \code{"rank"} produce positive semidefinite results. If one needs a positive definite and therefore valid acf in the other cases, one can enforce this property by setting \code{psd = TRUE}. Usually this will also improve the acf estimation. See the help page of \code{\link{make_acf_psd}} for more details.
 }
 
 \value{
@@ -85,7 +85,7 @@ The subroutines which actually estimate the acf: \code{\link{acfrob.GK}}, \code{
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 acfrob(tss, plot = FALSE)
 acfrob(tss, type = "partial", plot = FALSE)
 acfrob(tss, type = "covariance", plot = FALSE)

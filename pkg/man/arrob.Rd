@@ -90,7 +90,7 @@ S3 methods \code{\link{residuals.arrob}}, \code{\link{fitted.arrob}}, \code{\lin
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 arrob(tss, method = "yw")
 arrob(tss, method = "regression")
 arrob(tss, method = "filter")

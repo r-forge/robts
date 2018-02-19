@@ -32,7 +32,7 @@ filtered(object, ...)
 \arguments{
 	\item{object}{an object of class \code{"arrob"}.}
 	\item{x}{numeric vector of a univariate time series.}
-	\item{method}{character string naming the robust filtering method to be used, see Details.}
+	\item{method}{character string denoting the robust filtering method to be used, see Details.}
 	\item{newdata}{numeric vector of a univariate time series of which future values sould be predicted.}
 	\item{n.ahead}{integer value giving the number of steps ahead at which to predict.}
 	\item{se.fit}{logical value. Should the estimated standard errors of the prediction be returned?}
@@ -66,7 +66,7 @@ Plotting method \code{\link{plot.arrob}} for fitted autoregressive models.
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 fit <- arrob(tss, method = "yw")
 residuals(fit)
 fitted(fit)

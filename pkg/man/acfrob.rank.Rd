@@ -7,7 +7,7 @@ Robust Autocorrelation Estimation Based on Signs and Ranks
 }
 
 \description{
-Robustly estimates the autocorrelation function of a time series based nonparametric estimators using ranks and signs. See \enc{Dürre}{Duerre} et al. (2015) for details.
+Robustly estimates the autocorrelation function of a time series based on nonparametric estimators using ranks and signs. See \enc{Dürre}{Duerre} et al. (2015) for details.
 
 This function is intended for internal usage only. Users should rather use the wrapper function \code{\link{acfrob}} with argument \code{approach = "acfrank"}.
 }
@@ -37,9 +37,9 @@ This estimator has the same asymptotic efficiency as the usual empirical correla
 
 \item{\code{"spearman"}}{One uses the well known Spearman's rho with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Spearman's rho.}
 
-\item{\code{"kendall"}}{One uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for large time series (e.g. greater than 10000).}
+\item{\code{"kendall"}}{One uses the well known Kendall's tau with a consistency correction under normality. See Croux and Dehon (2010) for this correction and \code{\link{cor}} for more information about Kendall's tau. Note that Kendall's tau can get rather time consuming for very long time series (e.g. larger than 10000 observations).}
 
-\item{\code{"quadrant"}}{One uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should be therefore only applied for time series with a high amount of outliers.}
+\item{\code{"quadrant"}}{One uses the quadrant correlation with a consistency correction under normality. See Croux and Dehon (2010) for this correction and more information about the estimator. Note that this estimator has a rather low efficiency under normality and should therefore only be applied for time series with many outliers.}
 
 \item{\code{"masarott0"}}{One uses the M estimator proposed by Masarotto (1987). Starting from initial estimations for the variance by the \code{\link{Qn}} and for the correlation by the GK estimator (using the Qn), new variances and correlations are iteratively computed until convergence using weights which are defined by the following psi function:
 \deqn{\psi(x) = 3/(1+x).}{psi(x) = 3/(1+x).}
@@ -77,7 +77,7 @@ Alternative acf subroutines: \code{\link{acfrob.GK}}, \code{\link{acfrob.filter}
 
 \examples{
 set.seed(1066)
-tss <- arima.sim(model = list(ar = 0.3, ma = 5), n = 100)
+tss <- arima.sim(model = list(ar = 0.3, ma = 0.5), n = 100)
 acfrob(tss, approach = "rank")
 }
 
