@@ -64,6 +64,9 @@ S3method(residuals, arrob)
 S3method(fitted, arrob)
 S3method(filtered, arrob)
 S3method(predict, arrob)
+S3method(summary, arrob)
+S3method(print, summary.arrob)
+
 
 S3method(na.extremify, ts)
 
