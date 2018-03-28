@@ -35,7 +35,7 @@ asymvar.window <- function(x, overlapping = TRUE, obs = c("untransformed", "rank
     S <- (abs(S-l*phibar)/sqrt(l))^momentp
     cp <- 2^(-momentp/2)*sqrt(pi)/gamma((momentp+1)/2)
     er <- sum(S)/(N-l)*cp
-    res <- list(lrv=er^(1/momentp),blocklength=l)
+    res <- list(lrv=er^(2/momentp),blocklength=l)
   } else {
     k <- floor(N/l)
     xma <- matrix(x[1:(k*l)],ncol=k,nrow=l)
