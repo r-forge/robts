@@ -3,15 +3,16 @@
 \alias{filterrob}
 \alias{filterrob.statespace}
 \alias{filterrob.recursive}
+\alias{filterrob.statespaceARMA}
 
 \title{
-Robust Filtering of Time Series Assuming an Autoregressive Model
+Robust Filtering of Time Series Assuming an Autoregressive or ARMA Model
 }
 \description{
-Robustly filters a given time series assuming an Autoregressive Model. The filtered series can be applied to improve estimations. Optionally, the coefficients of a fitted AR model can be used.  See Chapter 8.6 of Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2015) for details.
+Robustly filters a given time series assuming an Autoregressive or ARMA Model. The filtered series can be applied to improve estimations. Optionally, the coefficients of a fitted AR model can be used.  See Chapter 8.6 of Maronna et al. (2006) and \enc{Dürre}{Duerre} et al. (2015) for details.
 }
 \usage{
-filterrob(x, ar, var.pred, method = c("statespace", "recursive"),
+filterrob(x, ar, ma, var.pred, method = c("statespace", "recursive", "statespaceARMA"),
           locfn, psi.l = 2, psi.0 = 3, na.action = na.fail, ...)
 filterrob.statespace(x, ar, var.pred, locfn, psi.l = 2, psi.0 = 3,
                      na.action = na.fail)
@@ -22,8 +23,9 @@ filterrob.recursive(x, ar, var.pred, locfn, psi.l = 2, psi.0 = 3,
 \arguments{
 	\item{x}{numeric vector of a univariate time series.}
 	\item{ar}{numeric vector of AR coefficients. If missing, the AR coefficients are estimated by robust filtering with \code{\link{arrob.filter}}.}
+    \item{ar}{numeric vector of MA coefficients.}
   \item{var.pred}{numeric value with the innovation variance of the AR model. This argument needs to be provided unless argument \code{ar} is missing as well. In that case its value is taken directly from the fitted AR model.}
-	\item{method}{character string specifying the method applied for robust filtering. If \code{method = "statespace"} (the default), the procedure by Maronna et al. (2006) is used. If \code{method = "recursive"}, a somewhat simpler procedure is used, see Details.}
+	\item{method}{character string specifying the method applied for robust filtering. If \code{method = "statespace"} (the default), the procedure by Maronna et al. (2006) is used. If \code{method = "recursive"}, a somewhat simpler procedure is used, see Details. If \code{method = "statespaceARMA"}, the procedure by Maronna et al. (2006) for an ARMA model is used.}
 	\item{locfn}{function which calculates a location estimator for previously centering the time series. Its argument must be a vector of the data. One could for example use the function \code{\link{median}}. Ba default the mean estimation of the function \code{\link{scaleTau2}} is used.}
 	\item{psi.l}{numeric value determining the psi function used for filtering, see \code{link{smoothpsi}}. For absolute values lower than \code{psi.l} the psi function is linear.}
 	\item{psi.0}{numeric value determining the psi function used for filtering, see \code{link{smoothpsi}}. For absolute values larger than \code{psi.0} the psi function is zero.}
@@ -32,9 +34,9 @@ filterrob.recursive(x, ar, var.pred, locfn, psi.l = 2, psi.0 = 3,
 }
 
 \details{
-This function filters a time series in order to detect and shrink potential outliers. This filtering is based on the assumption that the time series follows an AR process with Gaussian innovations.
+This function filters a time series in order to detect and shrink potential outliers. This filtering is based on the assumption that the time series follows an AR or ARMA process with Gaussian innovations.
 
-If the model coefficients are known or have been previously estimated, one can provide the vector of AR coefficients by the argument \code{ar}. In that case one additionally need to specify the innovation variance by the argument \code{var.pred}. An AR model of order zero (assuming independent innovations) could be specified by \code{ar = NULL}.
+If the model coefficients are known or have been previously estimated, one can provide the vector of AR coefficients by the argument \code{ar}, repectively the vector of MA coefficients by the argument \code{ma}. In that case one additionally need to specify the innovation variance by the argument \code{var.pred}. An AR model of order zero (assuming independent innovations) could be specified by \code{ar = NULL}.
 
 If the coefficients are not provided, then in a first step an AR model is fitted to the data. Estimation is done by the function \code{arrob.filter} for which further arguments can be provided by the \code{...} argument. In this case no additional information on the model fit is returned, e.g. the estimated parameters and the innovation variance. It is difficult to assess the quality of this fit. For this reason it is recommended to fit the model by the function \code{\link{arrob}} in a separate step before calling this function and then providing the estimated coefficients and the estimated innovation variance, see Examples.
 
@@ -44,6 +46,7 @@ The procedure used for robust filtering can be specified by the argument \code{m
 \describe{
 \item{\code{"statespace"}}{The approach proposed in Chapter 8.6 of Maronna et al. (2006). It employs a state space representation of the model.}
 \item{\code{"recursive"}}{A simple strictly recursive approach, where filtering of the observations is only determined by previous but not by successive observations.}
+\item{\code{"statespaceARMA"}}{The approach proposed in Chapter 8.8 of Maronna et al. (2006). It employs a state space representation of the model.}
 }
 
 Note that this function can be also used to handle missing values. If one replaces missing values with unusually large ones, the algorithm will replace them by best linear predictions. 
