@@ -33,8 +33,8 @@ filterrob.statespace <- function(x, ar, var.pred, locfn, psi.l = 2, psi.0 = 3, n
     }
     if(p>1) {
       acvf <- tacvfARMA(phi=ar, maxLag = p-1, sigma2 = var.pred)
-      pacfp <- ARMAacf(ar=ar, lag.max = p, pacf = TRUE)[p]
-      filterout <- .Call("filter2", c(x_centered, 0, rep(0,n)), pacfp, acvf[1]/(1-pacfp^2), ar[-p], a, b, d, e, k, l, 4.5, 3, conscorr(), acvf)
+      pacfp <- ARMAacf(ar=ar, lag.max = p, pacf = TRUE)
+      filterout <- .Call("filter2", c(x_centered, 0, rep(0,n)), pacfp, var.pred/(1-pacfp^2), ar[-p], a, b, d, e, k, l, 4.5, 3, conscorr(), acvf)
       filtered <- filterout[1:n]
       residuals <- filterout[n+1+(1:n)]
     }
