@@ -202,10 +202,15 @@ for(i = 0; i < n+p; i++) {
 	}
 
 for (i = p; i < n+p; i++) {
+    ug[i-p]=timeseries[i-p];
+    for (j = 0; j < p; j++) {
+        ug[i-p]=ug[i-p]-Phi[0][j]*xhat[i-j-1];
+        }
 	for (j = 0; j < p; j++) {
 		xhat[i]=xhat[i]+xhat[i-j-1]*Phi[0][j];
 		}
-	ug[i-p]=timeseries[i-p]-xhat[i];
+
+	
 	memset(Mz, 0, sizeof(double) * p * p);
 	for(i2 = 0; i2 < p; i2++) {
 		for (j = 0; j < p; j++) {
@@ -243,9 +248,7 @@ for (i = p; i < n+p; i++) {
 	for (j = 0; j < p; j++) {
 		xhat[i-j]=xhat[i-j]+M[j][0]/shat*ugt;
 		}
-	}
-for (i = 0; i < n; i++) {
-	timeseries[i]=xhat[i+p];
+    timeseries[i-p]=xhat[i];
 	}
 timeseries[n]=scaleTau(n,ug,c1,c2,correc);
 for (i = n+1; i < 2*n+1; i++) {
@@ -262,4 +265,121 @@ SEXP filter2(SEXP timeseries, SEXP autocor, SEXP oldvar, SEXP oldmemory, SEXP a,
 	return ans;
 }
  
+static void filter3(int n, int p, int q, double*timeseries, double*ar, double*ma, double varpred, double a, double b, double dd, double e, double kk, double l, double c1, double c2, double correc, double*acf) {
 
+int k=0;
+if (p>=q+1) {k=p;}
+if (q>=p-1) {k=q+1;}
+int i,j,k1,i2;
+double alpha[n+k];
+double Phi[k][k];
+double P[k][k];
+double M[k][k];
+double Mz[k][k];
+double ug[n];
+double shat;
+double mhatma[k][k];
+double ugt;
+double fak;
+double d[k];
+
+memset(d, 0, sizeof(double) * k);
+d[0]=1;
+for (i = 1; i < q+1; i++) {
+    d[i]= -ma[i-1];
+    }
+
+memset(Phi, 0, sizeof(double) * k * k);
+memset(P, 0, sizeof(double) * k * k);
+memset(M, 0, sizeof(double) * k * k);
+memset(Mz, 0, sizeof(double) * k * k);
+
+for(i = 0; i < p; i++) {
+	Phi[0][i]=ar[i];
+	}
+for(i = 0; i < k-1; i++) {
+	Phi[i+1][i]=1;
+	}
+
+for(i = 0; i < k; i++) {
+	for (j = 0; j < k; j++) {
+		P[i][j]=acf[abs(i-j)];
+		}
+	}
+
+
+double sigmau=varpred;
+for(i = 0; i < n+k; i++) {
+	alpha[i]=0;
+	}
+
+for (i = k; i < n+k; i++) {
+
+	for (j = 0; j < p; j++) {
+		alpha[i]=alpha[i]+alpha[i-j-1]*Phi[0][j];
+		}
+
+    ug[i-k]=timeseries[i-k]-alpha[i];
+
+	memset(Mz, 0, sizeof(double) * k * k);
+	for(i2 = 0; i2 < k; i2++) {
+		for (j = 0; j < k; j++) {
+			for (k1 = 0; k1 < k; k1++) {
+				Mz[i2][j]=Mz[i2][j]+Phi[i2][k1]*P[k1][j];
+				}
+			}
+		}
+
+	memset(M, 0, sizeof(double) * k * k);
+	for(i2 = 0; i2 < k; i2++) {
+		for (j = 0; j < k; j++) {
+			for (k1 = 0; k1 < k; k1++) {
+				M[i2][j]=M[i2][j]+Mz[i2][k1]*Phi[j][k1];
+				}
+			}
+		}
+
+    for(i2 = 0; i2 < k; i2++) {
+        for (j = 0; j < k; j++) {
+            M[i2][j]=M[i2][j]+sigmau*d[i2]*d[j];
+            }        
+        }
+
+	for(i2 = 0; i2 < k; i2++) {
+		for (j = 0; j < k; j++) {
+			mhatma[i2][j]=M[j][0]*M[i2][0];
+			}
+		}
+	shat=sqrt(M[0][0]);	
+
+	ugt=smoothpsi3(ug[i-k]/shat,a,b,dd,e,kk,l);
+
+
+	fak=1/shat/shat*ugt/ug[i-k]*shat;
+
+	for(i2 = 0; i2 < k; i2++) {
+		for (j = 0; j < k; j++) {
+			P[i2][j]=M[i2][j]-fak*mhatma[i2][j];
+			}
+		}
+
+	for (j = 0; j < k; j++) {
+		alpha[i-j]=alpha[i-j]+M[j][0]/shat*ugt;
+		}
+    timeseries[i-k]=alpha[i];
+	}
+timeseries[n]=scaleTau(n,ug,c1,c2,correc);
+for (i = n+1; i < 2*n+1; i++) {
+	timeseries[i]=ug[i-(n+1)];
+	}
+}
+
+
+SEXP filter4(SEXP timeseries, SEXP ar, SEXP ma, SEXP varpred, SEXP a, SEXP b, SEXP d, SEXP e, SEXP k, SEXP l,SEXP c1, SEXP c2, SEXP correc, SEXP acf) {
+	int n=(length(timeseries)-1)/2;
+	int p=length(ar);
+    int q=length(ma);
+	SEXP ans = duplicate(timeseries);
+	filter3(n,p,q,REAL(ans),REAL(ar),REAL(ma),asReal(varpred),asReal(a),asReal(b),asReal(d),asReal(e),asReal(k),asReal(l),asReal(c1),asReal(c2),asReal(correc),REAL(acf));
+	return ans;
+}
