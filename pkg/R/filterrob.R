@@ -1,4 +1,4 @@
-filterrob <- function(x, ar, var.pred, method = c("statespace", "recursive"), locfn, psi.l = 2, psi.0 = 3, na.action = na.fail, ...) {
+filterrob <- function(x, ar, ma, var.pred, method = c("statespace", "recursive", "statespaceARMA"), locfn, psi.l = 2, psi.0 = 3, na.action = na.fail, ...) {
   method <- match.arg(method)
   if (!is.null(dim(x))) stop("Only implemented for univariate series")
 	
@@ -12,7 +12,8 @@ filterrob <- function(x, ar, var.pred, method = c("statespace", "recursive"), lo
 	
 	res <- switch(method,
     statespace = filterrob.statespace(x, ar = ar, var.pred = var.pred, locfn = locfn, psi.l = psi.l, psi.0 = psi.0, na.action = na.action),
-    recursive = filterrob.recursive(x, ar = ar, var.pred = var.pred, locfn = locfn, psi.l = psi.l, psi.0 = psi.0, na.action = na.action)
+    recursive = filterrob.recursive(x, ar = ar, var.pred = var.pred, locfn = locfn, psi.l = psi.l, psi.0 = psi.0, na.action = na.action),
+    statespaceARMA = filterrob.statespaceARMA(x, ar = ar, ma = ma, var.pred = var.pred, locfn = locfn, psi.l = psi.l, psi.0 = psi.0, na.action = na.action)
   )
 	return(res)
 }
