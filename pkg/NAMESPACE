@@ -22,6 +22,7 @@ export(
   acfrob.RA,
   acfrob.rank,
   acfrob.trim,
+  armarob,
   make_acf_psd,
   reweightedQn,
   corGK,
