@@ -1,4 +1,4 @@
-armarob <- function(x, arorder, maorder, aic=FALSE, aicpenalty = function(p) {2*p}, na.action = na.fail, series = deparse(substitute(x)),asyvar=FALSE,bootpar=list(num=100,blockl=floor(2*length(x)^(1/2))), ...) {
+armarob <- function(x, arorder, maorder, aic=FALSE, aicpenalty = function(p) {2*p}, na.action = na.fail, series = deparse(substitute(x))) {
 n <- length(x)
 xfreq <- frequency(x)
 arest <- arrob.filter(x,order.max=4*(arorder+maorder),aic=TRUE)
@@ -42,7 +42,7 @@ if (aic==FALSE) {
 
         estpar <- optim(startpar,fu2)
         filtered <- filterrob.statespaceARMA(x, estpar$par[1:arorder], estpar$par[(arorder+1):(arorder+maorder)], estpar$value, median, psi.l = 2, psi.0 = 3, na.action = na.fail)
-        RAICS <- log(estpar$value)+ aicpenalty(arorder+maorder+1)/(n-arorder-maorder)
+        aictable <- 2*log(estpar$value)+ aicpenalty(arorder+maorder+1)/(n-arorder-maorder)
         var.predv <- estpar$value
         arestv <- estpar$par[1:arorder]
         maestv <- estpar$par[(arorder+1):(arorder+maorder)]
@@ -55,7 +55,7 @@ if (aic==FALSE) {
             if (length(startpar)>1) {
                 estpar <- optim(startpar,fu2)
                 filtered <- filterrob.statespaceARMA(x, 0, estpar$par, estpar$value, median, psi.l = 2, psi.0 = 3, na.action = na.fail)
-                RAICS <- log(estpar$value)+ aicpenalty(maorder+1)/(n-maorder)
+                aictable <- 2*log(estpar$value)+ aicpenalty(maorder+1)/(n-maorder)
                 var.predv <- estpar$value
                 arestv <- NULL
                 maestv <- estpar$par
@@ -63,7 +63,7 @@ if (aic==FALSE) {
             } else {
                 estpar <- nlm(fu2,startpar)  
                 filtered <- filterrob.statespaceARMA(x, 0, estpar$estimate, estpar$minimum, median, psi.l = 2, psi.0 = 3, na.action = na.fail)
-                RAICS <- log(estpar$minimum)+ aicpenalty(maorder+1)/(n-maorder) 
+                aictable <- 2*log(estpar$minimum)+ aicpenalty(maorder+1)/(n-maorder) 
                 var.predv <- estpar$minimum
                 arestv <- NULL
                 maestv <- estpar$estimate 
@@ -111,7 +111,7 @@ if (aic==FALSE) {
                         }
 
                     estpar <- optim(startpar,fu2)
-                    aicv <- log(estpar$value)+ aicpenalty(j1+i1+1)/(n-j1-i1)
+                    aicv <- 2*log(estpar$value)+ aicpenalty(j1+i1+1)/(n-j1-i1)
                     if (min(aictable,na.rm=TRUE) > aicv) 
                         {
                         arestv <- estpar$par[1:j1]
@@ -127,7 +127,7 @@ if (aic==FALSE) {
                         }
                     if (length(startpar)>1) {
                         estpar <- optim(startpar,fu2)
-                        aicv <- log(estpar$value)+ aicpenalty(i1+1)/(n-i1)
+                        aicv <- 2*log(estpar$value)+ aicpenalty(i1+1)/(n-i1)
                         if (min(aictable,na.rm=TRUE) > aicv) 
                             {
                             arestv <- NULL
@@ -140,7 +140,7 @@ if (aic==FALSE) {
                         
                         } else {
                         estpar <- nlm(fu2,startpar)
-                        aicv <- log(estpar$minimum)+ aicpenalty(i1+1)/(n-i1)
+                        aicv <- 2*log(estpar$minimum)+ aicpenalty(i1+1)/(n-i1)
                         if (min(aictable,na.rm=TRUE) > aicv) 
                             {
                             arestv <- NULL
@@ -168,7 +168,7 @@ if (aic==FALSE) {
 		order = c(length(arestv),length(maestv)),
 		ar = arestv,
         ma = maestv,
-		var.pred = var.predv,
+		var.pred = var.predv^2,
 		x.mean = median(filtered$filtered),
 		x.intercept = NULL,
         aic = aictable
