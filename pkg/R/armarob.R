@@ -171,7 +171,7 @@ if (aic==FALSE) {
 		var.pred = var.predv^2,
 		x.mean = median(filtered$filtered),
 		x.intercept = NULL,
-        aic = aictable
+        aic = aictable,
 		n.used = n,
 		resid = residualv,
 		method = "filter",
