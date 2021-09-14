@@ -34,7 +34,7 @@ export(
   filterrob,
   filterrob.statespace,
   filterrob.recursive,
-  filterrob.statespaceARMA
+  filterrob.statespaceARMA,
   spectrumrob,
   Corefw,
   M_psi,
