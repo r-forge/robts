@@ -33,7 +33,8 @@ filterrob.statespaceARMA <- function(x, ar, ma, var.pred, locfn, psi.l = 2, psi.
     filterout <- .Call("filter4", c(x_centered, 0, rep(0,n)), ar, ma, var.pred, a, b, d, e, k, l, 4.5, 3, conscorr(), acvf)
     filtered <- filterout[1:n]
     residuals <- filterout[n+1+(1:n)]
-    residuals[1:kd] <- NA
+    for(i in (q+1):n) {residuals[i] <- residuals[i]-t(ma)%*%residuals[(i-1):(i-q)]}
+    residuals[1:q] <- NA
   }
   filtered <- filtered + mu
   residuals <- naresid(attr(x, "na.action"), residuals)
