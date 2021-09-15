@@ -11,6 +11,7 @@ Robust Fitting of ARMA Models
 }
 \usage{
 arrob(x, arorder, maorder, aic = FALSE, aicpenalty = function(p) {2*p}, na.action = na.fail, series = deparse(substitute(x)))
+}
 
 \arguments{
 	\item{x}{numeric vector of a univariate time series.}
