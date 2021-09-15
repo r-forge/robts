@@ -56,6 +56,7 @@ export(
 
 S3method(plot, acfrob)
 
+
 S3method(plot, changerob)
 
 S3method(residuals, ar)
@@ -69,6 +70,9 @@ S3method(predict, arrob)
 S3method(summary, arrob)
 S3method(print, summary.arrob)
 
+S3method(plot, armarob)
+S3method(predict, armarob)
+S3method(print, armarob)
 
 S3method(na.extremify, ts)
 
