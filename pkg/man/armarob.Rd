@@ -10,7 +10,7 @@ Robust Fitting of ARMA Models
 	Robust fit of an autoregressive moving average model to a time series. Its order is either optimized with respect to a robustified AIC or specified by the user.
 }
 \usage{
-arrob(x, arorder, maorder, aic = FALSE, aicpenalty = function(p) {2*p}, na.action = na.fail, series = deparse(substitute(x)))
+armarob(x, arorder, maorder, aic = FALSE, aicpenalty = function(p) {2*p}, na.action = na.fail, series = deparse(substitute(x)))
 }
 
 \arguments{
