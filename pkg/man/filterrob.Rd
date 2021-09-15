@@ -23,7 +23,7 @@ filterrob.recursive(x, ar, var.pred, locfn, psi.l = 2, psi.0 = 3,
 \arguments{
 	\item{x}{numeric vector of a univariate time series.}
 	\item{ar}{numeric vector of AR coefficients. If missing, the AR coefficients are estimated by robust filtering with \code{\link{arrob.filter}}.}
-    \item{ar}{numeric vector of MA coefficients.}
+    \item{ma}{numeric vector of MA coefficients.}
   \item{var.pred}{numeric value with the innovation variance of the AR model. This argument needs to be provided unless argument \code{ar} is missing as well. In that case its value is taken directly from the fitted AR model.}
 	\item{method}{character string specifying the method applied for robust filtering. If \code{method = "statespace"} (the default), the procedure by Maronna et al. (2006) is used. If \code{method = "recursive"}, a somewhat simpler procedure is used, see Details. If \code{method = "statespaceARMA"}, the procedure by Maronna et al. (2006) for an ARMA model is used.}
 	\item{locfn}{function which calculates a location estimator for previously centering the time series. Its argument must be a vector of the data. One could for example use the function \code{\link{median}}. Ba default the mean estimation of the function \code{\link{scaleTau2}} is used.}
