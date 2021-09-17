@@ -23,7 +23,7 @@ print.armarob <- function (x, digits = max(3L, getOption("digits") - 3L), ...) {
     else {
         coefs <- matrix(x$ar,ncol=1)
         colnames(coefs) <- "AR coefficients"
-        rownames(coefs) <- 1:length(length(x$ar))
+        rownames(coefs) <- 1:length(x$ar)
         printCoefmat(coefs, digits = digits)
     }
     cat("\n")
@@ -36,7 +36,7 @@ print.armarob <- function (x, digits = max(3L, getOption("digits") - 3L), ...) {
     else {
         coefs <- matrix(x$ma,ncol=1)
         colnames(coefs) <- "MA coefficients"
-        rownames(coefs) <- 1:length(length(x$ma))
+        rownames(coefs) <- 1:length(x$ma)
         printCoefmat(coefs, digits = digits)
     }
     cat("\n")
