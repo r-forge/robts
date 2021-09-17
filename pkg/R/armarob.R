@@ -175,8 +175,8 @@ if (aic==FALSE) {
                     }
             }
         }
-    rownames(aictable) <- paste("AR-order ", 0:2,":",sep="")
-    colnames(aictable) <- paste("MA-order ", 0:2,":",sep="")
+    rownames(aictable) <- paste("AR-order ", 0:arorder,":",sep="")
+    colnames(aictable) <- paste("MA-order ", 0:maorder,":",sep="")
     if ((length(arestv)==0)&(length(maestv)>0)) residualv <- filterrob.statespaceARMA(x, 0, maestv, var.predv, median, psi.l = 2, psi.0 = 3, na.action = na.fail)$residuals
     if ((length(arestv)>0)&(length(maestv)>0)) residualv <- filterrob.statespaceARMA(x, arestv, maestv, var.predv, median, psi.l = 2, psi.0 = 3, na.action = na.fail)$residuals
     if ((length(arestv)==0)&(length(maestv)==0)) residualv <- x-median(x)
