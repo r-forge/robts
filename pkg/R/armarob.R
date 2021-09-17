@@ -32,7 +32,12 @@ if (aic==FALSE) {
             for (i in 1:maorder) {
                 acf2[i] <- cov(arest$x[(i+1):n],M_psi(arest$resid[1:(n-i)]/sqrt(arest$var.pred), type = "smooth", k = c(2, 3)),use="complete.obs")/sqrt(arest$var.pred)*1.184
                 }
-            startpar <- acf2
+            acf2b <- try(tacvfARMA(1,phi=acf2),silent=TRUE)
+            if (inherits(acf2b,"try-error")) 
+                {startpar <- rep(0,length(acf2))
+                startpar[1] <- sign(acf2[1])*0.9} else{
+                startpar <- acf2b}
+
             }
 
         }
@@ -54,7 +59,9 @@ if (aic==FALSE) {
         } else{
             fu2 <- function(par) {
                 residualv <- filterrob.statespaceARMA(x, 0, par, arest$var.pred, median, psi.l = 2, psi.0 = 3, na.action = na.fail)$residuals[(maorder+2):n]
-                return(scaleTau2(residualv))
+                erg <- try(scaleTau2(residualv),silent=TRUE)
+                if(inherits(erg,"try-error")) return(Inf)
+                return(erg)
                 }
             if (length(startpar)>1) {
                 estpar <- optim(startpar,fu2)
@@ -118,7 +125,11 @@ if (aic==FALSE) {
                     for (i in 1:i1) {
                         acf2[i] <- cov(arest$x[(i+1):n],M_psi(arest$resid[1:(n-i)]/sqrt(arest$var.pred), type = "smooth", k = c(2, 3)),use="complete.obs")/sqrt(arest$var.pred)*1.184
                         }
-                    startpar <- acf2
+                    acf2b <- try(tacvfARMA(1,phi=acf2),silent=TRUE)
+                    if (inherits(acf2b,"try-error")) 
+                        {startpar <- rep(0,length(acf2))
+                        startpar[1] <- sign(acf2[1])*0.9} else{
+                        startpar <- acf2b}
                     }
             
                 if(j1>0) {
@@ -142,7 +153,9 @@ if (aic==FALSE) {
                     } else{
                     fu2 <- function(par) {
                         residualv <- filterrob.statespaceARMA(x, 0, par, arest$var.pred, median, psi.l = 2, psi.0 = 3, na.action = na.fail)$residuals[(i1+2):n]
-                        return(scaleTau2(residualv))
+                        erg <- try(scaleTau2(residualv),silent=TRUE)
+                        if(inherits(erg,"try-error")) return(Inf)
+                        return(erg)
                         }
                     if (length(startpar)>1) {
                         estpar <- optim(startpar,fu2)
