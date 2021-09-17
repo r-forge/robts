@@ -44,7 +44,7 @@ if (aic==FALSE) {
             }
 
         estpar <- try(optim(startpar,fu2),silent=TRUE)
-        if(inherits(residualv,"try-error")) {estpar <- optim(rep(0,arorder+maorder),fu2)}
+        if(inherits(estpar,"try-error")) {estpar <- optim(rep(0,arorder+maorder),fu2)}
         filtered <- filterrob.statespaceARMA(x, estpar$par[1:arorder], estpar$par[(arorder+1):(arorder+maorder)], estpar$value, median, psi.l = 2, psi.0 = 3, na.action = na.fail)
         aictable <- 2*log(estpar$value)+ aicpenalty(arorder+maorder+1)/(n-arorder-maorder)
         var.predv <- estpar$value
