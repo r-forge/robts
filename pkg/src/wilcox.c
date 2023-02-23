@@ -89,28 +89,25 @@ SEXP meddiffneu(SEXP x,SEXP i1, SEXP i2, SEXP erg) {
 }
 
 
-static void runmean2(int n, double *x, int l) {
-int i;
-double x2[n-l]; 
-double start=0;
-for (i = 0; i < l; i++) {
-	start=start+x[i];
+SEXP runmean(SEXP X, SEXP L) {
+	int n=LENGTH(X);
+    double *x = REAL(X);
+    int i;
+    int l= *INTEGER(L);
+    SEXP RES;
+    PROTECT(RES = allocVector(REALSXP, n-l+1));
+    double *res = REAL(RES);
+    res[0]=0;
+    for (i = 0; i < l; i++) {
+	res[0]=res[0]+x[i];
 	}
-x2[0]=start;
-for (i = 0; i < n-l; i++) {
-	x2[i+1]=x2[i]-x[i]+x[i+l];
+    for (i = 0; i < n-l; i++) {
+	res[i+1]=res[i]-x[i]+x[i+l];
 	}
-for (i = 0; i < n-l; i++) {
-	x[i]=x2[i];
-	}
+    UNPROTECT(1);
+	return RES;
 }
 
-SEXP runmean(SEXP x, SEXP l) {
-	int n=LENGTH(x);
-	SEXP ans = duplicate(x);
-	runmean2(n,REAL(ans),asInteger(l));
-	return ans;
-}
 
 
 

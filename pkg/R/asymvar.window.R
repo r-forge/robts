@@ -31,7 +31,7 @@ asymvar.window <- function(x, overlapping = TRUE, obs = c("untransformed", "rank
   }
   phibar <- mean(x)
   if (overlapping) {
-    S <- .Call("runmean",x,l)[1:(N-l)]
+    S <- .Call("runmean",x,as.integer(l))
     S <- (abs(S-l*phibar)/sqrt(l))^momentp
     cp <- 2^(-momentp/2)*sqrt(pi)/gamma((momentp+1)/2)
     er <- sum(S)/(N-l)*cp
